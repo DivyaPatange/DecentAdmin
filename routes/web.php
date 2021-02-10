@@ -8,6 +8,8 @@ use App\Http\Controllers\Admin\StandardController;
 use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\Admin\ClassController;
 use App\Http\Controllers\Admin\JuniorAdmissionController;
+use App\Http\Controllers\Admin\FeeHeadController;
+use App\Http\Controllers\Admin\FeeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,4 +54,13 @@ Route::prefix('admin')->name('admin.')->group(function() {
     Route::post('/class/update', [ClassController::class, 'updateClass']);
     // Junior College Admission Route
     Route::resource('/junior-college-admission', JuniorAdmissionController::class);
+    // Fee Head Route
+    Route::resource('/fee-head', FeeHeadController::class);
+    Route::post('/get-fee-head', [FeeHeadController::class, 'getFeeHead'])->name('get.fee-head');
+    Route::post('/fee-head/update', [FeeHeadController::class, 'updateFeeHead']);
+
+    // Add Fee Route
+    Route::resource('/fee', FeeController::class);
+    Route::post('/get-fee', [FeeController::class, 'getFee'])->name('get.fee');
+    Route::post('/fee/update', [FeeController::class, 'updateFee']);
 });

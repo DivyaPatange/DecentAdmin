@@ -12,4 +12,12 @@ class AcademicYear extends Model
     protected $table = "academic_years";
 
     protected $fillable = ['from_academic_year', 'to_academic_year', 'status'];
+
+    public function junior_admission(){
+        return $this->hasMany('App\Models\Admin\JuniorAdmission','academic_id', 'id');
+    }
+
+    public function fees(){
+        return $this->hasMany('App\Models\Admin\Fee','academic_id', 'id');
+    }
 }

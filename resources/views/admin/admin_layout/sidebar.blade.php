@@ -77,7 +77,7 @@
                         </a>
                     </li>
                     <li class=" ">
-                        <a href="{{ route('admin.class.index') }}" target="_blank" class="waves-effect waves-dark">
+                        <a href="{{ route('admin.class.index') }}" class="waves-effect waves-dark">
                             <span class="pcoded-micon"><i class="icon-pie-chart"></i></span>
                             <span class="pcoded-mtext">Class</span>
                             <span class="pcoded-mcaret"></span>
@@ -116,37 +116,36 @@
                 </ul>
             </li>
         </ul>
-        <div class="pcoded-navigation-label">UI Element</div>
         <ul class="pcoded-item pcoded-left-item">
             <li class="pcoded-hasmenu">
                 <a href="javascript:void(0)" class="waves-effect waves-dark">
                     <span class="pcoded-micon"><i class="ti-layout-grid2-alt"></i><b>BC</b></span>
-                    <span class="pcoded-mtext">Basic</span>
+                    <span class="pcoded-mtext">Fee</span>
                     <span class="pcoded-mcaret"></span>
                 </a>
                 <ul class="pcoded-submenu">
                     <li class=" ">
-                        <a href="alert.html" class="waves-effect waves-dark">
+                        <a href="{{ route('admin.fee-head.index') }}" class="waves-effect waves-dark">
                             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                            <span class="pcoded-mtext">Alert</span>
+                            <span class="pcoded-mtext">Fee Head</span>
                             <span class="pcoded-mcaret"></span>
                         </a>
                     </li>
                     <li class=" ">
-                        <a href="breadcrumb.html" class="waves-effect waves-dark">
+                        <a href="{{ route('admin.fee.index') }}" class="waves-effect waves-dark">
                             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                            <span class="pcoded-mtext">Breadcrumbs</span>
+                            <span class="pcoded-mtext">Add Fee</span>
                             <span class="pcoded-mcaret"></span>
                         </a>
                     </li>
                     <li class=" ">
                         <a href="button.html" class="waves-effect waves-dark">
                             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                            <span class="pcoded-mtext">Button</span>
+                            <span class="pcoded-mtext">Pay Fee</span>
                             <span class="pcoded-mcaret"></span>
                         </a>
                     </li>
-                    <li class=" ">
+                    <!-- <li class=" ">
                         <a href="box-shadow.html" class="waves-effect waves-dark">
                             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
                             <span class="pcoded-mtext">Box-Shadow</span>
@@ -229,7 +228,7 @@
                             <span class="pcoded-mtext">Other</span>
                             <span class="pcoded-mcaret"></span>
                         </a>
-                    </li>
+                    </li> -->
 
                 </ul>
             </li>

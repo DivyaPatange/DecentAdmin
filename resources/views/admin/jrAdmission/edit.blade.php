@@ -19,32 +19,33 @@
         <!-- Design Wizard card start -->
         <div class="card">
             <div class="card-header">
-                <h5>Junior College Admission</h5>
+                <h5>Edit Junior College Admission</h5>
             </div>
             <div class="card-block">
                 <div class="row">
                     <div class="col-md-12">
                         <div id="wizardc">
                             <section>
-                                <form class="wizard-form" id="design-wizard" method="POST" enctype="multipart/form-data" action="{{ route('admin.junior-college-admission.store') }}">
+                                <form class="wizard-form" id="design-wizard" method="POST" enctype="multipart/form-data" action="{{ route('admin.junior-college-admission.update', $admission->id) }}">
                                 @csrf
+                                @method('PUT')
                                     <h3></h3>
                                     <fieldset>
                                         <div class="form-group row">
                                             <div class="col-sm-4">
                                                 <label for="admission_reg_no" class="block">Admission Reg. No. <span style="color:red;">*</span><span  style="color:red" id="reg_err"> </span></label>
-                                                <input id="admission_reg_no" name="admission_reg_no" type="text" class="required form-control @error('admission_reg_no') is-invalid @enderror">
+                                                <input id="admission_reg_no" name="admission_reg_no" type="text" class="required form-control @error('admission_reg_no') is-invalid @enderror" value="{{ $admission->admission_reg_no }}">
                                             </div>
                                             <div class="col-sm-4">
                                                 <label for="admission_date" class="block">Admission Date <span style="color:red;">*</span><span  style="color:red" id="adm_date_err"> </span></label>
-                                                <input id="admission_date" name="admission_date" type="date" class="required form-control @error('admission_date') is-invalid @enderror">
+                                                <input id="admission_date" name="admission_date" type="date" class="required form-control @error('admission_date') is-invalid @enderror" value="{{ $admission->admission_date }}">
                                             </div>
                                             <div class="col-sm-4">
                                                 <label for="academic_session" class="block">Academic Session <span style="color:red;">*</span><span  style="color:red" id="session_err"> </span></label>
                                                 <select id="academic_session" name="academic_session" class="required form-control @error('academic_session') is-invalid @enderror">
                                                     <option value="">-Select Academic Session-</option>
                                                     @foreach($academicYear as $a)
-                                                    <option value="{{ $a->id }}">{{ $a->from_academic_year }} - {{ $a->to_academic_year }}</option>
+                                                    <option value="{{ $a->id }}" @if($a->id == $admission->academic_id) Selected @endif>{{ $a->from_academic_year }} - {{ $a->to_academic_year }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -52,67 +53,67 @@
                                         <div class="form-group row">
                                             <div class="col-sm-12">
                                                 <label for="student_name" class="block">Student Name <span style="color:red;">*</span><span  style="color:red" id="student_err"> </span></label>
-                                                <input id="student_name" name="student_name" type="text" class="required form-control @error('student_name') is-invalid @enderror">
+                                                <input id="student_name" name="student_name" type="text" class="required form-control @error('student_name') is-invalid @enderror" value="{{ $admission->student_name }}">
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <div class="col-sm-6">
                                                 <label for="father_name" class="block">Father Name <span style="color:red;">*</span><span  style="color:red" id="father_err"> </span></label>
-                                                <input id="father_name" name="father_name" type="text" class="required form-control @error('father_name') is-invalid @enderror">
+                                                <input id="father_name" name="father_name" type="text" class="required form-control @error('father_name') is-invalid @enderror" value="{{ $admission->father_name }}">
                                             </div>
                                             <div class="col-sm-6">
                                                 <label for="mother_name" class="block">Mother Name <span style="color:red;">*</span><span  style="color:red" id="mother_err"> </span></label>
-                                                <input id="mother_name" name="mother_name" type="text" class="required form-control @error('mother_name') is-invalid @enderror">
+                                                <input id="mother_name" name="mother_name" type="text" class="required form-control @error('mother_name') is-invalid @enderror" value="{{ $admission->mother_name }}">
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <div class="col-sm-6">
                                                 <label for="father_occupation" class="block">Father Occupation <span style="color:red;">*</span><span  style="color:red" id="f_occu_err"> </span></label>
-                                                <input id="father_occupation" name="father_occupation" type="text" class="required form-control @error('father_occupation') is-invalid @enderror">
+                                                <input id="father_occupation" name="father_occupation" type="text" class="required form-control @error('father_occupation') is-invalid @enderror" value="{{ $admission->f_occupation }}">
                                             </div>
                                             <div class="col-sm-6">
                                                 <label for="mother_occupation" class="block">Mother Occupation <span style="color:red;">*</span><span  style="color:red" id="m_occu_err"> </span></label>
-                                                <input id="mother_occupation" name="mother_occupation" type="text" class="required form-control @error('mother_occupation') is-invalid @enderror">
+                                                <input id="mother_occupation" name="mother_occupation" type="text" class="required form-control @error('mother_occupation') is-invalid @enderror" value="{{ $admission->m_occupation }}">
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <div class="col-sm-4">
                                                 <label for="mobile_no" class="block">Mobile No. <span style="color:red;">*</span><span  style="color:red" id="mobile_err"> </span></label>
-                                                <input id="mobile_no" name="mobile_no" type="number" class="required form-control @error('mobile_no') is-invalid @enderror">
+                                                <input id="mobile_no" name="mobile_no" type="number" class="required form-control @error('mobile_no') is-invalid @enderror" value="{{ $admission->mobile_no }}">
                                             </div>
                                             <div class="col-sm-4">
                                                 <label for="adhaar_no" class="block">Adhaar No. <span style="color:red;">*</span><span  style="color:red" id="adhaar_err"> </span></label>
-                                                <input id="adhaar_no" name="adhaar_no" type="number" class="required form-control @error('adhaar_no') is-invalid @enderror">
+                                                <input id="adhaar_no" name="adhaar_no" type="number" class="required form-control @error('adhaar_no') is-invalid @enderror" value="{{ $admission->adhaar_no }}">
                                             </div>
                                             <div class="col-sm-4">
                                                 <label for="id_no" class="block">ID No. <span style="color:red;">*</span><span  style="color:red" id="id_err"> </span></label>
-                                                <input id="id_no" name="id_no" type="text" class="form-control @error('id_no') is-invalid @enderror">
+                                                <input id="id_no" name="id_no" type="text" class="form-control @error('id_no') is-invalid @enderror" value="{{ $admission->id_no }}">
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <div class="col-sm-6">
                                                 <label for="date_of_birth" class="block">Date of Birth <span style="color:red;">*</span><span  style="color:red" id="birth_err"> </span></label>
-                                                <input id="date_of_birth" name="date_of_birth" type="date" class="required form-control @error('date_of_birth') is-invalid @enderror">
+                                                <input id="date_of_birth" name="date_of_birth" type="date" class="required form-control @error('date_of_birth') is-invalid @enderror" value="{{ $admission->date_of_birth }}">
                                             </div>
                                             <div class="col-sm-6">
                                                 <label for="religion" class="block">Religion <span style="color:red;">*</span><span  style="color:red" id="religion_err"> </span></label>
-                                                <input id="religion" name="religion" type="text" class="required form-control @error('religion') is-invalid @enderror">
+                                                <input id="religion" name="religion" type="text" class="required form-control @error('religion') is-invalid @enderror" value="{{ $admission->religion }}">
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <div class="col-sm-6">
                                                 <label for="caste" class="block">Caste <span style="color:red;">*</span><span  style="color:red" id="caste_err"> </span></label>
-                                                <input id="caste" name="caste" type="text" class="required form-control @error('caste') is-invalid @enderror">
+                                                <input id="caste" name="caste" type="text" class="required form-control @error('caste') is-invalid @enderror" value="{{ $admission->caste }}">
                                             </div>
                                             <div class="col-sm-6">
                                                 <label for="sub_caste" class="block">Sub-Caste <span style="color:red;">*</span><span  style="color:red" id="sub_caste_err"> </span></label>
-                                                <input id="sub_caste" name="sub_caste" type="text" class="required form-control @error('sub_caste') is-invalid @enderror">
+                                                <input id="sub_caste" name="sub_caste" type="text" class="required form-control @error('sub_caste') is-invalid @enderror" value="{{ $admission->sub_caste }}">
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <div class="col-sm-12">
                                                 <label for="address" class="block">Address <span style="color:red;">*</span><span  style="color:red" id="address_err"> </span></label>
-                                                <textarea id="address" name="address" type="password" class="required form-control @error('address') is-invalid @enderror mb-3"></textarea>
+                                                <textarea id="address" name="address" type="password" class="required form-control @error('address') is-invalid @enderror mb-3">{{ $admission->address }}</textarea>
                                             </div>
                                         </div>
 
@@ -127,17 +128,17 @@
                                             <div class="col-sm-6">
                                                 <div class="form-check-inline">
                                                     <label class="form-check-label">
-                                                        <input type="radio" name="last_exam_passed" class="required form-check-input d-inline @error('last_exam_passed') is-invalid @enderror" value="X">X
+                                                        <input type="radio" name="last_exam_passed" class="required form-check-input d-inline @error('last_exam_passed') is-invalid @enderror" value="X" @if($admission->last_exam_passed == "X") Checked @endif>X
                                                     </label>
                                                 </div>
                                                 <div class="form-check-inline">
                                                     <label class="form-check-label">
-                                                        <input type="radio" name="last_exam_passed" class="required form-check-input d-inline @error('last_exam_passed') is-invalid @enderror" value="XI">XI
+                                                        <input type="radio" name="last_exam_passed" class="required form-check-input d-inline @error('last_exam_passed') is-invalid @enderror" value="XI" @if($admission->last_exam_passed == "XI") Checked @endif>XI
                                                     </label>
                                                 </div>
                                                 <div class="form-check-inline">
                                                     <label class="form-check-label">
-                                                        <input type="radio" name="last_exam_passed" class="required form-check-input d-inline @error('last_exam_passed') is-invalid @enderror" value="XII">XII
+                                                        <input type="radio" name="last_exam_passed" class="required form-check-input d-inline @error('last_exam_passed') is-invalid @enderror" value="XII" @if($admission->last_exam_passed == "XII") Checked @endif>XII
                                                     </label>
                                                 </div>
                                             </div>
@@ -145,27 +146,27 @@
                                         <div class="form-group row">
                                             <div class="col-sm-6">
                                                 <label for="percentage" class="block">Percentage</label>
-                                                <input id="percentage" name="percentage" type="text" class="form-control @error('percentage') is-invalid @enderror">
+                                                <input id="percentage" name="percentage" type="text" class="form-control @error('percentage') is-invalid @enderror" value="{{ $admission->percentage }}">
                                             </div>
                                             <div class="col-sm-6">
                                             <label for="out_of" class="block">Out Of</label>
-                                                <input id="out_of" name="out_of" type="text" class="form-control @error('out_of') is-invalid @enderror">
+                                                <input id="out_of" name="out_of" type="text" class="form-control @error('out_of') is-invalid @enderror" value="{{ $admission->out_of }}">
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <div class="col-sm-6">
                                                 <label for="math_mark" class="block">Marks in Maths</label>
-                                                <input id="math_mark" name="math_mark" type="number" class="form-control @error('math_mark') is-invalid @enderror">
+                                                <input id="math_mark" name="math_mark" type="number" class="form-control @error('math_mark') is-invalid @enderror" value="{{ $admission->math_mark }}">
                                             </div>
                                             <div class="col-sm-6">
                                                 <label for="science_mark" class="block">Marks in Science</label>
-                                                <input id="science_mark" name="science_mark" type="number" class="form-control @error('science_mark') is-invalid @enderror">
+                                                <input id="science_mark" name="science_mark" type="number" class="form-control @error('science_mark') is-invalid @enderror" value="{{ $admission->science_mark }}">
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <div class="col-sm-12">
                                                 <label for="last_school_attended" class="block">Last School Attended<span style="color:red;">*</span><span  style="color:red" id="l_school_err"> </span></label>
-                                                <input id="last_school_attended" name="last_school_attended" type="text" class="required form-control @error('last_school_attended') is-invalid @enderror">
+                                                <input id="last_school_attended" name="last_school_attended" type="text" class="required form-control @error('last_school_attended') is-invalid @enderror" value="{{ $admission->last_school_attended }}">
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -173,10 +174,10 @@
                                             <div class="col-sm-8">
                                                 <select name="board" id="board" class="required form-control @error('board') is-invalid @enderror">
                                                     <option value="">-Select Board-</option>
-                                                    <option value="Maharashtra State Board">Maharashtra State Board</option>
-                                                    <option value="CBSE">CBSE</option>
-                                                    <option value="ICSE">ICSE</option>
-                                                    <option value="Other">Other</option>
+                                                    <option value="Maharashtra State Board" @if($admission->board == "Maharashtra State Board") Selected @endif>Maharashtra State Board</option>
+                                                    <option value="CBSE" @if($admission->board == "CBSE") Selected @endif>CBSE</option>
+                                                    <option value="ICSE" @if($admission->board == "ICSE") Selected @endif>ICSE</option>
+                                                    <option value="Other" @if($admission->board == "Other") Selected @endif>Other</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -185,7 +186,7 @@
                                                 <label for="other_board" class="block">Other Board</label>
                                             </div>
                                             <div class="col-sm-8">
-                                            <input id="other_board" name="other_board" type="text" class="form-control">
+                                            <input id="other_board" name="other_board" type="text" class="form-control required" value="{{ $admission->other_board }}">
                                             </div>
                                         </div>
                                     </fieldset>
@@ -194,16 +195,17 @@
                                         <div class="form-group row">
                                             <div class="col-sm-6">
                                                 <label for="admission_sought" class="block">Class in which Admission Sought<span style="color:red;">*</span><span  style="color:red" id="adm_sought_err"> </span></label>
+                                                
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="form-check-inline">
                                                     <label class="form-check-label">
-                                                        <input type="radio" name="adm_sought" class="required form-check-input d-inline @error('adm_sought') is-invalid @enderror" value="XI">XI
+                                                        <input type="radio" name="adm_sought" class="required form-check-input d-inline @error('adm_sought') is-invalid @enderror" value="XI" @if($admission->adm_sought == "XI") Checked @endif>XI
                                                     </label>
                                                 </div>
                                                 <div class="form-check-inline">
                                                     <label class="form-check-label">
-                                                        <input type="radio" name="adm_sought" class="required form-check-input d-inline @error('adm_sought') is-invalid @enderror" value="XII">XII
+                                                        <input type="radio" name="adm_sought" class="required form-check-input d-inline @error('adm_sought') is-invalid @enderror" value="XII" @if($admission->adm_sought == "XII") Checked @endif>XII
                                                     </label>
                                                 </div>
                                             </div>
@@ -215,21 +217,25 @@
                                             <div class="col-sm-12">
                                                 <select id="stream" name="stream" class="required form-control @error('stream') is-invalid @enderror">
                                                     <option value="">-Select Stream-</option>
-                                                    <option value="Option-1">General Science - English, Physics, Chemistry, Maths, Biology, Hindi</option>
-                                                    <option value="Option-2">General Science - English, Physics, Chemistry, Hindi, Biology, Sociology</option>
-                                                    <option value="Option-3">General Science - English, Physics, Chemistry, Maths, Biology, IT</option>
-                                                    <option value="Option-4">General Science - English, Physics, Chemistry, Maths, Sociology, IT</option>
-                                                    <option value="Option-5">General Science - English, Physics, Chemistry, Maths, Computer Science</option>
-                                                    <option value="Option-6">General Science - English, Physics, Chemistry, Biology, Fisheries</option>
-                                                    <option value="Option-7">Electronics - English, Physics, Chemistry, Maths, Electronics</option>
+                                                    <option value="Option-1" @if($admission->stream == "Option-1") Selected @endif>General Science - English, Physics, Chemistry, Maths, Biology, Hindi</option>
+                                                    <option value="Option-2" @if($admission->stream == "Option-2") Selected @endif>General Science - English, Physics, Chemistry, Hindi, Biology, Sociology</option>
+                                                    <option value="Option-3" @if($admission->stream == "Option-3") Selected @endif>General Science - English, Physics, Chemistry, Maths, Biology, IT</option>
+                                                    <option value="Option-4" @if($admission->stream == "Option-4") Selected @endif>General Science - English, Physics, Chemistry, Maths, Sociology, IT</option>
+                                                    <option value="Option-5" @if($admission->stream == "Option-5") Selected @endif>General Science - English, Physics, Chemistry, Maths, Computer Science</option>
+                                                    <option value="Option-6" @if($admission->stream == "Option-6") Selected @endif>General Science - English, Physics, Chemistry, Biology, Fisheries</option>
+                                                    <option value="Option-7" @if($admission->stream == "Option-7") Selected @endif>Electronics - English, Physics, Chemistry, Maths, Electronics</option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-6">
                                                 <label for="stream" class="block">Student Photo<span style="color:red;">*</span><span  style="color:red" id="stream_err"> </span></label>
+                                                @if($admission->student_photo)
+                                                <input type="hidden" class="form-control-file" name="hidden_image" value="{{ $admission->student_photo }}">
+                                                <a href="{{  URL::asset('studentPhoto/' . $admission->student_photo) }}" target="_blank">Click Here to View</a>
+                                                @endif
                                             </div>
-                                            <div class="col-sm-8">
+                                            <div class="col-sm-6">
                                                 <input type="file" name="student_photo" id="student_photo" class="form-control">
                                             </div>
                                         </div>
@@ -256,10 +262,12 @@
 <script type="text/javascript" src="{{ asset('files/assets/pages/form-validation/validate.js') }}"></script>
 <!-- Custom js -->
 <script src="{{ asset('files/assets/pages/forms-wizard-validation/form-wizard.js') }}"></script>
-<!-- <script src="{{ asset('files/assets/js/pcoded.min.js') }}"></script> -->
-<!-- <script src="{{ asset('files/assets/js/vertical/vertical-layout.min.js') }}"></script> -->
-<!-- <script src="{{ asset('files/assets/js/jquery.mCustomScrollbar.concat.min.js') }}"></script> -->
+<script src="{{ asset('files/assets/js/pcoded.min.js') }}"></script>
+<script src="{{ asset('files/assets/js/vertical/vertical-layout.min.js') }}"></script>
+<script src="{{ asset('files/assets/js/jquery.mCustomScrollbar.concat.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('files/assets/js/script.js') }}"></script>
+<!-- Switch component js -->
+<script type="text/javascript" src="{{ asset('files/bower_components/switchery/js/switchery.min.js') }}"></script>
 <script>
 $('body').on('click', 'a[href^="#finish"]', function () {
     $("#design-wizard").submit();

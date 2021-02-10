@@ -20,7 +20,20 @@ class JuniorAdmissionController extends Controller
      */
     public function index()
     {
-        //
+        $admission = JuniorAdmission::all();
+        if(request()->ajax()) {
+            return datatables()->of($admission)
+            ->addColumn('academic_id', function(JuniorAdmission $juniorAdmission){
+                if(!empty($juniorAdmission->sessions->from_academic_year) && !empty($juniorAdmission->sessions->to_academic_year)){
+                return '('.$juniorAdmission->sessions->from_academic_year.') - ('.$juniorAdmission->sessions->to_academic_year.')';
+                }
+            })
+            ->addColumn('action', 'admin.jrAdmission.action')
+            ->rawColumns(['action'])
+            ->addIndexColumn()
+            ->make(true);
+        }
+        return view('admin.jrAdmission.index');
     }
 
     /**
@@ -70,8 +83,16 @@ class JuniorAdmissionController extends Controller
         $admission->adm_sought = $request->adm_sought;
         $admission->stream = $request->stream;
         $admission->status = 0; 
+        $image = $request->file('student_photo');
+        // dd($request->file('photo'));
+        if($image != '')
+        {
+            $image_name = rand() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('studentPhoto'), $image_name);
+            $admission->student_photo =$image_name;
+        }
         $admission->save();
-        return redirect('/admin/junior-college-admission')->with('success', 'Admission is successfully done!');
+        return redirect('/admin/junior-college-admission')->with('success', 'Admission Created Successfully!');
     }
 
     /**
@@ -93,7 +114,9 @@ class JuniorAdmissionController extends Controller
      */
     public function edit($id)
     {
-        //
+        $academicYear = AcademicYear::where('status', 1)->orderBy('id', 'DESC')->get();
+        $admission = JuniorAdmission::findorfail($id);
+        return view('admin.jrAdmission.edit', compact('admission', 'academicYear'));
     }
 
     /**
@@ -105,7 +128,47 @@ class JuniorAdmissionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $admission = JuniorAdmission::findorfail($id);
+        $image_name = $request->hidden_image;
+        $image = $request->file('student_photo');
+        if($image != '')
+        {
+            
+        $image_name = rand() . '.' . $image->getClientOriginalExtension();
+        // $image->storeAs('public/tempcourseimg',$image_name);
+        $image->move(public_path('studentPhoto'), $image_name);
+        }
+        $input_data = array (
+            'admission_reg_no' => $request->admission_reg_no,
+            'admission_date' => $request->admission_date,
+            'academic_id' => $request->academic_session,
+            'student_name' => $request->student_name,
+            'father_name' => $request->father_name,
+            'mother_name' => $request->mother_name,
+            'f_occupation' => $request->father_occupation,
+            'm_occupation' => $request->mother_occupation,
+            'mobile_no' => $request->mobile_no,
+            'adhaar_no' => $request->adhaar_no,
+            'id_no' => $request->id_no,
+            'date_of_birth' => $request->date_of_birth,
+            'religion' => $request->religion,
+            'caste' => $request->caste,
+            'sub_caste' => $request->sub_caste,
+            'address' => $request->address,
+            'last_exam_passed' => $request->last_exam_passed,
+            'percentage' => $request->percentage,
+            'math_mark' => $request->math_mark,
+            'science_mark' => $request->science_mark,
+            'out_of' => $request->out_of,
+            'last_school_attended' => $request->last_school_attended,
+            'board' => $request->board,
+            'other_board' => $request->other_board,
+            'adm_sought' => $request->adm_sought,
+            'stream' => $request->stream,
+            'student_photo' => $image_name,
+        );
+        $admission = JuniorAdmission::whereId($id)->update($input_data);
+        return redirect('/admin/junior-college-admission')->with('success', 'Admission Updated Successfully');
     }
 
     /**
@@ -116,6 +179,11 @@ class JuniorAdmissionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $admission = JuniorAdmission::findorfail($id);
+        if($admission->student_photo){
+            unlink(public_path('studentPhoto/'.$admission->student_photo));
+        }
+        $admission->delete();
+        return response()->json(['success' => 'Admission Deleted Successfully']);
     }
 }

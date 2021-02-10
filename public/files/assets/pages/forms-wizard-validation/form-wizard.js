@@ -24,17 +24,17 @@
           autoFocus: true
       });
 
-      $("#design-wizard").steps({
-          headerTag: "h3",
-          bodyTag: "fieldset",
-          transitionEffect: "slideLeft",
-          autoFocus: true
-      });
+    //   $("#design-wizard").steps({
+    //       headerTag: "h3",
+    //       bodyTag: "fieldset",
+    //       transitionEffect: "slideLeft",
+    //       autoFocus: true
+    //   });
 
 
 
 
-      var form = $("#example-advanced-form").show();
+      var form = $("#design-wizard").show();
 
       form.steps({
           headerTag: "h3",
@@ -77,9 +77,6 @@
           },
           onFinished: function(event, currentIndex) {
               alert("Submitted!");
-              $('.content input[type="text"]').val('');
-              $('.content input[type="email"]').val('');
-              $('.content input[type="password"]').val('');
           }
       }).validate({
           errorPlacement: function errorPlacement(error, element) {

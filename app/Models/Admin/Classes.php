@@ -12,4 +12,8 @@ class Classes extends Model
     protected $table = "classes";
 
     protected $fillable = ['standard', 'section', 'status', 'class'];
+
+    public function fees(){
+        return $this->hasMany('App\Models\Admin\Fee','class_id', 'id');
+    }
 }

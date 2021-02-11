@@ -6,7 +6,6 @@
 
 <!-- Data Table Css -->
 <link rel="stylesheet" type="text/css" href="{{ asset('files/bower_components/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ asset('files/assets/pages/data-table/css/buttons.dataTables.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('files/bower_components/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css') }}">
 <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -107,7 +106,7 @@
             </div>
             <div class="card-block">
                 <div class="dt-responsive table-responsive">
-                    <table id="simpletable" class="table table-striped table-bordered nowrap">
+                    <table id="e-product-list" class="table table-striped table-bordered nowrap">
                         <thead>
                             <tr>
                                 <th>Sr. No.</th>
@@ -190,24 +189,21 @@
 @endsection
 @section('customjs')
 
-<!-- data-table js -->
+<!-- datatable js -->
 <script src="{{ asset('files/bower_components/datatables.net/js/jquery.dataTables.min.js') }}"></script>
-<script src="{{ asset('files/bower_components/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
-<script src="{{ asset('files/assets/pages/data-table/js/jszip.min.js') }}"></script>
-<script src="{{ asset('files/assets/pages/data-table/js/pdfmake.min.js') }}"></script>
-<script src="{{ asset('files/assets/pages/data-table/js/vfs_fonts.js') }}"></script>
-<script src="{{ asset('files/bower_components/datatables.net-buttons/js/buttons.print.min.js') }}"></script>
-<script src="{{ asset('files/bower_components/datatables.net-buttons/js/buttons.html5.min.js') }}"></script>
 <script src="{{ asset('files/bower_components/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
 <script src="{{ asset('files/bower_components/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
 <script src="{{ asset('files/bower_components/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js') }}"></script>
+<!-- product list js -->
+<!-- <script type="text/javascript" src="{{ asset('files/assets/pages/product-list/product-list.js') }}"></script> -->
+
 <!-- Custom js -->
-<script src="{{ asset('files/assets/pages/data-table/js/data-table-custom.js') }}"></script>
+<!-- <script src="{{ asset('files/assets/pages/data-table/js/data-table-custom.js') }}"></script> -->
 
 
 <script>
 var SITEURL = '{{ route('admin.fee.index')}}';
-$('#simpletable').DataTable({
+$('#e-product-list').DataTable({
     processing: true,
     serverSide: true,
     ajax: {
@@ -283,7 +279,7 @@ $('body').on('click', '#submitForm', function () {
             success:function(returndata)
             {
                 document.getElementById("form-submit").reset();
-                var oTable = $('#simpletable').dataTable(); 
+                var oTable = $('#e-product-list').dataTable(); 
                 oTable.fnDraw(false);
                 toastr.success(returndata.success);
             
@@ -356,7 +352,7 @@ function checkSubmit()
             {
             $('#editButton').attr('disabled',false);
             $("#modal-8").removeClass("md-show");
-            var oTable = $('#simpletable').dataTable(); 
+            var oTable = $('#e-product-list').dataTable(); 
             oTable.fnDraw(false);
             toastr.success(returndata.success);
             
@@ -375,7 +371,7 @@ $('body').on('click', '#delete', function () {
             type: "delete",
             url: "{{ url('admin/fee-head') }}"+'/'+id,
             success: function (data) {
-            var oTable = $('#simpletable').dataTable(); 
+            var oTable = $('#e-product-list').dataTable(); 
             oTable.fnDraw(false);
             toastr.success(data.success);
             },

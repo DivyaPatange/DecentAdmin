@@ -20,4 +20,5 @@ class AcademicYear extends Model
     public function fees(){
         return $this->hasMany('App\Models\Admin\Fee','academic_id', 'id');
     }
+    
 }

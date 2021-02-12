@@ -42,8 +42,8 @@
                             <div class="form-group form-default">
                                 <select name="classes" class="form-control" id="classes">
                                     <option value="">-Select Class-</option>
-                                    @foreach($classes as $c)
-                                    <option value="{{ $c->id }}">{{ $c->class }}</option>
+                                    @foreach($standard as $c)
+                                    <option value="{{ $c->standard }}">{{ $c->standard }}</option>
                                     @endforeach
                                 </select>
                                 <span class="form-bar"></span>
@@ -148,21 +148,57 @@
         <div>
             <form method="POST" id="editForm">
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="form-group form-default">
-                            <select name="fee_head" class="form-control" id="edit_fee_head" value="">
+                            <select name="fee_head" class="form-control" id="edit_fee_head">
+                                <option value="">-Select Fee Head-</option>
+                                @foreach($feeHead as $f)
+                                <option value="{{ $f->id }}">{{ $f->fee_head }}</option>
+                                @endforeach
+                            </select>
                             <span class="form-bar"></span>
                             <label class="float-label">Fee Head<span style="color:red;">*</span><span  style="color:red" id="edit_fee_head_err"> </span></label>
                         </div>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="form-group form-default">
+                            <select name="classes" class="form-control" id="edit_class">
+                                <option value="">-Select Class-</option>
+                                @foreach($standard as $c)
+                                <option value="{{ $c->standard }}">{{ $c->standard }}</option>
+                                @endforeach
+                            </select>
+                            <span class="form-bar"></span>
+                            <label class="float-label">Class<span style="color:red;">*</span><span  style="color:red" id="edit_class_err"> </span></label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-default">
+                            <select name="academic_year" class="form-control" id="edit_academic_year">
+                                <option value="">-Select Academic Session-</option>
+                                @foreach($academicYear as $ay)
+                                <option value="{{ $ay->id }}">{{ $ay->from_academic_year }} - {{ $ay->to_academic_year }}</option>
+                                @endforeach
+                            </select>
+                            <span class="form-bar"></span>
+                            <label class="float-label">Academic Session<span style="color:red;">*</span><span  style="color:red" id="edit_ay_err"> </span></label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-default">
+                            <input type="number" name="amount" class="form-control" id="edit_amount">
+                            <span class="form-bar"></span>
+                            <label class="float-label">Amount<span style="color:red;">*</span><span  style="color:red" id="edit_amount_err"> </span></label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
                         <div class="form-group form-default">
                             <input type="text" name="description" class="form-control" id="edit_description">
                             <span class="form-bar"></span>
                             <label class="float-label">Description<span style="color:red;">*</span><span  style="color:red" id="edit_description_err"> </span></label>
                         </div>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="form-group form-default">
                             <select name="status" class="form-control" id="edit_status">
                                 <option value="">-Select Status-</option>
@@ -296,7 +332,7 @@ function EditModel(obj,bid)
     // alert(datastring);
     $.ajax({
         type:"POST",
-        url:"{{ route('admin.get.fee-head') }}",
+        url:"{{ route('admin.get.fee') }}",
         data:datastring,
         cache:false,        
         success:function(returndata)
@@ -306,7 +342,10 @@ function EditModel(obj,bid)
             $("#modal-8").addClass("md-show");
             var json = JSON.parse(returndata);
             $("#id").val(json.id);
-            $("#edit_fee_head").val(json.fee_head);
+            $("#edit_fee_head").val(json.fee_head_id);
+            $("#edit_class").val(json.class_id);
+            $("#edit_academic_year").val(json.academic_id);
+            $("#edit_amount").val(json.amount);
             $("#edit_description").val(json.description);
             $("#edit_status").val(json.status);
         }
@@ -317,22 +356,44 @@ function EditModel(obj,bid)
 function checkSubmit()
 {
     var fee_head = $("#edit_fee_head").val();
+    var classes = $("#edit_class").val();
+    var academic_year = $("#edit_academic_year").val();
+    var amount = $("#edit_amount").val();
     var description = $("#edit_description").val();
     var status = $("#edit_status").val();
     var id = $("#id").val().trim();
-    if (fee_head=="") {
-        $("#edit_fee_head").fadeIn().html("Required");
+    // alert(classes);
+    if(fee_head=="") {
+        $("#edit_fee_head_err").fadeIn().html("Required");
         setTimeout(function(){ $("#edit_fee_head_err").fadeOut(); }, 3000);
         $("#edit_fee_head").focus();
         return false;
     }
-    if (description=="") {
+    if(classes=="") {
+        $("#edit_class_err").fadeIn().html("Required");
+        setTimeout(function(){ $("#edit_class_err").fadeOut(); }, 3000);
+        $("#edit_class").focus();
+        return false;
+    }
+    if(academic_year=="") {
+        $("#edit_ay_err").fadeIn().html("Required");
+        setTimeout(function(){ $("#edit_ay_err").fadeOut(); }, 3000);
+        $("#edit_academic_year").focus();
+        return false;
+    }
+    if(amount=="") {
+        $("#edit_amount_err").fadeIn().html("Required");
+        setTimeout(function(){ $("#edit_amount_err").fadeOut(); }, 3000);
+        $("#edit_amount").focus();
+        return false;
+    }
+    if(description=="") {
         $("#edit_description").fadeIn().html("Required");
         setTimeout(function(){ $("#edit_description_err").fadeOut(); }, 3000);
         $("#edit_description").focus();
         return false;
     }
-    if (status=="") {
+    if(status=="") {
         $("#edit_status_err").fadeIn().html("Required");
         setTimeout(function(){ $("#edit_status_err").fadeOut(); }, 3000);
         $("#edit_status").focus();
@@ -341,11 +402,11 @@ function checkSubmit()
     else
     { 
         $('#editButton').attr('disabled',true);
-        var datastring="fee_head="+fee_head+"&status="+status+"&id="+id+"&description="+description;
-        // alert(datastring);
+        var datastring="fee_head="+fee_head+"&status="+status+"&id="+id+"&description="+description+"&classes="+classes+"&academic_year="+academic_year+"&amount="+amount;
+        alert(datastring);
         $.ajax({
             type:"POST",
-            url:"{{ url('/admin/fee-head/update') }}",
+            url:"{{ url('/admin/fee/update') }}",
             data:datastring,
             cache:false,        
             success:function(returndata)
@@ -369,7 +430,7 @@ $('body').on('click', '#delete', function () {
     if(confirm("Are You sure want to delete !")){
         $.ajax({
             type: "delete",
-            url: "{{ url('admin/fee-head') }}"+'/'+id,
+            url: "{{ url('admin/fee') }}"+'/'+id,
             success: function (data) {
             var oTable = $('#e-product-list').dataTable(); 
             oTable.fnDraw(false);

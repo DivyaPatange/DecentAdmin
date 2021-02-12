@@ -11,4 +11,8 @@ class Standard extends Model
 
     protected $table = "standards";
     protected $fillable = ['standard', 'status'];
+
+    public function fees(){
+        return $this->hasMany('App\Models\Admin\Fee','class_id', 'standard');
+    }
 }

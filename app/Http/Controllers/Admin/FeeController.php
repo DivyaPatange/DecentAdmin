@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Admin\FeeHead;
 use App\Models\Admin\Fee;
-use App\Models\Admin\Classes;
+use App\Models\Admin\Standard;
 use App\Models\Admin\AcademicYear;
 
 class FeeController extends Controller
@@ -23,7 +23,7 @@ class FeeController extends Controller
     public function index()
     {
         $fees = Fee::all();
-        $classes = Classes::where('status', 1)->get();
+        $standard = Standard::where('status', 1)->get();
         $academicYear = AcademicYear::where('status', 1)->get();
         $feeHead = FeeHead::where('status', 1)->get();
         if(request()->ajax()) {
@@ -34,8 +34,8 @@ class FeeController extends Controller
                 }
             })
             ->addColumn('class_id', function(Fee $fee){
-                if(!empty($fee->classes->class)){
-                    return $fee->classes->class;
+                if(!empty($fee->classes->standard)){
+                    return $fee->classes->standard;
                 }
             })
             ->addColumn('academic_id', function(Fee $fee){
@@ -54,7 +54,7 @@ class FeeController extends Controller
             ->addIndexColumn()
             ->make(true);
         }
-        return view('admin.fee.index', compact('feeHead', 'classes', 'academicYear'));
+        return view('admin.fee.index', compact('feeHead', 'standard', 'academicYear'));
     }
 
     /**
@@ -128,6 +128,37 @@ class FeeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $fee = Fee::findorfail($id);
+        $fee->delete();
+        return response()->json(['success' => 'Fee Deleted Successfully']);
+    }
+
+    public function getFee(Request $request)
+    {
+        $fee = Fee::where('id', $request->bid)->first();
+        if (!empty($fee)) 
+        {
+            $data = array('id' =>$fee->id,'fee_head_id' =>$fee->fee_head_id,'description'=>$fee->description,'status' =>$fee->status,'class_id'=>$fee->class_id,'academic_id'=>$fee->academic_id,'amount'=>$fee->amount
+            );
+        }else{
+            $data =0;
+        }
+        echo json_encode($data);
+    }
+
+    public function updateFee(Request $request)
+    {
+        $fee = Fee::where('id', $request->id)->first();
+        $input_data = array (
+            'fee_head_id' => $request->fee_head,
+            'class_id' => $request->classes,
+            'academic_id' => $request->academic_year,
+            'amount' => $request->amount,
+            'description' => $request->description,
+            'status' => $request->status,
+        );
+
+        Fee::whereId($fee->id)->update($input_data);
+        return response()->json(['success' => 'Fee Updated Successfully']);
     }
 }

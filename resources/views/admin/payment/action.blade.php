@@ -1,0 +1,1 @@
+<button class="btn waves-effect waves-dark btn-primary btn-outline-primary btn-icon" id="payment" data-id="{{ $id }}">&#8377;</button>

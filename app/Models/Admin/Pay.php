@@ -5,13 +5,11 @@ namespace App\Models\Admin;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Classes extends Model
+class Pay extends Model
 {
     use HasFactory;
 
-    protected $table = "classes";
+    protected $table = "pays";
 
-    protected $fillable = ['standard', 'section', 'status', 'class'];
-
-    
+    protected $fillable = ['admission_id', 'fee_id', 'receipt_no', 'payment_amount', 'payment_date'];
 }

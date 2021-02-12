@@ -1,0 +1,18 @@
+.container{max-width: 1024px; }
+.container-fluid,.row,.col{padding: 0;margin: 0;}
+.whole{ border: 10px solid transparent;
+  padding: 15px;
+  border-image: url("../border.png") 30% round;}
+/*header section*/
+
+.titleName h1{font-size: 3.2em;text-align: center;font-family: 'Anton'}
+.titleName h3{font-size: 1.8em;text-align: center;font-weight: lighter;font-family: 'Nanum Myeongjo', serif;}
+.certHeading h2{float: left;font-size: 2.9em;background: #000;color: #fff;border-radius: 40px;margin: 20px 0 20px 0;
+	word-wrap: break-word;padding:5px 20px 5px 20px;font-family: 'Allura', cursive;}
+ img{width: 30%;}
+.desc{ font-size: 1.4em; line-height: 2.5;text-align: justify;font-family: 'Averia Libre', cursive;}
+input{border: none;border-bottom: 1px solid #000;background: transparent;}
+.bottomInfo{padding-top: 42px;font-family: 'Averia Libre', cursive;}
+.bottomInfo p{font-size: 1.4em;}
+.photo{width: 100px;height: 120px; border: 1px solid #000;
+}

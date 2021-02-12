@@ -17,8 +17,7 @@ class CreateFeesTable extends Migration
             $table->id();
             $table->unsignedInteger('fee_head_id');
             $table->foreign('fee_head_id')->references('id')->on('fee_heads');
-            $table->unsignedInteger('class_id');
-            $table->foreign('class_id')->references('id')->on('classes');
+            $table->string('class_id');
             $table->unsignedInteger('academic_id');
             $table->foreign('academic_id')->references('id')->on('academic_years');
             $table->string('amount');

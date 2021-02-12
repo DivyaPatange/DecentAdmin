@@ -102,7 +102,7 @@
                     <li class="">
                         <a href="{{ route('admin.junior-college-admission.create') }}" class="waves-effect waves-dark">
                             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                            <span class="pcoded-mtext">Add Admission</span>
+                            <span class="pcoded-mtext">New Admission</span>
                             <span class="pcoded-mcaret"></span>
                         </a>
                     </li>
@@ -139,7 +139,7 @@
                         </a>
                     </li>
                     <li class=" ">
-                        <a href="button.html" class="waves-effect waves-dark">
+                        <a href="{{ route('admin.payment.index') }}" class="waves-effect waves-dark">
                             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
                             <span class="pcoded-mtext">Pay Fee</span>
                             <span class="pcoded-mcaret"></span>

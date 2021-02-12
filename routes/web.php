@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\ClassController;
 use App\Http\Controllers\Admin\JuniorAdmissionController;
 use App\Http\Controllers\Admin\FeeHeadController;
 use App\Http\Controllers\Admin\FeeController;
+use App\Http\Controllers\Admin\PayController;
 
 /*
 |--------------------------------------------------------------------------
@@ -63,4 +64,9 @@ Route::prefix('admin')->name('admin.')->group(function() {
     Route::resource('/fee', FeeController::class);
     Route::post('/get-fee', [FeeController::class, 'getFee'])->name('get.fee');
     Route::post('/fee/update', [FeeController::class, 'updateFee']);
+
+    // Add Fee Route
+    Route::resource('/payment', PayController::class);
+    Route::post('/get-payment', [PayController::class, 'getPayment'])->name('get.payment');
+    Route::get('/receipt/{id}', [PayController::class, 'receipt']);
 });

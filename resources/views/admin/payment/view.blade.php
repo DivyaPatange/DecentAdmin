@@ -229,6 +229,7 @@ $('body').on('click', '.md-close', function () {
 
 function checkSubmit()
 {
+    var bal_amt = $("#bal_amount").val();
     var pay_amt = $("#pay_amount").val();
     var pay_date = $("#pay_date").val();
     var due_date = $("#due_date").val();
@@ -256,6 +257,10 @@ function checkSubmit()
         $("#due_date_err").fadeIn().html("Required");
         setTimeout(function(){ $("#due_date_err").fadeOut(); }, 3000);
         $("#due_date").focus();
+        return false;
+    }
+    if(bal_amt == 0)
+    {
         return false;
     }
     else

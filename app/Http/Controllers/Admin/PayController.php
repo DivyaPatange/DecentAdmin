@@ -157,6 +157,8 @@ class PayController extends Controller
     public function receipt($id)
     {
         $payment = Pay::findorfail($id);
-        return view('admin.payment.receipt');
+        $admission = JuniorAdmission::where('id', $payment->admission_id)->first();
+        // dd($admission);
+        return view('admin.payment.receipt', compact('admission', 'payment'));
     }
 }

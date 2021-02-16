@@ -24,7 +24,29 @@ use App\Http\Controllers\Admin\PayController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('admin.login');
+});
+
+Route::get('/clear-cache', function () {
+    $exitCode = Artisan::call('config:clear');
+    $exitCode = Artisan::call('cache:clear');
+    $exitCode = Artisan::call('config:cache');
+    return 'DONE'; //Return anything
+});
+
+Route::get('/migrate', function () {
+    $exitCode = Artisan::call('migrate');
+    return 'DONE'; //Return anything
+});
+
+Route::get('/routeList', function () {
+    $exitCode = Artisan::call('route:list');
+    return Artisan::output(); //Return anything
+});
+
+Route::get('/seed', function () {
+    $exitCode = Artisan::call('db:seed');
+    return 'DONE'; //Return anything
 });
 
 Auth::routes();
@@ -69,4 +91,7 @@ Route::prefix('admin')->name('admin.')->group(function() {
     Route::resource('/payment', PayController::class);
     Route::post('/get-payment', [PayController::class, 'getPayment'])->name('get.payment');
     Route::get('/receipt/{id}', [PayController::class, 'receipt']);
+    Route::get('/demo', function(){
+        return view('admin.payment.demo');
+    });
 });

@@ -101,7 +101,8 @@
                         <form class="md-float-material form-material" method="POST" action="{{ route('admin.login.submit') }}">
 							@csrf
                             <div class="text-center">
-                                <img src="{{ asset('files/assets/images/logo.png') }}" alt="logo.png">
+                                <!-- <img src="{{ asset('files/assets/images/logo.png') }}" alt="logo.png"> -->
+                                <h2>Decent Admin</h2>
                             </div>
                             <div class="auth-box card">
                                 <div class="card-block">

@@ -232,7 +232,7 @@
 
                 </ul>
             </li>
-            <li class="pcoded-hasmenu">
+            <!-- <li class="pcoded-hasmenu">
                 <a href="javascript:void(0)" class="waves-effect waves-dark">
                     <span class="pcoded-micon"><i class="ti-crown"></i><b>AC</b></span>
                     <span class="pcoded-mtext">Advance</span>
@@ -466,10 +466,10 @@
                         </a>
                     </li>
                 </ul>
-            </li>
+            </li> -->
         </ul>
-        <div class="pcoded-navigation-label">Forms</div>
-        <ul class="pcoded-item pcoded-left-item">
+        <!-- <div class="pcoded-navigation-label">Forms</div> -->
+        <!-- <ul class="pcoded-item pcoded-left-item">
             <li class="pcoded-hasmenu">
                 <a href="javascript:void(0)" class="waves-effect waves-dark">
                     <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
@@ -653,9 +653,9 @@
                     </li>
                 </ul>
             </li>
-        </ul>
-        <div class="pcoded-navigation-label">Tables</div>
-        <ul class="pcoded-item pcoded-left-item">
+        </ul> -->
+        <!-- <div class="pcoded-navigation-label">Tables</div> -->
+        <!-- <ul class="pcoded-item pcoded-left-item">
             <li class="pcoded-hasmenu">
                 <a href="javascript:void(0)" class="waves-effect waves-dark">
                     <span class="pcoded-micon"><i class="ti-receipt"></i><b>B</b></span>
@@ -942,9 +942,9 @@
                     <span class="pcoded-mcaret"></span>
                 </a>
             </li>
-        </ul>
-        <div class="pcoded-navigation-label">Chart And Maps</div>
-        <ul class="pcoded-item pcoded-left-item">
+        </ul> -->
+        <!-- <div class="pcoded-navigation-label">Chart And Maps</div> -->
+        <!-- <ul class="pcoded-item pcoded-left-item">
             <li class="pcoded-hasmenu ">
                 <a href="javascript:void(0)" class="waves-effect waves-dark">
                     <span class="pcoded-micon"><i class="ti-bar-chart-alt"></i><b>C</b></span>
@@ -1089,9 +1089,9 @@
                     <span class="pcoded-mcaret"></span>
                 </a>
             </li>
-        </ul>
-        <div class="pcoded-navigation-label">Pages</div>
-        <ul class="pcoded-item pcoded-left-item">
+        </ul> -->
+        <!-- <div class="pcoded-navigation-label">Pages</div> -->
+        <!-- <ul class="pcoded-item pcoded-left-item">
             <li class="pcoded-hasmenu ">
                 <a href="javascript:void(0)" class="waves-effect waves-dark">
                     <span class="pcoded-micon"><i class="ti-id-badge"></i><b>A</b></span>
@@ -1397,9 +1397,9 @@
                     </li>
                 </ul>
             </li>
-        </ul>
-        <div class="pcoded-navigation-label">App</div>
-        <ul class="pcoded-item pcoded-left-item">
+        </ul> -->
+        <!-- <div class="pcoded-navigation-label">App</div> -->
+        <!-- <ul class="pcoded-item pcoded-left-item">
             <li class="pcoded-hasmenu ">
                 <a href="javascript:void(0)" class="waves-effect waves-dark">
                     <span class="pcoded-micon"><i class="ti-dribbble"></i><b>S</b></span>
@@ -1574,9 +1574,9 @@
                     </li>
                 </ul>
             </li>
-        </ul>
-        <div class="pcoded-navigation-label">Extension</div>
-        <ul class="pcoded-item pcoded-left-item">
+        </ul> -->
+        <!-- <div class="pcoded-navigation-label">Extension</div> -->
+        <!-- <ul class="pcoded-item pcoded-left-item">
             <li class="pcoded-hasmenu ">
                 <a href="javascript:void(0)" class="waves-effect waves-dark">
                     <span class="pcoded-micon"><i class="ti-pencil-alt"></i><b>E</b></span>
@@ -1692,9 +1692,9 @@
                     <span class="pcoded-mcaret"></span>
                 </a>
             </li>
-        </ul>
-        <div class="pcoded-navigation-label">Other</div>
-        <ul class="pcoded-item pcoded-left-item">
+        </ul> -->
+        <!-- <div class="pcoded-navigation-label">Other</div> -->
+        <!-- <ul class="pcoded-item pcoded-left-item">
             <li class="pcoded-hasmenu ">
                 <a href="javascript:void(0)" class="waves-effect waves-dark">
                     <span class="pcoded-micon"><i class="ti-direction-alt"></i><b>M</b></span>
@@ -1749,9 +1749,9 @@
                     <span class="pcoded-mcaret"></span>
                 </a>
             </li>
-        </ul>
-        <div class="pcoded-navigation-label">Support</div>
-        <ul class="pcoded-item pcoded-left-item">
+        </ul> -->
+        <!-- <div class="pcoded-navigation-label">Support</div> -->
+        <!-- <ul class="pcoded-item pcoded-left-item">
             <li class="">
                 <a href="#" target="_blank" class="waves-effect waves-dark">
                     <span class="pcoded-micon"><i class="ti-file"></i><b>D</b></span>
@@ -1766,6 +1766,6 @@
                     <span class="pcoded-mcaret"></span>
                 </a>
             </li>
-        </ul>
+        </ul> -->
     </div>
 </nav>

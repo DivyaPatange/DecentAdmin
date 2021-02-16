@@ -15,8 +15,9 @@
                     </div>
                 </div>
             </div>
-            <a href="index.html">
-                <img class="img-fluid" src="../files/assets/images/logo.png" alt="Theme-Logo" />
+            <a href="{{ url('/admin') }}">
+                <!-- <img class="img-fluid" src="../files/assets/images/logo.png" alt="Theme-Logo" /> -->
+                <h5>Decent Admin</h5>
             </a>
             <a class="mobile-options waves-effect waves-light">
                 <i class="ti-more"></i>

@@ -11,6 +11,11 @@
 <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+<style>
+    .hidden{
+        display:none;
+    }
+</style>
 @endsection
 @section('content')
 <div class="row">
@@ -77,15 +82,15 @@
                                         </div>
                                         <div class="form-group row">
                                             <div class="col-sm-4">
-                                                <label for="mobile_no" class="block">Mobile No. <span style="color:red;">*</span><span  style="color:red" id="mobile_err"> </span></label>
-                                                <input id="mobile_no" name="mobile_no" type="number" class="required form-control @error('mobile_no') is-invalid @enderror">
+                                                <label for="mobile_no" class="block">Mobile No.</label>
+                                                <input id="mobile_no" name="mobile_no" type="number" class="form-control @error('mobile_no') is-invalid @enderror">
                                             </div>
                                             <div class="col-sm-4">
-                                                <label for="adhaar_no" class="block">Adhaar No. <span style="color:red;">*</span><span  style="color:red" id="adhaar_err"> </span></label>
-                                                <input id="adhaar_no" name="adhaar_no" type="number" class="required form-control @error('adhaar_no') is-invalid @enderror">
+                                                <label for="adhaar_no" class="block">Adhaar No.</label>
+                                                <input id="adhaar_no" name="adhaar_no" type="number" class="form-control @error('adhaar_no') is-invalid @enderror">
                                             </div>
                                             <div class="col-sm-4">
-                                                <label for="id_no" class="block">ID No. <span style="color:red;">*</span><span  style="color:red" id="id_err"> </span></label>
+                                                <label for="id_no" class="block">ID No.</label>
                                                 <input id="id_no" name="id_no" type="text" class="form-control @error('id_no') is-invalid @enderror">
                                             </div>
                                         </div>
@@ -180,6 +185,7 @@
                                                 </select>
                                             </div>
                                         </div>
+                                        <div id="showDiv" class="hidden">
                                         <div class="form-group row">
                                             <div class="col-sm-4">
                                                 <label for="other_board" class="block">Other Board</label>
@@ -187,6 +193,7 @@
                                             <div class="col-sm-8">
                                             <input id="other_board" name="other_board" type="text" class="form-control">
                                             </div>
+                                        </div>
                                         </div>
                                     </fieldset>
                                     <h3></h3>
@@ -428,5 +435,15 @@ $('body').on('click', 'a[href^="#finish"]', function () {
     //     }
     // });
 })
+$('body').on('change', '#board', function() {
+  var board = $(this).val();
+  if(board == "Other")
+  {
+      $('#showDiv').show();
+  }
+  else{
+    $('#showDiv').hide();
+  }
+});
 </script>
 @endsection

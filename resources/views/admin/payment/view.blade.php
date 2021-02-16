@@ -267,7 +267,7 @@ function checkSubmit()
     { 
         $('#editButton').attr('disabled',true);
         var datastring="pay_amt="+pay_amt+"&pay_date="+pay_date+"&id="+id+"&due_date="+due_date+"&fee_head="+fee_head;
-        alert(datastring);
+        // alert(datastring);
         $.ajax({
             type:"POST",
             url:"{{ route('admin.payment.store') }}",

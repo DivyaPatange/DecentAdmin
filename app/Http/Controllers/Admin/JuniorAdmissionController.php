@@ -103,7 +103,8 @@ class JuniorAdmissionController extends Controller
      */
     public function show($id)
     {
-        //
+        $admission = JuniorAdmission::findorfail($id);
+        return view('admin.jrAdmission.view', compact('admission'));
     }
 
     /**

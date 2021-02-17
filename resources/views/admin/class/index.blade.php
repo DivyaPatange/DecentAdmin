@@ -48,7 +48,9 @@
                                     @endforeach
                                 </select>
                                 <span class="form-bar"></span>
-                                <label class="float-label">Section<span style="color:red;">*</span><span  style="color:red" id="section_err"> </span></label>
+                                <label class="float-label">Section
+                                    <!-- <span style="color:red;">*</span><span  style="color:red" id="section_err"> </span> -->
+                                </label>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -140,7 +142,9 @@
                                 @endforeach
                             </select>
                             <span class="form-bar"></span>
-                            <label class="float-label">Section<span style="color:red;">*</span><span  style="color:red" id="edit_section_err"> </span></label>
+                            <label class="float-label">Section 
+                                <!-- <span style="color:red;">*</span><span  style="color:red" id="edit_section_err"> </span> -->
+                            </label>
                         </div>
                     </div>
                     <div class="col-md-12">
@@ -216,12 +220,12 @@ $('body').on('click', '#submitForm', function () {
         $("#standard").focus();
         return false;
     }
-    if (section=="") {
-        $("#section_err").fadeIn().html("Required");
-        setTimeout(function(){ $("#section_err").fadeOut(); }, 3000);
-        $("#section").focus();
-        return false;
-    }
+    // if (section=="") {
+    //     $("#section_err").fadeIn().html("Required");
+    //     setTimeout(function(){ $("#section_err").fadeOut(); }, 3000);
+    //     $("#section").focus();
+    //     return false;
+    // }
     if (status=="") {
         $("#status_err").fadeIn().html("Required");
         setTimeout(function(){ $("#status_err").fadeOut(); }, 3000);
@@ -287,12 +291,12 @@ function checkSubmit()
         $("#edit_standard").focus();
         return false;
     }
-    if (section=="") {
-        $("#edit_section_err").fadeIn().html("Required");
-        setTimeout(function(){ $("#edit_section_err").fadeOut(); }, 3000);
-        $("#edit_section").focus();
-        return false;
-    }
+    // if (section=="") {
+    //     $("#edit_section_err").fadeIn().html("Required");
+    //     setTimeout(function(){ $("#edit_section_err").fadeOut(); }, 3000);
+    //     $("#edit_section").focus();
+    //     return false;
+    // }
     if (status=="") {
         $("#edit_status_err").fadeIn().html("Required");
         setTimeout(function(){ $("#edit_status_err").fadeOut(); }, 3000);

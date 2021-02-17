@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Admin\AcademicYear;
 use App\Models\Admin\JuniorAdmission;
+use App\Models\Admin\Student;
+use App\Models\Admin\Parents;
+use Illuminate\Support\Facades\Hash;
 
 class JuniorAdmissionController extends Controller
 {
@@ -92,6 +95,44 @@ class JuniorAdmissionController extends Controller
             $admission->student_photo =$image_name;
         }
         $admission->save();
+        if($request->collage_id_no)
+        {
+            $student = Student::where('collage_ID', $request->collage_id_no)->first();
+            if(empty($student))
+            {
+                $id = mt_rand(10000,99999);
+                $students = new Student();
+                $students->collage_ID = "DEC".$id;
+                $students->save();
+                
+                $updateAdmission = JuniorAdmission::where('id', $admission->id)->update(['collage_ID' => $students->collage_ID]);
+
+                $password = str_random(8);
+                $parents = new Parents();
+                $parents->username = $students->collage_ID;
+                $parents->password = Hash::make($password);
+                $parents->password_1 = $password;
+                $parents->save();
+            }
+            else{
+                $updateAdmission = JuniorAdmission::where('id', $admission->id)->update(['collage_ID' => $student->collage_ID]);
+            }
+        }
+        else{
+            $id = mt_rand(10000,99999);
+            $students = new Student();
+            $students->collage_ID = "DEC".$id;
+            $students->save();
+
+            $updateAdmission = JuniorAdmission::where('id', $admission->id)->update(['collage_ID' => $students->collage_ID]);
+            
+            $password = str_random(8);
+            $parents = new Parents();
+            $parents->username = $students->collage_ID;
+            $parents->password = Hash::make($password);
+            $parents->password_1 = $password;
+            $parents->save();
+        }
         return redirect('/admin/junior-college-admission')->with('success', 'Admission Created Successfully!');
     }
 
@@ -186,5 +227,45 @@ class JuniorAdmissionController extends Controller
         }
         $admission->delete();
         return response()->json(['success' => 'Admission Deleted Successfully']);
+    }
+
+    public function searchStudentName(Request $request)
+    {
+        if($request->ajax()) {
+            // select country name from database
+            $data = Student::where('collage_ID', 'LIKE', $request->collage_id_no.'%')
+                ->get();
+                
+        
+            // declare an empty array for output
+            $output = '';
+            // if searched countries count is larager than zero
+            if (count($data)>0) {
+                // concatenate output to the array
+                // loop through the result array
+                foreach ($data as $row){
+                    // dd($request->user_referral_info == $row->referral_code);
+                    if($request->collage_id_no == $row->collage_ID){
+                    // concatenate output to the array
+                        $student = JuniorAdmission::where('id', $row->admission_id)->first();
+                        if(!empty($student)){
+                       $output .= $student->student_name;
+                        }
+                        else{
+                            $output .= 'No Result';
+                        }
+                        
+                    }
+                }
+                // end of output
+            }
+            
+            else {
+                // if there's no matching results according to the input
+                $output .= 'No results';
+            }
+            // return output result array
+            return $output;
+        }
     }
 }

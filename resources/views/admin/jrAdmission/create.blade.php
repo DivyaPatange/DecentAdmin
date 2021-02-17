@@ -36,15 +36,24 @@
                                     <h3></h3>
                                     <fieldset>
                                         <div class="form-group row">
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-6">
+                                                <label for="college_id_no" class="block">College ID </label>
+                                                <input id="college_id_no" name="collage_id_no" type="text" class="form-control @error('college_id_no') is-invalid @enderror">
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <h6 id="collage_student_name"></h6>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-sm-6">
                                                 <label for="admission_reg_no" class="block">Admission Reg. No. <span style="color:red;">*</span><span  style="color:red" id="reg_err"> </span></label>
                                                 <input id="admission_reg_no" name="admission_reg_no" type="text" class="required form-control @error('admission_reg_no') is-invalid @enderror">
                                             </div>
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-6">
                                                 <label for="admission_date" class="block">Admission Date <span style="color:red;">*</span><span  style="color:red" id="adm_date_err"> </span></label>
                                                 <input id="admission_date" name="admission_date" type="date" class="required form-control @error('admission_date') is-invalid @enderror">
                                             </div>
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-6">
                                                 <label for="academic_session" class="block">Academic Session <span style="color:red;">*</span><span  style="color:red" id="session_err"> </span></label>
                                                 <select id="academic_session" name="academic_session" class="required form-control @error('academic_session') is-invalid @enderror">
                                                     <option value="">-Select Academic Session-</option>
@@ -54,7 +63,11 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="form-group row">
+                                    </fieldset>
+                                    <h3></h3>
+                                    <fieldset>
+                                        
+                                    <div class="form-group row">
                                             <div class="col-sm-12">
                                                 <label for="student_name" class="block">Student Name <span style="color:red;">*</span><span  style="color:red" id="student_err"> </span></label>
                                                 <input id="student_name" name="student_name" type="text" class="required form-control @error('student_name') is-invalid @enderror">
@@ -120,7 +133,6 @@
                                                 <textarea id="address" name="address" type="password" class="required form-control @error('address') is-invalid @enderror mb-3"></textarea>
                                             </div>
                                         </div>
-
                                     </fieldset>
                                     <h3></h3>
                                     <fieldset>
@@ -445,5 +457,30 @@ $('body').on('change', '#board', function() {
     $('#showDiv').hide();
   }
 });
+</script>
+
+<script>
+$(document).ready(function () {
+    // keyup function looks at the keys typed on the search box
+    $('#collage_id_no').on('keyup',function() {
+        // the text typed in the input field is assigned to a variable 
+        var query = $(this).val();
+        // call to an ajax function
+        $.ajax({
+            // assign a controller function to perform search action - route name is search
+            url:"{{ route('admin.searchStudentName') }}",
+            // since we are getting data methos is assigned as GET
+            type:"GET",
+            // data are sent the server
+            data:{'collage_id_no':query},
+            // if search is succcessfully done, this callback function is called
+            success:function (data) {
+                // print the search results in the div called country_list(id)
+                $('#collage_student_name').html(data);
+            }
+        })
+        // end of ajax call
+    });
+})
 </script>
 @endsection

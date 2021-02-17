@@ -43,6 +43,7 @@ class CreateJuniorAdmissionsTable extends Migration
             $table->string('adm_sought')->nullable();
             $table->string('stream')->nullable();
             $table->string('other_board')->nullable();
+            $table->string('collage_ID')->nullable();
             $table->boolean('status');
             $table->timestamps();
         });

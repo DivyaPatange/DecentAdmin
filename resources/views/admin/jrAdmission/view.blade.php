@@ -34,7 +34,7 @@
         <!-- Zero config.table start -->
         <div class="card">
             <div class="card-header">
-                <h5>Student Detail</h5>
+                <h5>Student Detail ({{ $admission->collage_ID }})</h5>
             </div>
             <div class="card-block">
                 <div class="row">

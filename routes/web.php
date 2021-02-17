@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\JuniorAdmissionController;
 use App\Http\Controllers\Admin\FeeHeadController;
 use App\Http\Controllers\Admin\FeeController;
 use App\Http\Controllers\Admin\PayController;
+use App\Http\Controllers\Admin\AllotmentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -77,6 +78,7 @@ Route::prefix('admin')->name('admin.')->group(function() {
     Route::post('/class/update', [ClassController::class, 'updateClass']);
     // Junior College Admission Route
     Route::resource('/junior-college-admission', JuniorAdmissionController::class);
+    Route::get('/searchStudentName', [JuniorAdmissionController::class, 'searchStudentName'])->name('searchStudentName');
     // Fee Head Route
     Route::resource('/fee-head', FeeHeadController::class);
     Route::post('/get-fee-head', [FeeHeadController::class, 'getFeeHead'])->name('get.fee-head');
@@ -94,4 +96,7 @@ Route::prefix('admin')->name('admin.')->group(function() {
     Route::get('/demo', function(){
         return view('admin.payment.demo');
     });
+
+    // Allotment Route
+    Route::resource('/allotment', AllotmentController::class);
 });

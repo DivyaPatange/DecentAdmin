@@ -18,4 +18,8 @@ class JuniorAdmission extends Model
     public function sessions(){
         return $this->belongsTo('App\Models\Admin\AcademicYear','academic_id', 'id');
     }
+
+    public function allotment_student(){
+        return $this->hasMany('App\Models\Admin\AllotmentStudent','admission_id', 'id');
+    }
 }

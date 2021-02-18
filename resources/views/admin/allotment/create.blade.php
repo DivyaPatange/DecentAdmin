@@ -96,6 +96,39 @@
                     </table>
                 </div>
             </div>
+            <div class="card-footer">
+                <form class="form-material" id="allot-form-submit" method="POST">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group form-default">
+                                <select name="classes" class="form-control" id="allot_class">
+                                    <option value="">-Select Class-</option>
+                                    @foreach($classes as $c)
+                                    <option value="{{ $c->id }}">{{ $c->class }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="form-bar"></span>
+                                <label class="float-label">Class<span style="color:red;">*</span><span  style="color:red" id="allot_class_err"> </span></label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group form-default">
+                                <select name="academic_year" class="form-control" id="allot_academic_year">
+                                    <option value="">-Select Academic Year-</option>
+                                    @foreach($academicYear as $a)
+                                    <option value="{{ $a->id }}">({{ $a->from_academic_year }}) - ({{ $a->to_academic_year }})</option>
+                                    @endforeach
+                                </select>
+                                <span class="form-bar"></span>
+                                <label class="float-label">Academic Year<span style="color:red;">*</span><span  style="color:red" id="allot_academic_err"> </span></label>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                        <button class="btn btn-sm waves-effect waves-light hor-grd btn-grd-primary" type="button" id="allotSubmitForm">Allot</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
         <!-- Zero config.table end -->
     </div>
@@ -150,7 +183,56 @@ $('#simpletable').DataTable({
     });
  }
 })
-
+$('body').on('click', '#allotSubmitForm', function () {
+    var classes = $("#allot_class").val();
+    var academic_id = $("#allot_academic_year").val();
+    var array = [];
+    $("input:checkbox[name=check_val]:checked").each(function(){
+        array.push($(this).val());
+    });
+    // alert(array.length);
+    if(array.length == 0)
+    {
+        alert('Please Select Student to Allot');
+        return false;
+    }
+    if (classes=="") {
+        $("#allot_class_err").fadeIn().html("Required");
+        setTimeout(function(){ $("#allot_class_err").fadeOut(); }, 3000);
+        $("#allot_class").focus();
+        return false;
+    }
+    if (academic_id=="") {
+        $("#allot_academic_err").fadeIn().html("Required");
+        setTimeout(function(){ $("#allot_academic_err").fadeOut(); }, 3000);
+        $("#allot_academic_year").focus();
+        return false;
+    }
+    else
+    { 
+        var datastring="classes="+classes+"&academic_id="+academic_id+"&array="+array;
+        // alert(datastring);
+        $.ajax({
+            type:"POST",
+            url:"{{ route('admin.allotment.store') }}",
+            data:datastring,
+            cache:false,        
+            success:function(returndata)
+            {
+                document.getElementById("allot-form-submit").reset();
+                document.getElementById("form-submit").reset();
+                $('#simpletable').DataTable().clear();
+                $('#simpletable').DataTable().draw();
+                // var oTable = $('#simpletable').dataTable(); 
+                // oTable.fnDraw(false);
+                toastr.success(returndata.success);
+            
+            // location.reload();
+            // $("#pay").val("");
+            }
+        });
+    }
+})
 </script>
 
 @endsection

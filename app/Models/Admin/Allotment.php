@@ -11,5 +11,13 @@ class Allotment extends Model
 
     protected $table = "allotments";
 
-    protected $fillable = ['collage_ID', 'class_id', 'academic_id', 'status'];
+    protected $fillable = ['class_id', 'academic_id'];
+
+    public function sessions(){
+        return $this->belongsTo('App\Models\Admin\AcademicYear','academic_id', 'id');
+    }
+
+    public function classes(){
+        return $this->belongsTo('App\Models\Admin\Classes','class_id', 'id');
+    }
 }

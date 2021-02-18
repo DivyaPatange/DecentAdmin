@@ -13,5 +13,7 @@ class Classes extends Model
 
     protected $fillable = ['standard', 'section', 'status', 'class'];
 
-    
+    public function allotments(){
+        return $this->hasMany('App\Models\Admin\Allotment','class_id', 'id');
+    }
 }

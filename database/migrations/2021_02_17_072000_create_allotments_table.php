@@ -15,12 +15,10 @@ class CreateAllotmentsTable extends Migration
     {
         Schema::create('allotments', function (Blueprint $table) {
             $table->id();
-            $table->string('college_ID');
             $table->unsignedInteger('class_id');
             $table->foreign('class_id')->references('id')->on('classes');
             $table->unsignedInteger('academic_id');
             $table->foreign('academic_id')->references('id')->on('academic_years');
-            $table->enum('status',array('Allot', 'Promote'));
             $table->timestamps();
         });
     }

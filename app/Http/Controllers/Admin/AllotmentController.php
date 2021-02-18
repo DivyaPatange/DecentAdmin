@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\Admin\Classes;
 use App\Models\Admin\AcademicYear;
 use App\Models\Admin\JuniorAdmission;
+use App\Models\Admin\Allotment;
+use App\Models\Admin\AllotmentStudent;
+use DB;
 
 class AllotmentController extends Controller
 {
@@ -17,7 +20,25 @@ class AllotmentController extends Controller
      */
     public function index()
     {
-        //
+        $allotment = Allotment::all();
+        if(request()->ajax()) {
+            return datatables()->of($allotment)
+            ->addColumn('academic_id', function(Allotment $allotment){
+                if(!empty($allotment->sessions->from_academic_year) && !empty($allotment->sessions->to_academic_year)){
+                return '('.$allotment->sessions->from_academic_year.') - ('.$allotment->sessions->to_academic_year.')';
+                }
+            })
+            ->addColumn('class_id', function(Allotment $allotment){
+                if(!empty($allotment->classes->class)){
+                return $allotment->classes->class;
+                }
+            })
+            ->addColumn('action', 'admin.allotment.action')
+            ->rawColumns(['action', 'class_id'])
+            ->addIndexColumn()
+            ->make(true);
+        }
+        return view('admin.allotment.index');
     }
 
     /**
@@ -56,7 +77,28 @@ class AllotmentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $allotment = Allotment::where('class_id', $request->classes)->where('academic_id', $request->academic_id)->first();
+        if(empty($allotment))
+        {
+            $allotment = new Allotment();
+            $allotment->class_id = $request->classes;
+            $allotment->academic_id = $request->academic_id;
+            $allotment->save();
+        }
+        $students = $request->array;
+        $explodeStudent = explode(",", $students);
+        for($i=0; $i < count($explodeStudent); $i++)
+        {
+            $admission = JuniorAdmission::where('id', $explodeStudent[$i])->where('status', 0)->first();
+            $allotStudent = new AllotmentStudent();
+            $allotStudent->allotment_id = $allotment->id;
+            $allotStudent->admission_id = $admission->id;
+            $allotStudent->collage_ID = $admission->collage_ID;
+            $allotStudent->status = "Allot";
+            $allotStudent->save();
+            $updateAdmission = JuniorAdmission::where('id', $explodeStudent[$i])->update(['status' => 1]);
+        }
+        return response()->json(['success' => 'Student Alloted to the Class']);
     }
 
     /**
@@ -67,7 +109,10 @@ class AllotmentController extends Controller
      */
     public function show($id)
     {
-        //
+        $allotment = Allotment::findorfail($id);
+        
+        $allotStudent = AllotmentStudent::where('allotment_id', $id)->where('status', 'Allot')->get();
+        return view('admin.allotment.view', compact('allotment', 'allotStudent'));
     }
 
     /**

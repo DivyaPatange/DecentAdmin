@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\FeeHeadController;
 use App\Http\Controllers\Admin\FeeController;
 use App\Http\Controllers\Admin\PayController;
 use App\Http\Controllers\Admin\AllotmentController;
+use App\Http\Controllers\Admin\VisitorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -99,4 +100,9 @@ Route::prefix('admin')->name('admin.')->group(function() {
 
     // Allotment Route
     Route::resource('/allotment', AllotmentController::class);
+
+    // Visitor Route
+    Route::resource('/visitor', VisitorController::class);
+    Route::post('/get-visitor', [VisitorController::class, 'getVisitor'])->name('get.visitor');
+    Route::post('/visitor/update', [VisitorController::class, 'updateVisitor']);
 });

@@ -255,13 +255,13 @@
 
                 </ul>
             </li>
-            <!-- <li class="pcoded-hasmenu">
-                <a href="javascript:void(0)" class="waves-effect waves-dark">
+             <li class="">
+                <a href="{{ route('admin.visitor.index') }}" class="waves-effect waves-dark">
                     <span class="pcoded-micon"><i class="ti-crown"></i><b>AC</b></span>
-                    <span class="pcoded-mtext">Advance</span>
+                    <span class="pcoded-mtext">Visitor Registration</span>
                     <span class="pcoded-mcaret"></span>
                 </a>
-                <ul class="pcoded-submenu">
+                <!--<ul class="pcoded-submenu">
                     <li class=" ">
                         <a href="draggable.html" class="waves-effect waves-dark">
                             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
@@ -370,9 +370,9 @@
                         </a>
                     </li>
 
-                </ul>
+                </ul>-->
             </li>
-            <li class="pcoded-hasmenu">
+            <!--<li class="pcoded-hasmenu">
                 <a href="javascript:void(0)" class="waves-effect waves-dark">
                     <span class="pcoded-micon"><i class="ti-gift"></i><b>EC</b></span>
                     <span class="pcoded-mtext">Extra</span>

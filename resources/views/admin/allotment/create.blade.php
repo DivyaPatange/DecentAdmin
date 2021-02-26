@@ -31,8 +31,8 @@
                             <div class="form-group form-default">
                                 <select name="classes" class="form-control" id="classes">
                                     <option value="">-Select Class-</option>
-                                    @foreach($classes as $c)
-                                    <option value="{{ $c->class }}">{{ $c->class }}</option>
+                                    @foreach($standards as $s)
+                                    <option value="{{ $s->standard }}">{{ $s->standard }}</option>
                                     @endforeach
                                 </select>
                                 <span class="form-bar"></span>

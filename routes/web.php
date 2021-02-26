@@ -13,6 +13,8 @@ use App\Http\Controllers\Admin\FeeController;
 use App\Http\Controllers\Admin\PayController;
 use App\Http\Controllers\Admin\AllotmentController;
 use App\Http\Controllers\Admin\VisitorController;
+use App\Http\Controllers\Admin\InwardController;
+use App\Http\Controllers\Admin\OutwardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -94,6 +96,7 @@ Route::prefix('admin')->name('admin.')->group(function() {
     Route::resource('/payment', PayController::class);
     Route::post('/get-payment', [PayController::class, 'getPayment'])->name('get.payment');
     Route::get('/receipt/{id}', [PayController::class, 'receipt']);
+    Route::post('/receipt/save', [PayController::class, 'receiptSave'])->name('receipt.save');
     Route::get('/demo', function(){
         return view('admin.payment.demo');
     });
@@ -105,4 +108,14 @@ Route::prefix('admin')->name('admin.')->group(function() {
     Route::resource('/visitor', VisitorController::class);
     Route::post('/get-visitor', [VisitorController::class, 'getVisitor'])->name('get.visitor');
     Route::post('/visitor/update', [VisitorController::class, 'updateVisitor']);
+
+    // Inward Document Management Route
+    Route::resource('/inward', InwardController::class);
+    Route::post('/get-inward', [InwardController::class, 'getInward'])->name('get.inward');
+    Route::post('/inward/update', [InwardController::class, 'updateInward']);
+
+    // Outward Document Management Route
+    Route::resource('/outward', OutwardController::class);
+    Route::post('/get-outward', [OutwardController::class, 'getOutward'])->name('get.outward');
+    Route::post('/outward/update', [OutwardController::class, 'updateOutward']);
 });

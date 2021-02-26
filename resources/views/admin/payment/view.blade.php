@@ -129,7 +129,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="hidden" name="id" id="id" value="">
-                        <button class="btn btn-sm waves-effect waves-light hor-grd btn-grd-primary" type="button" id="editButton" onclick="return checkSubmit()">Update</button>
+                        <button class="btn btn-sm waves-effect waves-light hor-grd btn-grd-primary" type="button" id="editButton" onclick="return checkSubmit()">Pay</button>
                         <button type="button" class="btn btn-sm waves-effect waves-light hor-grd btn-grd-danger md-close">Close</button>
                     </div>
                 </div>
@@ -152,6 +152,7 @@
                     <table id="simpletable" class="table table-striped table-bordered nowrap">
                         <thead>
                             <tr>
+                                <th>Fee Head</th>
                                 <th>Payment Amount</th>
                                 <th>Payment Date</th>
                                 <th>Next Due Date</th>
@@ -192,6 +193,7 @@ $('#simpletable').DataTable({
     type: 'GET',
     },
     columns: [
+            { data: 'fee_head', name: 'fee_head' },
             { data: 'payment_amount', name: 'payment_amount' },
             { data: 'payment_date', name: 'payment_date' },
             { data: 'due_date', name: 'due_date' },

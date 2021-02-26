@@ -11,6 +11,11 @@
 <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+<style>
+    .hidden{
+        display:none;
+    }
+</style>
 @endsection
 @section('content')
 <div class="row">
@@ -78,15 +83,15 @@
                                         </div>
                                         <div class="form-group row">
                                             <div class="col-sm-4">
-                                                <label for="mobile_no" class="block">Mobile No. <span style="color:red;">*</span><span  style="color:red" id="mobile_err"> </span></label>
-                                                <input id="mobile_no" name="mobile_no" type="number" class="required form-control @error('mobile_no') is-invalid @enderror" value="{{ $admission->mobile_no }}">
+                                                <label for="mobile_no" class="block">Mobile No. <span  style="color:red" id="mobile_err"> </span></label>
+                                                <input id="mobile_no" name="mobile_no" type="number" class="form-control @error('mobile_no') is-invalid @enderror" value="{{ $admission->mobile_no }}">
                                             </div>
                                             <div class="col-sm-4">
-                                                <label for="adhaar_no" class="block">Adhaar No. <span style="color:red;">*</span><span  style="color:red" id="adhaar_err"> </span></label>
-                                                <input id="adhaar_no" name="adhaar_no" type="number" class="required form-control @error('adhaar_no') is-invalid @enderror" value="{{ $admission->adhaar_no }}">
+                                                <label for="adhaar_no" class="block">Adhaar No. <span  style="color:red" id="adhaar_err"> </span></label>
+                                                <input id="adhaar_no" name="adhaar_no" type="number" class="form-control @error('adhaar_no') is-invalid @enderror" value="{{ $admission->adhaar_no }}">
                                             </div>
                                             <div class="col-sm-4">
-                                                <label for="id_no" class="block">ID No. <span style="color:red;">*</span><span  style="color:red" id="id_err"> </span></label>
+                                                <label for="id_no" class="block">ID No. <span  style="color:red" id="id_err"> </span></label>
                                                 <input id="id_no" name="id_no" type="text" class="form-control @error('id_no') is-invalid @enderror" value="{{ $admission->id_no }}">
                                             </div>
                                         </div>
@@ -181,6 +186,7 @@
                                                 </select>
                                             </div>
                                         </div>
+                                        @if($admission->board == "Other")
                                         <div class="form-group row">
                                             <div class="col-sm-4">
                                                 <label for="other_board" class="block">Other Board</label>
@@ -189,6 +195,18 @@
                                             <input id="other_board" name="other_board" type="text" class="form-control required" value="{{ $admission->other_board }}">
                                             </div>
                                         </div>
+                                        @else
+                                        <div id="showDiv" class="hidden">
+                                            <div class="form-group row">
+                                            <div class="col-sm-4">
+                                                <label for="other_board" class="block">Other Board</label>
+                                            </div>
+                                            <div class="col-sm-8">
+                                            <input id="other_board" name="other_board" type="text" class="form-control required" value="{{ $admission->other_board }}">
+                                            </div>
+                                        </div>
+                                        </div>
+                                        @endif
                                     </fieldset>
                                     <h3></h3>
                                     <fieldset>
@@ -269,6 +287,16 @@
 <!-- Switch component js -->
 <script type="text/javascript" src="{{ asset('files/bower_components/switchery/js/switchery.min.js') }}"></script>
 <script>
+$('body').on('change', '#board', function() {
+  var board = $(this).val();
+  if(board == "Other")
+  {
+      $('#showDiv').show();
+  }
+  else{
+    $('#showDiv').hide();
+  }
+});
 $('body').on('click', 'a[href^="#finish"]', function () {
     $("#design-wizard").submit();
     // var admission_reg_no = $("#admission_reg_no").val();

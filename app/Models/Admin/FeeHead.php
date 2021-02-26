@@ -15,4 +15,8 @@ class FeeHead extends Model
     public function fees(){
         return $this->hasMany('App\Models\Admin\Fee','fee_head_id', 'id');
     }
+    
+    public function pay_fees(){
+        return $this->hasMany('App\Models\Admin\Pay','fee_id', 'id');
+    }
 }

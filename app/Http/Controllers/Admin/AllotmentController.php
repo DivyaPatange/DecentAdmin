@@ -9,6 +9,7 @@ use App\Models\Admin\AcademicYear;
 use App\Models\Admin\JuniorAdmission;
 use App\Models\Admin\Allotment;
 use App\Models\Admin\AllotmentStudent;
+use App\Models\Admin\Standard;
 use DB;
 
 class AllotmentController extends Controller
@@ -65,8 +66,9 @@ class AllotmentController extends Controller
             ->make(true);
         }
         $classes = Classes::where('status', 1)->get();
+        $standards = Standard::where('status', 1)->get();
         $academicYear = AcademicYear::where('status', 1)->get();
-        return view('admin.allotment.create', compact('classes', 'academicYear'));
+        return view('admin.allotment.create', compact('classes', 'academicYear', 'standards'));
     }
 
     /**

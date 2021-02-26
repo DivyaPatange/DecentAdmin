@@ -372,38 +372,30 @@
 
                 </ul>-->
             </li>
-            <!--<li class="pcoded-hasmenu">
+            <li class="pcoded-hasmenu">
                 <a href="javascript:void(0)" class="waves-effect waves-dark">
                     <span class="pcoded-micon"><i class="ti-gift"></i><b>EC</b></span>
-                    <span class="pcoded-mtext">Extra</span>
+                    <span class="pcoded-mtext">Document Management</span>
                     <span class="pcoded-mcaret"></span>
                 </a>
                 <ul class="pcoded-submenu">
                     <li class=" ">
-                        <a href="session-timeout.html" class="waves-effect waves-dark">
+                        <a href="{{ route('admin.inward.index') }}" class="waves-effect waves-dark">
                             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                            <span class="pcoded-mtext">Session Timeout</span>
+                            <span class="pcoded-mtext">Inward</span>
                             <span class="pcoded-mcaret"></span>
                         </a>
                     </li>
                     <li class=" ">
-                        <a href="session-idle-timeout.html" class="waves-effect waves-dark">
+                        <a href="{{ route('admin.outward.index') }}" class="waves-effect waves-dark">
                             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                            <span class="pcoded-mtext">Session Idle Timeout</span>
+                            <span class="pcoded-mtext">Outward</span>
                             <span class="pcoded-mcaret"></span>
                         </a>
                     </li>
-                    <li class=" ">
-                        <a href="offline.html" class="waves-effect waves-dark">
-                            <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                            <span class="pcoded-mtext">Offline</span>
-                            <span class="pcoded-mcaret"></span>
-                        </a>
-                    </li>
-
                 </ul>
             </li>
-            <li class=" ">
+            <!--<li class=" ">
                 <a href="animation.html" class="waves-effect waves-dark">
                     <span class="pcoded-micon"><i class="ti-reload rotate-refresh"></i><b>A</b></span>
                     <span class="pcoded-mtext">Animations</span>

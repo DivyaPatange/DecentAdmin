@@ -1,7 +1,7 @@
 @extends('admin.admin_layout.main')
-@section('title', 'Visitor')
-@section('page_title', 'Visitor')
-@section('breadcrumb', 'Visitor')
+@section('title', 'Outward Document')
+@section('page_title', 'Outward Document')
+@section('breadcrumb', 'Outward Document')
 @section('customcss')
 
 <!-- Data Table Css -->
@@ -21,54 +21,38 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <h5>Add Visitor</h5>
+                <h5>Add Outward Document</h5>
                 <!--<span>Add class of <code>.form-control</code> with <code>&lt;input&gt;</code> tag</span>-->
             </div>
             <div class="card-block">
                 <form class="form-material" id="form-submit" method="POST">
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="form-group form-default">
-                                <input type="text" name="visitor_name" class="form-control" id="visitor_name">
+                                <input type="text" name="document_name" class="form-control" id="document_name">
                                 <span class="form-bar"></span>
-                                <label class="float-label">Name of Visitor<span style="color:red;">*</span><span  style="color:red" id="visitor_err"> </span></label>
+                                <label class="float-label">Document Name<span style="color:red;">*</span><span  style="color:red" id="document_err"> </span></label>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="form-group form-default">
-                                <input type="text" name="student_name" class="form-control" id="student_name">
+                                <input type="text" name="issued_to" class="form-control" id="issued_to">
                                 <span class="form-bar"></span>
-                                <label class="float-label">Student Name
-                                    <span style="color:red;">*</span><span  style="color:red" id="student_err"> </span>
-                                </label>
+                                <label class="float-label">Issued To<span style="color:red;">*</span><span  style="color:red" id="issued_err"> </span></label>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="form-group form-default">
-                                <input type="text" name="temp" class="form-control" id="temp">
+                                <input type="date" name="out_date" class="form-control" id="out_date">
                                 <span class="form-bar"></span>
-                                <label class="float-label">Temperature<span class="text-muted">(in &deg;C)</span><span style="color:red;">*</span><span  style="color:red" id="temp_err"> </span></label>
+                                <label class="float-label">Date<span style="color:red;">*</span><span  style="color:red" id="date_err"> </span></label>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="form-group form-default">
-                                <input type="number" name="phone_no" class="form-control" id="phone_no">
+                                <input type="text" name="message" class="form-control" id="message">
                                 <span class="form-bar"></span>
-                                <label class="float-label">Phone No.<span style="color:red;">*</span><span  style="color:red" id="phone_err"> </span></label>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group form-default">
-                                <input type="text" name="address" class="form-control" id="address">
-                                <span class="form-bar"></span>
-                                <label class="float-label">Address<span style="color:red;">*</span><span  style="color:red" id="address_err"> </span></label>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group form-default">
-                                <input type="text" name="purpose" class="form-control" id="purpose">
-                                <span class="form-bar"></span>
-                                <label class="float-label">Purpose<span style="color:red;">*</span><span  style="color:red" id="purpose_err"> </span></label>
+                                <label class="float-label">Message<span  style="color:red" id="message_err"> </span></label>
                             </div>
                         </div>
                         <div class="col-md-12">
@@ -86,20 +70,18 @@
         <!-- Zero config.table start -->
         <div class="card">
             <div class="card-header">
-                <h5>Visitor List</h5>
+                <h5>Outward Document List</h5>
             </div>
             <div class="card-block">
                 <div class="dt-responsive table-responsive">
                     <table id="simpletable" class="table table-striped table-bordered nowrap">
                         <thead>
                             <tr>
-                                <th>Visitor Name</th>
-                                <th>Student Name</th>
-                                <th>Temperature (in &deg;C)</th>
-                                <th>Phone No.</th>
-                                <th>Address</th>
-                                <th>Purpose</th>
-                                <th>Date/Time</th>
+                                <th>Sr. No.</th>
+                                <th>Document Name</th>
+                                <th>Issued To</th>
+                                <th>Date</th>
+                                <th>Message</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -107,13 +89,11 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <th>Visitor Name</th>
-                                <th>Student Name</th>
-                                <th>Temperature (in &deg;C)</th>
-                                <th>Phone No.</th>
-                                <th>Address</th>
-                                <th>Purpose</th>
-                                <th>Date/Time</th>
+                                <th>Sr. No.</th>
+                                <th>Document Name</th>
+                                <th>Issued To</th>
+                                <th>Date</th>
+                                <th>Message</th>
                                 <th>Action</th>
                             </tr>
                         </tfoot>
@@ -128,52 +108,36 @@
 <!-- Modal -->
 <div class="md-modal md-effect-8" id="modal-8">
     <div class="md-content">
-        <h3>Edit Visitor</h3>
+        <h3>Edit Outward Document</h3>
         <div>
             <form method="POST" id="editForm">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group form-default">
-                            <input type="text" name="visitor_name" class="form-control" id="edit_visitor_name" value="">
+                            <input type="text" name="document_name" class="form-control" id="edit_document_name" value="">
                             <span class="form-bar"></span>
-                            <label class="float-label">Name of Visitor<span style="color:red;">*</span><span  style="color:red" id="edit_visitor_err"> </span></label>
+                            <label class="float-label">Document Name<span style="color:red;">*</span><span  style="color:red" id="document_err"> </span></label>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group form-default">
-                            <input type="text" name="student_name" class="form-control" id="edit_student_name">
+                            <input type="text" name="issued_to" class="form-control" id="edit_issued_to" value="">
                             <span class="form-bar"></span>
-                            <label class="float-label">Student Name
-                                <span style="color:red;">*</span><span  style="color:red" id="edit_student_err"> </span>
-                            </label>
+                            <label class="float-label">Issued To<span style="color:red;">*</span><span  style="color:red" id="edit_issued_err"> </span></label>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group form-default">
-                            <input type="text" name="temp" class="form-control" id="edit_temp">
+                            <input type="date" name="out_date" class="form-control" id="edit_out_date" value="">
                             <span class="form-bar"></span>
-                            <label class="float-label">Temperature<span class="text-muted">(in &deg;C)</span><span style="color:red;">*</span><span  style="color:red" id="edit_temp_err"> </span></label>
+                            <label class="float-label">Date<span style="color:red;">*</span><span  style="color:red" id="edit_date_err"> </span></label>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group form-default">
-                            <input type="number" name="phone_no" class="form-control" id="edit_phone_no">
+                            <input type="text" name="message" class="form-control" id="edit_message" value="">
                             <span class="form-bar"></span>
-                            <label class="float-label">Phone No.<span style="color:red;">*</span><span  style="color:red" id="edit_phone_err"> </span></label>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group form-default">
-                            <input type="text" name="address" class="form-control" id="edit_address">
-                            <span class="form-bar"></span>
-                            <label class="float-label">Address<span style="color:red;">*</span><span  style="color:red" id="edit_address_err"> </span></label>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group form-default">
-                            <input type="text" name="purpose" class="form-control" id="edit_purpose">
-                            <span class="form-bar"></span>
-                            <label class="float-label">Purpose<span style="color:red;">*</span><span  style="color:red" id="edit_purpose_err"> </span></label>
+                            <label class="float-label">Message<span style="color:red;">*</span><span  style="color:red" id="edit_message_err"> </span></label>
                         </div>
                     </div>
                     <div class="col-md-12">
@@ -208,7 +172,7 @@
 
 
 <script>
-var SITEURL = '{{ route('admin.visitor.index')}}';
+var SITEURL = '{{ route('admin.outward.index')}}';
 $('#simpletable').DataTable({
     processing: true,
     serverSide: true,
@@ -217,13 +181,11 @@ $('#simpletable').DataTable({
     type: 'GET',
     },
     columns: [
-            { data: 'visitor_name', name: 'visitor_name' },
-            { data: 'student_name', name: 'student_name' },
-            { data: 'temp', name: 'temp' },
-            { data: 'phone_no', name: 'phone_no' },
-            { data: 'address', name: 'address' },
-            { data: 'purpose', name: 'purpose' },
-            { data: 'date_time', name: 'date_time' },
+            {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false,searchable: false},
+            { data: 'document_name', name: 'document_name' },
+            { data: 'issued_to', name: 'issued_to' },
+            { data: 'out_date', name: 'out_date' },
+            { data: 'message', name: 'message' },
             {data: 'action', name: 'action', orderable: false},
         ],
     order: [[0, 'desc']]
@@ -231,48 +193,39 @@ $('#simpletable').DataTable({
 
 
 $('body').on('click', '#submitForm', function () {
-    var visitor_name = $("#visitor_name").val();
-    var student_name = $("#student_name").val();
-    var temp = $("#temp").val();
-    var phone_no = $("#phone_no").val();
-    var address = $("#address").val();
-    var purpose = $("#purpose").val();
-    if (visitor_name=="") {
-        $("#visitor_err").fadeIn().html("Required");
-        setTimeout(function(){ $("#visitor_err").fadeOut(); }, 3000);
-        $("#visitor_name").focus();
+    var document_name = $("#document_name").val();
+    var issued_to = $("#issued_to").val();
+    var out_date = $("#out_date").val();
+    var message = $("#message").val();
+    if (document_name=="") {
+        $("#document_err").fadeIn().html("Required");
+        setTimeout(function(){ $("#document_err").fadeOut(); }, 3000);
+        $("#document_name").focus();
         return false;
     }
-    if (phone_no=="") {
-        $("#phone_err").fadeIn().html("Required");
-        setTimeout(function(){ $("#phone_err").fadeOut(); }, 3000);
-        $("#phone_no").focus();
+    if (issued_to=="") {
+        $("#issued_err").fadeIn().html("Required");
+        setTimeout(function(){ $("#issued_err").fadeOut(); }, 3000);
+        $("#issued_to").focus();
         return false;
     }
-    if (address=="") {
-        $("#address_err").fadeIn().html("Required");
-        setTimeout(function(){ $("#address_err").fadeOut(); }, 3000);
-        $("#address").focus();
-        return false;
-    }
-    if (purpose=="") {
-        $("#purpose_err").fadeIn().html("Required");
-        setTimeout(function(){ $("#purpose_err").fadeOut(); }, 3000);
-        $("#purpose").focus();
+    if (out_date=="") {
+        $("#date_err").fadeIn().html("Required");
+        setTimeout(function(){ $("#date_err").fadeOut(); }, 3000);
+        $("#out_date").focus();
         return false;
     }
     else
     { 
-        var datastring="visitor_name="+visitor_name+"&student_name="+student_name+"&temp="+temp+"&phone_no="+phone_no+"&address="+address+"&purpose="+purpose;
+        var datastring="document_name="+document_name+"&issued_to="+issued_to+"&out_date="+out_date+"&message="+message;
         // alert(datastring);
         $.ajax({
             type:"POST",
-            url:"{{ route('admin.visitor.store') }}",
+            url:"{{ route('admin.outward.store') }}",
             data:datastring,
             cache:false,        
             success:function(returndata)
             {
-                console.log(returndata);
                 document.getElementById("form-submit").reset();
                 var oTable = $('#simpletable').dataTable(); 
                 oTable.fnDraw(false);
@@ -291,7 +244,7 @@ function EditModel(obj,bid)
     // alert(datastring);
     $.ajax({
         type:"POST",
-        url:"{{ route('admin.get.visitor') }}",
+        url:"{{ route('admin.get.outward') }}",
         data:datastring,
         cache:false,        
         success:function(returndata)
@@ -301,12 +254,10 @@ function EditModel(obj,bid)
             $("#modal-8").addClass("md-show");
             var json = JSON.parse(returndata);
             $("#id").val(json.id);
-            $("#edit_visitor_name").val(json.visitor_name);
-            $("#edit_student_name").val(json.student_name);
-            $("#edit_temp").val(json.temp);
-            $("#edit_phone_no").val(json.phone_no);
-            $("#edit_address").val(json.address);
-            $("#edit_purpose").val(json.purpose);
+            $("#edit_document_name").val(json.document_name);
+            $("#edit_issued_to").val(json.issued_to);
+            $("#edit_out_date").val(json.out_date);
+            $("#edit_message").val(json.message);
         }
         }
     });
@@ -314,45 +265,37 @@ function EditModel(obj,bid)
 
 function checkSubmit()
 {
-    var visitor_name = $("#edit_visitor_name").val();
-    var student_name = $("#edit_student_name").val();
-    var temp = $("#edit_temp").val();
-    var phone_no = $("#edit_phone_no").val();
-    var address = $("#edit_address").val();
-    var purpose = $("#edit_purpose").val();
+    var document_name = $("#edit_document_name").val();
+    var issued_to = $("#edit_issued_to").val();
+    var out_date = $("#edit_out_date").val();
+    var message = $("#edit_message").val();
     var id = $("#id").val().trim();
-    if (visitor_name=="") {
-        $("#edit_visitor_err").fadeIn().html("Required");
-        setTimeout(function(){ $("#edit_visitor_err").fadeOut(); }, 3000);
-        $("#edit_visitor_name").focus();
+    if (document_name=="") {
+        $("#edit_document_err").fadeIn().html("Required");
+        setTimeout(function(){ $("#edit_document_err").fadeOut(); }, 3000);
+        $("#edit_document_name").focus();
         return false;
     }
-    if (phone_no=="") {
-        $("#edit_phone_err").fadeIn().html("Required");
-        setTimeout(function(){ $("#edit_phone_err").fadeOut(); }, 3000);
-        $("#edit_phone_no").focus();
+    if (issued_to=="") {
+        $("#edit_issued_err").fadeIn().html("Required");
+        setTimeout(function(){ $("#edit_issued_err").fadeOut(); }, 3000);
+        $("#edit_issued_to").focus();
         return false;
     }
-    if (address=="") {
-        $("#edit_address_err").fadeIn().html("Required");
-        setTimeout(function(){ $("#edit_address_err").fadeOut(); }, 3000);
-        $("#edit_address").focus();
-        return false;
-    }
-    if (purpose=="") {
-        $("#edit_purpose_err").fadeIn().html("Required");
-        setTimeout(function(){ $("#edit_purpose_err").fadeOut(); }, 3000);
-        $("#edit_purpose").focus();
+    if (out_date=="") {
+        $("#edit_date_err").fadeIn().html("Required");
+        setTimeout(function(){ $("#edit_date_err").fadeOut(); }, 3000);
+        $("#edit_out_date").focus();
         return false;
     }
     else
     { 
         $('#editButton').attr('disabled',true);
-        var datastring="visitor_name="+visitor_name+"&student_name="+student_name+"&temp="+temp+"&phone_no="+phone_no+"&address="+address+"&purpose="+purpose+"&id="+id;
+        var datastring="document_name="+document_name+"&issued_to="+issued_to+"&id="+id+"&out_date="+out_date+"&message="+message;
         // alert(datastring);
         $.ajax({
             type:"POST",
-            url:"{{ url('/admin/visitor/update') }}",
+            url:"{{ url('/admin/outward/update') }}",
             data:datastring,
             cache:false,        
             success:function(returndata)
@@ -376,7 +319,7 @@ $('body').on('click', '#delete', function () {
     if(confirm("Are You sure want to delete !")){
         $.ajax({
             type: "delete",
-            url: "{{ url('admin/visitor') }}"+'/'+id,
+            url: "{{ url('admin/outward') }}"+'/'+id,
             success: function (data) {
             var oTable = $('#simpletable').dataTable(); 
             oTable.fnDraw(false);

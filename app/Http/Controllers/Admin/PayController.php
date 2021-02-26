@@ -91,12 +91,18 @@ class PayController extends Controller
         $paymentLogs = Pay::where('admission_id', $admission->id)->get();
         if(request()->ajax()) {
             return datatables()->of($paymentLogs)
+            ->addColumn('fee_head', function(Pay $pay){
+               if(!empty($pay->fee_head->fee_head))
+               {
+                   return $pay->fee_head->fee_head;
+               }
+            })
             ->addColumn('action', function($paymentLogs){
                 $button = '<button data-id="'.$paymentLogs->id.'" id="receipt" class="btn waves-effect waves-dark btn-warning btn-outline-warning btn-icon">
                 <i class="icofont icofont-file-alt mr-0"></i>
               </button>';
             return $button;
-        })
+            })
             ->rawColumns(['action'])
             ->addIndexColumn()
             ->make(true);
@@ -160,5 +166,14 @@ class PayController extends Controller
         $admission = JuniorAdmission::where('id', $payment->admission_id)->first();
         // dd($admission);
         return view('admin.payment.receipt', compact('admission', 'payment'));
+    }
+
+    public function receiptSave(Request $request)
+    {
+        $payment = Pay::where('id', $request->id)->first();
+        $payment->pay_by = $request->pay_by;
+        $payment->pay_by_no = $request->pay_by_no;
+        $payment->pay_by_date = $request->pay_date;
+        $payment->update($request->all());
     }
 }

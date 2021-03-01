@@ -111,11 +111,11 @@
 			<p>Email: <label id="highlight"> dehs.abid@yahoo.com</label></p>
 		</div>
 		<div class="content">
-			<p>Sr. No.: <span class="text-danger">{{ $leavingCertificate->certificate_no }}</span></p>
+			<p>Sr. No.: <span class="text-danger">@if(!empty($leavingCertificate)) {{ $leavingCertificate->certificate_no }} @endif</span></p>
 		</div>
 		<div class="clear"></div>
 		<div class="belowContent">
-			<p>General Reg.No.: <input type="text" name="gen_reg_no" value="{{ $leavingCertificate->general_reg_no }}"> College Recognisation No.:<span id="highlight"> HSC/1708/(183/08)</span> अ /उमाशि-1 दि.10 जुलै 2008 <br>
+			<p>General Reg.No.: <input type="text" name="gen_reg_no" value="@if(!empty($leavingCertificate)) {{ $leavingCertificate->general_reg_no }} @endif"> College Recognisation No.:<span id="highlight"> HSC/1708/(183/08)</span> अ /उमाशि-1 दि.10 जुलै 2008 <br>
 				<div class="below">
 					Medium: <span id="highlight">English</span>
 					</div>
@@ -159,7 +159,7 @@
 			<input type="text" name="" readonly value="{{ $admission->religion }}">
 
 			<label>Mother Tongue:</label>
-			<input type="text" name="mother_tongue" @if($leavingCertificate->mother_tongue != "") readonly @endif value="{{ $leavingCertificate->mother_tongue }}">
+			<input type="text" name="mother_tongue" @if(!empty($leavingCertificate)) @if($leavingCertificate->mother_tongue != "") readonly @endif @endif value="@if(!empty($leavingCertificate)) {{ $leavingCertificate->mother_tongue }} @endif">
 
 			<label>Caste:</label>
 			<input type="text" name="" readonly value="{{ $admission->caste }}">
@@ -168,19 +168,19 @@
 			<input type="text" name="" readonly value="{{ $admission->sub_caste }}">
 
 			<label>Birth place(Town/City):</label>
-			<input type="text" name="birth_place" @if($leavingCertificate->birth_place != "") readonly @endif value="{{ $leavingCertificate->birth_place }}">
+			<input type="text" name="birth_place" @if(!empty($leavingCertificate)) @if($leavingCertificate->birth_place != "") readonly @endif @endif value="@if(!empty($leavingCertificate)){{ $leavingCertificate->birth_place }}@endif">
 
 			<label>Taluka:</label>
-			<input type="text" name="taluka" style="width: 15%;" @if($leavingCertificate->taluka != "") readonly @endif value="{{ $leavingCertificate->taluka }}">
+			<input type="text" name="taluka" style="width: 15%;" @if(!empty($leavingCertificate)) @if($leavingCertificate->taluka != "") readonly @endif @endif value="@if(!empty($leavingCertificate)) {{ $leavingCertificate->taluka }} @endif">
 
 			<label>District:</label>
-			<input type="text" name="district" @if($leavingCertificate->district != "") readonly @endif value="{{ $leavingCertificate->district }}">
+			<input type="text" name="district" @if(!empty($leavingCertificate)) @if($leavingCertificate->district != "") readonly @endif @endif value="@if(!empty($leavingCertificate)) {{ $leavingCertificate->district }} @endif">
 
 			<label>State:</label>
-			<input type="text" name="state" @if($leavingCertificate->state != "") readonly @endif value="{{ $leavingCertificate->state }}">
+			<input type="text" name="state" @if(!empty($leavingCertificate)) @if($leavingCertificate->state != "") readonly @endif @endif value="@if(!empty($leavingCertificate)) {{ $leavingCertificate->state }} @endif">
 
 			<label>Country:</label>
-			<input type="text" name="country" @if($leavingCertificate->country != "") readonly @endif value="{{ $leavingCertificate->country }}">
+			<input type="text" name="country" @if(!empty($leavingCertificate)) @if($leavingCertificate->country != "") readonly @endif @endif value="@if(!empty($leavingCertificate)){{ $leavingCertificate->country }}@endif">
 
 			<label>Date of Birth:</label>
 			<input type="date" name="" readonly value="{{ $admission->date_of_birth }}">
@@ -202,33 +202,39 @@
 			<input type="text" name="" style="width: 20%;" readonly value="{{ $admission->adm_sought }}">
 
 			<label>Academic Progress:</label>
-			<input type="text" name="academic_progress" @if($leavingCertificate->academic_progress != "") readonly @endif value="{{ $leavingCertificate->academic_progress }}">
+			<input type="text" name="academic_progress" @if(!empty($leavingCertificate)) @if($leavingCertificate->academic_progress != "") readonly @endif @endif value="@if(!empty($leavingCertificate)) {{ $leavingCertificate->academic_progress }} @endif">
 
 			<label>Conduct:</label>
-			<input type="text" name="conduct" style="width: 10%;" @if($leavingCertificate->conduct != "") readonly @endif value="{{ $leavingCertificate->conduct }}">
+			<input type="text" name="conduct" style="width: 10%;" @if(!empty($leavingCertificate)) @if($leavingCertificate->conduct != "") readonly @endif @endif value="@if(!empty($leavingCertificate)){{ $leavingCertificate->conduct }}@endif">
 
 			<label>Date of leaving the college:</label>
-			<input type="date" name="leaving_date" style="width: 20%;" @if($leavingCertificate->leaving_date != "") readonly @endif value="{{ $leavingCertificate->leaving_date }}">
+			<input type="date" name="leaving_date" style="width: 20%;" @if(!empty($leavingCertificate)) @if($leavingCertificate->leaving_date != "") readonly @endif @endif value="@if(!empty($leavingCertificate)){{ $leavingCertificate->leaving_date }}@endif">
 
 			<label>In which college studying and since when (In words and figure):</label>
-			<input type="text" name="college_studying" style="width: 100%;" @if($leavingCertificate->college_studying != "") readonly @endif value="{{ $leavingCertificate->college_studying }}">
+			<input type="text" name="college_studying" style="width: 100%;" @if(!empty($leavingCertificate)) @if($leavingCertificate->college_studying != "") readonly @endif @endif value="@if(!empty($leavingCertificate)){{ $leavingCertificate->college_studying }}@endif">
 
 			<label>Reason for leaving the college:</label>
-			<input type="text" name="leaving_reason" style="width: 100%;" @if($leavingCertificate->leaving_reason != "") readonly @endif value="{{ $leavingCertificate->leaving_reason }}">
+			<input type="text" name="leaving_reason" style="width: 100%;" @if(!empty($leavingCertificate)) @if($leavingCertificate->leaving_reason != "") readonly @endif @endif value="@if(!empty($leavingCertificate)){{ $leavingCertificate->leaving_reason }}@endif">
 
 			<label>Remarks:</label>
-			<input type="text" name="remarks" style="width: 93%;" @if($leavingCertificate->remarks != "") readonly @endif value="{{ $leavingCertificate->remarks }}">
+			<input type="text" name="remarks" style="width: 93%;" @if(!empty($leavingCertificate)) @if($leavingCertificate->remarks != "") readonly @endif @endif value="@if(!empty($leavingCertificate)){{ $leavingCertificate->remarks }}@endif">
 
 			<p>Certificate is issued according to the information given in General Register No.1 .</p>
-			
+			<?php 
+				if(!empty($leavingCertificate))
+				{
+					$orderdate = explode('-', $leavingCertificate->date_present);
+					// dd($orderdate);
+				}
+			?>
 			<label>Date:</label>
-			<input type="" name="day" @if($leavingCertificate->mother_tongue != "") readonly @endif value="{{ $leavingCertificate->mother_tongue }}">
+			<input type="" name="day" @if(!empty($leavingCertificate)) @if($orderdate[2] != "") readonly @endif @endif value="@if(!empty($leavingCertificate)) {{ $orderdate[2] }}@endif">
 
 			<label>Month:</label>
-			<input type="" name="month" @if($leavingCertificate->mother_tongue != "") readonly @endif value="{{ $leavingCertificate->mother_tongue }}">
+			<input type="" name="month" @if(!empty($leavingCertificate)) @if($orderdate[1] != "") readonly @endif @endif value="@if(!empty($leavingCertificate)){{ $orderdate[1] }}@endif">
 
 			<label>Year:</label>
-			<input type="" name="year" @if($leavingCertificate->mother_tongue != "") readonly @endif value="{{ $leavingCertificate->mother_tongue }}">
+			<input type="" name="year" @if(!empty($leavingCertificate)) @if($orderdate[0] != "") readonly @endif @endif value="@if(!empty($leavingCertificate)){{ $orderdate[0] }}@endif">
 
 		</div>
 

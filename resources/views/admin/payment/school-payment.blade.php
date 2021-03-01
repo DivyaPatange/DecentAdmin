@@ -21,7 +21,7 @@
         <!-- Panel card start -->
         <div class="card">
             <div class="card-header">
-                <h5>Payment Details ({{ $admission->student_name }})</h5>
+                <h5>Payment Details ({{ $admission->full_name_pupil }})</h5>
                 <button class="btn btn-info btn-sm waves-effect waves-light float-right" onclick="Pay(this, {{ $admission->id }})">Pay Balance Amount</button>
             </div>
             <div class="card-block panels-wells">
@@ -129,7 +129,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="hidden" name="id" id="id" value="">
-                        <input type="hidden" name="adm_sought" value="{{ $admission->adm_sought }}">
+                        <input type="hidden" name="adm_sought" value="{{ $admission->adm_sought }}" id="adm_sought">
                         <button class="btn btn-sm waves-effect waves-light hor-grd btn-grd-primary" type="button" id="editButton" onclick="return checkSubmit()">Pay</button>
                         <button type="button" class="btn btn-sm waves-effect waves-light hor-grd btn-grd-danger md-close">Close</button>
                     </div>
@@ -185,7 +185,7 @@
 <!-- Custom js -->
 <script src="{{ asset('files/assets/pages/data-table/js/data-table-custom.js') }}"></script>
 <script>
-var SITEURL = '{{ route('admin.payment.show', $admission->id)}}';
+var SITEURL = '{{ url('admin/school-payment', $admission->id)}}';
 $('#simpletable').DataTable({
     processing: true,
     serverSide: true,
@@ -210,7 +210,7 @@ function Pay(obj,bid)
     // alert(datastring);
     $.ajax({
         type:"POST",
-        url:"{{ route('admin.get.payment') }}",
+        url:"{{ route('admin.get.school-payment') }}",
         data:datastring,
         cache:false,        
         success:function(returndata)
@@ -239,6 +239,7 @@ function checkSubmit()
     var due_date = $("#due_date").val();
     var fee_head = $("#fee_head").val();
     var id = $("#id").val().trim();
+    var adm_sought = $("#adm_sought").val();
     if (pay_amt=="") {
         $("#pay_amt_err").fadeIn().html("Required");
         setTimeout(function(){ $("#pay_amt_err").fadeOut(); }, 3000);
@@ -270,7 +271,7 @@ function checkSubmit()
     else
     { 
         $('#editButton').attr('disabled',true);
-        var datastring="pay_amt="+pay_amt+"&pay_date="+pay_date+"&id="+id+"&due_date="+due_date+"&fee_head="+fee_head;
+        var datastring="pay_amt="+pay_amt+"&pay_date="+pay_date+"&id="+id+"&due_date="+due_date+"&fee_head="+fee_head+"&adm_sought="+adm_sought;
         // alert(datastring);
         $.ajax({
             type:"POST",
@@ -283,7 +284,7 @@ function checkSubmit()
             $("#modal-8").removeClass("md-show");
             toastr.success(returndata.success);
             
-            location.reload();
+            $("body").load("{{ url('admin/school-payment', $admission->id) }}");
             // $("#pay").val("");
             }
         });

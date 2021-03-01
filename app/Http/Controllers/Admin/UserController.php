@@ -21,6 +21,13 @@ class UserController extends Controller
     public function index()
     {
         $users = Admin::where('acc_type', '=', 'admin')->get();
+        if(request()->ajax()) {
+            return datatables()->of($users)
+            ->addColumn('action', 'admin.user.action')
+            ->rawColumns(['action'])
+            ->addIndexColumn()
+            ->make(true);
+        }
         return view('admin.user.index', compact('users'));
     }
 
@@ -77,7 +84,8 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = Admin::findorfail($id);
+        return view('admin.user.edit', compact('user'));
     }
 
     /**
@@ -89,7 +97,19 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $admin = Admin::findorfail($id);
+        $request->validate([
+            'name' => 'required',
+            'email' => 'unique:admins,email,'.$id,
+            'role_access' => 'required',
+        ]);
+        $input_data = array (
+            'name' => $request->name,
+            'email' => $request->email,
+            'role_access' => implode(",",$request->role_access), 
+        );
+        Admin::whereId($id)->update($input_data);
+        return redirect('/admin/users')->with('success', 'User Updated Successfully!');
     }
 
     /**
@@ -100,6 +120,8 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $admin = Admin::findorfail($id);
+        $admin->delete();
+        return response()->json(['success' => 'User Deleted Successfully']);
     }
 }

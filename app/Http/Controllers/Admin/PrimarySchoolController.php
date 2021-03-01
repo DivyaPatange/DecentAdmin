@@ -120,7 +120,11 @@ class PrimarySchoolController extends Controller
      */
     public function edit($id)
     {
-        //
+        $academicYear = AcademicYear::all();
+        $standards = Standard::where('class_code', '<=', 10)->get();
+        $admission = PrimarySchool::findorfail($id);
+        // dd($standards);
+        return view('admin.primary-admission.edit', compact('standards', 'academicYear', 'admission'));
     }
 
     /**
@@ -132,7 +136,46 @@ class PrimarySchoolController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $admission = PrimarySchool::findorfail($id);
+        $input_data = array (
+            'gr_no' => $request->gr_no,
+            'academic_id' => $request->academic_session,
+            'admission_date' => date("Y-m-d", strtotime($request->adm_date)),
+            'full_name_pupil' => $request->full_name_pupil,
+            'surname' => $request->surname,
+            'father_name' => $request->father_name,
+            'mother_name' => $request->mother_name,
+            'postal_address' => $request->postal_address,
+            'occupation' => $request->occupation,
+            'phone_no' => $request->phone_no,
+            'race_caste' => $request->race_caste,
+            'monthly_income' => $request->monthly_income,
+            'dob' => date("Y-m-d", strtotime($request->dob)),
+            'birth_place' => $request->birth_place,
+            'nationality' => $request->nationality,
+            'last_school_attended' => $request->last_school_attended,
+            'last_exam_passed' => $request->last_exam_passed,
+            'adm_sought' => $request->adm_sought,
+            'medium' => $request->medium,
+            'rte' => $request->rte,
+            'father_name1' => $request->father_name1,
+            'f_occupation' => $request->f_occupation,
+            'f_education' => $request->f_education,
+            'f_address' => $request->f_address,
+            'f_phone_no' => $request->f_phone_no,
+            'mother_name1' => $request->mother_name1,
+            'm_occupation' => $request->m_occupation,
+            'm_education' => $request->m_education,
+            'm_address' => $request->m_address,
+            'm_phone_no' => $request->m_phone_no,
+            'guardian_name' => $request->guardian_name,
+            'g_occupation' => $request->g_occupation,
+            'g_education' => $request->g_education,
+            'g_address' => $request->g_address,
+            'g_phone_no' => $request->g_phone_no,
+        );
+        PrimarySchool::whereId($id)->update($input_data);
+        return redirect('/admin/primary-school')->with('success', 'Admission Updated Successfully!');
     }
 
     /**

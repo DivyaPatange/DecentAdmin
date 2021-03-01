@@ -1,7 +1,7 @@
 @extends('admin.admin_layout.main')
-@section('title', 'Payment')
-@section('page_title', 'Payment')
-@section('breadcrumb', 'Payment')
+@section('title', 'User List')
+@section('page_title', 'User List')
+@section('breadcrumb', 'User List')
 @section('customcss')
 
 <!-- Data Table Css -->
@@ -18,11 +18,27 @@
 @endsection
 @section('content')
 <div class="row">
+    <div class="col-md-12">
+        @if ($message = Session::get('success'))
+		<div class="alert alert-success alert-block mt-3">
+			<button type="button" class="close" data-dismiss="alert">×</button>	
+				<strong><i class="fa fa-check text-white">&nbsp;</i>{{ $message }}</strong>
+		</div>
+		@endif
+		@if ($message = Session::get('danger'))
+		<div class="alert alert-danger alert-block mt-3">
+			<button type="button" class="close" data-dismiss="alert">×</button>	
+				<strong>{{ $message }}</strong>
+		</div>
+		@endif
+    </div>
+</div>
+<div class="row">
     <div class="col-sm-12">
         <!-- Zero config.table start -->
         <div class="card">
             <div class="card-header">
-                <h5>Junior College Admission List</h5>
+                <h5>User List</h5>
             </div>
             <div class="card-block">
                 <div class="dt-responsive table-responsive">
@@ -30,10 +46,9 @@
                         <thead>
                             <tr>
                                 <th>Sr. No.</th>
-                                <th>Student Name</th>
-                                <th>Class</th>
-                                <th>Academic Session</th>
-                                <th>Mobile No.</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Role Access</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -42,47 +57,9 @@
                         <tfoot>
                             <tr>
                                 <th>Sr. No.</th>
-                                <th>Student Name</th>
-                                <th>Class</th>
-                                <th>Academic Session</th>
-                                <th>Mobile No.</th>
-                                <th>Action</th>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <!-- Zero config.table end -->
-    </div>
-    <div class="col-sm-12">
-        <!-- Zero config.table start -->
-        <div class="card">
-            <div class="card-header">
-                <h5>Primary School Admission List</h5>
-            </div>
-            <div class="card-block">
-                <div class="dt-responsive table-responsive">
-                    <table id="simpletable1" class="table table-striped table-bordered nowrap">
-                        <thead>
-                            <tr>
-                                <th>Sr. No.</th>
-                                <th>Student Name</th>
-                                <th>Class</th>
-                                <th>Academic Session</th>
-                                <th>Mobile No.</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <th>Sr. No.</th>
-                                <th>Student Name</th>
-                                <th>Class</th>
-                                <th>Academic Session</th>
-                                <th>Mobile No.</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Role Access</th>
                                 <th>Action</th>
                             </tr>
                         </tfoot>
@@ -113,7 +90,7 @@
 
 
 <script>
-var SITEURL = '{{ route('admin.payment.index')}}';
+var SITEURL = '{{ route('admin.users.index')}}';
 $('#simpletable').DataTable({
     processing: true,
     serverSide: true,
@@ -123,39 +100,35 @@ $('#simpletable').DataTable({
     },
     columns: [
             {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false,searchable: false},
-            { data: 'student_name', name: 'student_name' },
-            { data: 'adm_sought', name: 'adm_sought' },
-            { data: 'academic_id', name: 'academic_id' },
-            { data: 'mobile_no', name: 'mobile_no' },
+            { data: 'name', name: 'name' },
+            { data: 'email', name: 'email' },
+            { data: 'role_access', name: 'role_access' },
             {data: 'action', name: 'action', orderable: false},
         ],
     order: [[0, 'desc']]
 });
-$('#simpletable1').DataTable({
-    processing: true,
-    serverSide: true,
-    ajax: {
-    url: '{{ route('admin.primary-school-list') }}',
-    type: 'GET',
-    },
-    columns: [
-            {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false,searchable: false},
-            { data: 'full_name_pupil', name: 'full_name_pupil' },
-            { data: 'adm_sought', name: 'adm_sought' },
-            { data: 'academic_id', name: 'academic_id' },
-            { data: 'phone_no', name: 'phone_no' },
-            {data: 'action', name: 'action', orderable: false},
-        ],
-    order: [[0, 'desc']]
-});
-$('body').on('click', '#payment', function () {
+
+
+
+$('body').on('click', '#delete', function () {
     var id = $(this).data("id");
-    window.location.href="/admin/payment/"+id
+
+    if(confirm("Are You sure want to delete !")){
+        $.ajax({
+            type: "delete",
+            url: "{{ url('admin/users') }}"+'/'+id,
+            success: function (data) {
+            var oTable = $('#simpletable').dataTable(); 
+            oTable.fnDraw(false);
+            toastr.success(data.success);
+            },
+            error: function (data) {
+                console.log('Error:', data);
+            }
+        });
+    }
 });
-$('body').on('click', '#payment1', function () {
-    var id = $(this).data("id");
-    window.location.href="/admin/school-payment/"+id
-});
+
 </script>
 
 @endsection

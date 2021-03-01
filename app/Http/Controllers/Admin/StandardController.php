@@ -116,7 +116,7 @@ class StandardController extends Controller
     {
         $standard = Standard::where('id', $request->id)->first();
         $input_data = array (
-            'standard' => $request->standard,
+            'standard' => strtoupper($request->standard),
             'status' => $request->status,
         );
 

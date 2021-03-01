@@ -31,6 +31,21 @@
 </div>
 <div class="row">
     <div class="col-sm-12">
+        <div class="card">
+            <div class="row">
+                <div class="col-md-3">
+                    <img src="{{ asset('border.png') }}" alt="" class="img-fluid">
+                </div>
+                <div class="col-md-9">
+                    <h1 class="text-uppercase">Decent Junior College of Science and arts</h1>
+                    <h5>(Behind Sadar Police Station, Civil Lines, Sadar, Nagpur. Ph.2539148)</h5>
+                    <h3>Admission Form</h3>
+                    <h6>(General Science, Computer Science, Fisheries, IT)</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12">
         <!-- Zero config.table start -->
         <div class="card">
             <div class="card-header">

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Admin\Pay;
 use App\Models\Admin\JuniorAdmission;
+use App\Models\Admin\PrimarySchool;
 use DB;
 
 class PayController extends Controller
@@ -59,6 +60,7 @@ class PayController extends Controller
         // dd($paymentLogs);
         $payment = new Pay();
         $payment->admission_id = $request->id;
+        $payment->adm_sought = $request->adm_sought;
         $payment->fee_id = $request->fee_head;
         $payment->payment_amount = $request->pay_amt;
         $payment->payment_date = $request->pay_date;
@@ -87,8 +89,8 @@ class PayController extends Controller
         $fees = DB::table('fees')->where('class_id', $admission->adm_sought)->where('academic_id', $admission->academic_id)->get()->sum('amount');
         $feeHead = DB::table('fees')->where('class_id', $admission->adm_sought)->where('academic_id', $admission->academic_id)->get();
         // dd($fees);
-        $payment = Pay::where('admission_id', $admission->id)->get()->sum('payment_amount');
-        $paymentLogs = Pay::where('admission_id', $admission->id)->get();
+        $payment = Pay::where('admission_id', $admission->id)->where('adm_sought', $admission->adm_sought)->get()->sum('payment_amount');
+        $paymentLogs = Pay::where('admission_id', $admission->id)->where('adm_sought', $admission->adm_sought)->get();
         if(request()->ajax()) {
             return datatables()->of($paymentLogs)
             ->addColumn('fee_head', function(Pay $pay){
@@ -146,11 +148,11 @@ class PayController extends Controller
 
     public function getPayment(Request $request)
     {
-        $admission = JuniorAdmission::where('id', $request->bid)->first();
+        $admission = JuniorAdmission::where('id', $request->bid)->where('adm_sought', $request->adm_sought)->first();
         if (!empty($admission)) 
         {
             $totalPay = DB::table('fees')->where('class_id', $admission->adm_sought)->where('academic_id', $admission->academic_id)->get()->sum('amount');
-            $payment = Pay::where('admission_id', $admission->id)->get()->sum('payment_amount');
+            $payment = Pay::where('admission_id', $admission->id)->where('adm_sought', $admission->adm_sought)->get()->sum('payment_amount');
             $balAmt = $totalPay - $payment;
             $data = array('id' =>$admission->id,'amount_pay' =>$totalPay,'adv_amount'=>$payment,'bal_amount' =>$balAmt
             );
@@ -175,5 +177,68 @@ class PayController extends Controller
         $payment->pay_by_no = $request->pay_by_no;
         $payment->pay_by_date = $request->pay_date;
         $payment->update($request->all());
+    }
+
+    public function primarySchoolList(Request $request)
+    {
+        $admission = PrimarySchool::orderBy('id', 'DESC')->get();
+        if(request()->ajax()) {
+            return datatables()->of($admission)
+            ->addColumn('academic_id', function(PrimarySchool $prSchool){
+                if(!empty($prSchool->sessions->from_academic_year) && !empty($prSchool->sessions->to_academic_year)){
+                return '('.$prSchool->sessions->from_academic_year.') - ('.$prSchool->sessions->to_academic_year.')';
+                }
+            })
+            ->addColumn('action', 'admin.payment.prSchool')
+            ->rawColumns(['academic_id', 'action'])
+            ->addIndexColumn()
+            ->make(true);
+        }
+    }
+
+    public function getSchoolPayment($id)
+    {
+        $admission = PrimarySchool::findorfail($id);
+        // dd($admission);
+        $fees = DB::table('fees')->where('class_id', $admission->adm_sought)->where('academic_id', $admission->academic_id)->get()->sum('amount');
+        $feeHead = DB::table('fees')->where('class_id', $admission->adm_sought)->where('academic_id', $admission->academic_id)->get();
+        // dd($fees);
+        $payment = Pay::where('admission_id', $admission->id)->where('adm_sought', $admission->adm_sought)->get()->sum('payment_amount');
+        $paymentLogs = Pay::where('admission_id', $admission->id)->where('adm_sought', $admission->adm_sought)->get();
+        if(request()->ajax()) {
+            return datatables()->of($paymentLogs)
+            ->addColumn('fee_head', function(Pay $pay){
+               if(!empty($pay->fee_head->fee_head))
+               {
+                   return $pay->fee_head->fee_head;
+               }
+            })
+            ->addColumn('action', function($paymentLogs){
+                $button = '<button data-id="'.$paymentLogs->id.'" id="receipt" class="btn waves-effect waves-dark btn-warning btn-outline-warning btn-icon">
+                <i class="icofont icofont-file-alt mr-0"></i>
+              </button>';
+            return $button;
+            })
+            ->rawColumns(['action'])
+            ->addIndexColumn()
+            ->make(true);
+        }
+        return view('admin.payment.school-payment', compact('admission', 'fees', 'payment', 'paymentLogs', 'feeHead'));
+    }
+
+    public function getSchoolPaymentDetails(Request $request)
+    {
+        $admission = PrimarySchool::where('id', $request->bid)->where('adm_sought', $request->adm_sought)->first();
+        if (!empty($admission)) 
+        {
+            $totalPay = DB::table('fees')->where('class_id', $admission->adm_sought)->where('academic_id', $admission->academic_id)->get()->sum('amount');
+            $payment = Pay::where('admission_id', $admission->id)->where('adm_sought', $admission->adm_sought)->get()->sum('payment_amount');
+            $balAmt = $totalPay - $payment;
+            $data = array('id' =>$admission->id,'amount_pay' =>$totalPay,'adv_amount'=>$payment,'bal_amount' =>$balAmt
+            );
+        }else{
+            $data =0;
+        }
+        echo json_encode($data);
     }
 }

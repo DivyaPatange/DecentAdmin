@@ -1,9 +1,14 @@
 <nav class="pcoded-navbar">
     <div class="sidebar_toggle"><a href="#"><i class="icon-close icons"></i></a></div>
     <div class="pcoded-inner-navbar main-menu">
+        <?php 
+            $roleAccess = Auth::guard('admin')->user()->role_access;
+            $explodeRole = explode(",", $roleAccess);
+        ?>
         <div class="pcoded-navigation-label">Navigation</div>
         <ul class="pcoded-item pcoded-left-item">
             <li class=" active">
+
                 <a href="{{ url('/admin') }}" class="waves-effect waves-dark">
                     <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
                     <span class="pcoded-mtext">Dashboard</span>
@@ -47,6 +52,7 @@
                     </li>
                 </ul> -->
             </li>
+            @if((in_array("Add User", $explodeRole)) || (in_array("User List", $explodeRole)))
             <li class="pcoded-hasmenu">
                 <a href="javascript:void(0)" class="waves-effect waves-dark">
                     <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
@@ -54,6 +60,7 @@
                     <span class="pcoded-mcaret"></span>
                 </a>
                 <ul class="pcoded-submenu">
+                    @if(in_array("Add User", $explodeRole))
                     <li class=" ">
                         <a href="{{ route('admin.users.create') }}" class="waves-effect waves-dark">
                             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
@@ -61,6 +68,8 @@
                             <span class="pcoded-mcaret"></span>
                         </a>
                     </li>
+                    @endif
+                    @if(in_array("User List", $explodeRole))
                     <li class=" ">
                         <a href="{{ route('admin.users.index') }}" class="waves-effect waves-dark">
                             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
@@ -68,8 +77,11 @@
                             <span class="pcoded-mcaret"></span>
                         </a>
                     </li>
+                    @endif
                 </ul>
             </li>
+            @endif
+            @if((in_array("Academic Year", $explodeRole)) || (in_array("Standard", $explodeRole)) || (in_array("Section", $explodeRole)) || (in_array("Class", $explodeRole)) || (in_array("Document", $explodeRole)))
             <li class="pcoded-hasmenu">
                 <a href="javascript:void(0)" class="waves-effect waves-dark">
                     <span class="pcoded-micon"><i class="ti-layout"></i><b>P</b></span>
@@ -78,6 +90,7 @@
                     <span class="pcoded-mcaret"></span>
                 </a>
                 <ul class="pcoded-submenu">
+                    @if(in_array("Academic Year", $explodeRole))
                     <li class=" ">
                         <a href="{{ route('admin.academic-year.index') }}" class="waves-effect waves-dark">
                             <span class="pcoded-micon"><i class="icon-pie-chart"></i></span>
@@ -85,6 +98,17 @@
                             <span class="pcoded-mcaret"></span>
                         </a>
                     </li>
+                    @endif 
+                    @if(in_array("Document", $explodeRole))
+                    <li class=" ">
+                        <a href="{{ route('admin.documents.index') }}" class="waves-effect waves-dark">
+                            <span class="pcoded-micon"><i class="icon-pie-chart"></i></span>
+                            <span class="pcoded-mtext">Document</span>
+                            <span class="pcoded-mcaret"></span>
+                        </a>
+                    </li>
+                    @endif 
+                    @if(in_array("Standard", $explodeRole))
                     <li class=" ">
                         <a href="{{ route('admin.standards.index') }}" class="waves-effect waves-dark">
                             <span class="pcoded-micon"><i class="icon-pie-chart"></i></span>
@@ -92,6 +116,8 @@
                             <span class="pcoded-mcaret"></span>
                         </a>
                     </li>
+                    @endif 
+                    @if(in_array("Section", $explodeRole))
                     <li class=" ">
                         <a href="{{ route('admin.sections.index') }}" class="waves-effect waves-dark">
                             <span class="pcoded-micon"><i class="icon-pie-chart"></i></span>
@@ -99,6 +125,8 @@
                             <span class="pcoded-mcaret"></span>
                         </a>
                     </li>
+                    @endif 
+                    @if(in_array("Class", $explodeRole))
                     <li class=" ">
                         <a href="{{ route('admin.class.index') }}" class="waves-effect waves-dark">
                             <span class="pcoded-micon"><i class="icon-pie-chart"></i></span>
@@ -106,8 +134,11 @@
                             <span class="pcoded-mcaret"></span>
                         </a>
                     </li>
+                    @endif
                 </ul>
             </li>
+            @endif
+            @if((in_array("New Junior Admission", $explodeRole)) || (in_array("Junior Admission List", $explodeRole)))
             <li class="pcoded-hasmenu">
                 <a href="javascript:void(0)" class="waves-effect waves-dark">
                     <span class="pcoded-micon"><i class="ti-view-grid"></i><b></b></span>
@@ -115,6 +146,7 @@
                     <span class="pcoded-mcaret"></span>
                 </a>
                 <ul class="pcoded-submenu">
+                    @if(in_array("New Junior Admission", $explodeRole))
                     <li class="">
                         <a href="{{ route('admin.junior-college-admission.create') }}" class="waves-effect waves-dark">
                             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
@@ -122,6 +154,8 @@
                             <span class="pcoded-mcaret"></span>
                         </a>
                     </li>
+                    @endif 
+                    @if(in_array("Junior Admission List", $explodeRole))
                     <li class=" ">
                         <a href="{{ route('admin.junior-college-admission.index') }}" class="waves-effect waves-dark">
                             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
@@ -129,8 +163,11 @@
                             <span class="pcoded-mcaret"></span>
                         </a>
                     </li>
+                    @endif
                 </ul>
             </li>
+            @endif
+            @if((in_array("New School Admission", $explodeRole)) || (in_array("School Admission List", $explodeRole)))
             <li class="pcoded-hasmenu">
                 <a href="javascript:void(0)" class="waves-effect waves-dark">
                     <span class="pcoded-micon"><i class="ti-star"></i><b>I</b></span>
@@ -138,6 +175,7 @@
                     <span class="pcoded-mcaret"></span>
                 </a>
                 <ul class="pcoded-submenu">
+                    @if(in_array("New School Admission", $explodeRole))
                     <li class=" ">
                         <a href="{{ route('admin.primary-school.create') }}" class="waves-effect waves-dark">
                             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
@@ -145,6 +183,8 @@
                             <span class="pcoded-mcaret"></span>
                         </a>
                     </li>
+                    @endif
+                    @if(in_array("School Admission List", $explodeRole))
                     <li class=" ">
                         <a href="{{ route('admin.primary-school.index') }}" class="waves-effect waves-dark">
                             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
@@ -152,8 +192,11 @@
                             <span class="pcoded-mcaret"></span>
                         </a>
                     </li>
+                    @endif
                 </ul>
             </li>
+            @endif
+            @if((in_array("New Allotment", $explodeRole)) || (in_array("Allotment List", $explodeRole)))
             <li class="pcoded-hasmenu">
                 <a href="javascript:void(0)" class="waves-effect waves-dark">
                     <span class="pcoded-micon"><i class="ti-crown"></i><b>AC</b></span>
@@ -161,6 +204,7 @@
                     <span class="pcoded-mcaret"></span>
                 </a>
                 <ul class="pcoded-submenu">
+                    @if(in_array("New Allotment", $explodeRole))
                     <li class=" ">
                         <a href="{{ route('admin.allotment.create') }}" class="waves-effect waves-dark">
                             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
@@ -168,6 +212,8 @@
                             <span class="pcoded-mcaret"></span>
                         </a>
                     </li>
+                    @endif 
+                    @if(in_array("Allotment List", $explodeRole))
                     <li class=" ">
                         <a href="{{ route('admin.allotment.index') }}" class="waves-effect waves-dark">
                             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
@@ -175,8 +221,11 @@
                             <span class="pcoded-mcaret"></span>
                         </a>
                     </li>
+                    @endif
                 </ul>
             </li>
+            @endif
+            @if((in_array("Junior College Certificate", $explodeRole)) || (in_array("Primary School Certificate", $explodeRole)))
             <li class="pcoded-hasmenu">
                 <a href="javascript:void(0)" class="waves-effect waves-dark">
                     <span class="pcoded-micon"><i class="ti-layout-cta-right"></i><b>N</b></span>
@@ -184,13 +233,16 @@
                     <span class="pcoded-mcaret"></span>
                 </a>
                 <ul class="pcoded-submenu">
+                    @if(in_array("Junior College Certificate", $explodeRole))
                     <li class=" ">
                         <a href="{{ route('admin.certificate.index') }}" class="waves-effect waves-dark">
                             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
                             <span class="pcoded-mtext">Junior College</span>
                             <span class="pcoded-mcaret"></span>
                         </a>
-                    </li>
+                    </li> 
+                    @endif 
+                    @if(in_array("Primary School Certificate", $explodeRole))
                     <li class=" ">
                         <a href="{{ route('admin.fee.index') }}" class="waves-effect waves-dark">
                             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
@@ -198,11 +250,13 @@
                             <span class="pcoded-mcaret"></span>
                         </a>
                     </li>
-
+                    @endif
                 </ul>
             </li>
+            @endif
         </ul>
         <ul class="pcoded-item pcoded-left-item">
+            @if((in_array("Add Fee", $explodeRole)) || (in_array("Fee Head", $explodeRole)) || (in_array("Pay Fee", $explodeRole)))
             <li class="pcoded-hasmenu">
                 <a href="javascript:void(0)" class="waves-effect waves-dark">
                     <span class="pcoded-micon"><i class="ti-layout-grid2-alt"></i><b>BC</b></span>
@@ -210,6 +264,7 @@
                     <span class="pcoded-mcaret"></span>
                 </a>
                 <ul class="pcoded-submenu">
+                    @if(in_array("Fee Head", $explodeRole))
                     <li class=" ">
                         <a href="{{ route('admin.fee-head.index') }}" class="waves-effect waves-dark">
                             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
@@ -217,6 +272,8 @@
                             <span class="pcoded-mcaret"></span>
                         </a>
                     </li>
+                    @endif 
+                    @if(in_array("Add Fee", $explodeRole))
                     <li class=" ">
                         <a href="{{ route('admin.fee.index') }}" class="waves-effect waves-dark">
                             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
@@ -224,6 +281,8 @@
                             <span class="pcoded-mcaret"></span>
                         </a>
                     </li>
+                    @endif 
+                    @if(in_array("Pay Fee", $explodeRole))
                     <li class=" ">
                         <a href="{{ route('admin.payment.index') }}" class="waves-effect waves-dark">
                             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
@@ -231,6 +290,7 @@
                             <span class="pcoded-mcaret"></span>
                         </a>
                     </li>
+                    @endif
                     <!-- <li class=" ">
                         <a href="box-shadow.html" class="waves-effect waves-dark">
                             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
@@ -318,6 +378,8 @@
 
                 </ul>
             </li>
+            @endif
+            @if(in_array("Visitor Registration", $explodeRole))
              <li class="">
                 <a href="{{ route('admin.visitor.index') }}" class="waves-effect waves-dark">
                     <span class="pcoded-micon"><i class="ti-crown"></i><b>AC</b></span>
@@ -435,6 +497,8 @@
 
                 </ul>-->
             </li>
+            @endif
+            @if((in_array("Inward Document", $explodeRole)) || (in_array("Outward Document", $explodeRole)))
             <li class="pcoded-hasmenu">
                 <a href="javascript:void(0)" class="waves-effect waves-dark">
                     <span class="pcoded-micon"><i class="ti-gift"></i><b>EC</b></span>
@@ -442,6 +506,7 @@
                     <span class="pcoded-mcaret"></span>
                 </a>
                 <ul class="pcoded-submenu">
+                    @if(in_array("Inward Document", $explodeRole))
                     <li class=" ">
                         <a href="{{ route('admin.inward.index') }}" class="waves-effect waves-dark">
                             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
@@ -449,6 +514,8 @@
                             <span class="pcoded-mcaret"></span>
                         </a>
                     </li>
+                    @endif 
+                    @if(in_array("Outward Document", $explodeRole))
                     <li class=" ">
                         <a href="{{ route('admin.outward.index') }}" class="waves-effect waves-dark">
                             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
@@ -456,8 +523,10 @@
                             <span class="pcoded-mcaret"></span>
                         </a>
                     </li>
+                    @endif
                 </ul>
             </li>
+            @endif
             <!--<li class=" ">
                 <a href="animation.html" class="waves-effect waves-dark">
                     <span class="pcoded-micon"><i class="ti-reload rotate-refresh"></i><b>A</b></span>

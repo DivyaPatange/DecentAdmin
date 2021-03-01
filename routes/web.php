@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\OutwardController;
 use App\Http\Controllers\Admin\CertificateController;
 use App\Http\Controllers\Admin\PrimarySchoolController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\DocumentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -103,6 +104,9 @@ Route::prefix('admin')->name('admin.')->group(function() {
     Route::get('/demo', function(){
         return view('admin.payment.demo');
     });
+    Route::get('/primary-school-list', [PayController::class, 'primarySchoolList'])->name('primary-school-list');
+    Route::get('/school-payment/{id}', [PayController::class, 'getSchoolPayment']);
+    Route::post('/get-school-payment', [PayController::class, 'getSchoolPaymentDetails'])->name('get.school-payment');
 
     // Allotment Route
     Route::resource('/allotment', AllotmentController::class);
@@ -133,4 +137,9 @@ Route::prefix('admin')->name('admin.')->group(function() {
 
     // User Route
     Route::resource('/users', UserController::class);
+
+    // Master Document Route
+    Route::resource('/documents', DocumentController::class);
+    Route::post('/get-document', [DocumentController::class, 'getDocument'])->name('get.document');
+    Route::post('/document/update', [DocumentController::class, 'updateDocument']);
 });

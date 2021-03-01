@@ -202,7 +202,7 @@
 		
 
 	</form>
-    <div class="container">
+<div class="container">
 	<div class="row">
 		<div class="col-md-2 m-auto">
 			@if(!empty($payment->pay_by) && !empty($payment->pay_by_date))
@@ -212,6 +212,7 @@
             <button type='button' id='btn' onclick="submitForm()" class="mt-3 btn-success">Save</button>
 			@endif
 		</div>
+    </div>
 </div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script>

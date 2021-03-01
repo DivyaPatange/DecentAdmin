@@ -17,6 +17,10 @@ class AcademicYear extends Model
         return $this->hasMany('App\Models\Admin\JuniorAdmission','academic_id', 'id');
     }
 
+    public function primary_school(){
+        return $this->hasMany('App\Models\Admin\PrimarySchool','academic_id', 'id');
+    }
+
     public function fees(){
         return $this->hasMany('App\Models\Admin\Fee','academic_id', 'id');
     }

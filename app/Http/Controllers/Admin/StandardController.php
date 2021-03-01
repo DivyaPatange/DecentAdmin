@@ -55,8 +55,24 @@ class StandardController extends Controller
     public function store(Request $request)
     {
         $standard = new Standard();
-        $standard->standard = $request->standard;
+        // dd(strtoupper($request->standard));
+        $standard->standard = strtoupper($request->standard);
         $standard->status = $request->status;
+        if(strtoupper($request->standard) == "NURSERY")
+        {
+            $standard->class_code = -3;
+        }
+        if((strtoupper($request->standard) == "KG-1") || (strtoupper($request->standard) == "KG 1") || (strtoupper($request->standard) == "KG1") || (strtoupper($request->standard) == "KG-I") || (strtoupper($request->standard) == "KG I"))
+        {
+            $standard->class_code = -2;
+        }
+        if((strtoupper($request->standard) == "KG-2") || (strtoupper($request->standard) == "KG 2") || (strtoupper($request->standard) == "KG2") || (strtoupper($request->standard) == "KG-II") || (strtoupper($request->standard) == "KG II"))
+        {
+            $standard->class_code = -1;
+        }
+        else{
+            $standard->class_code = $request->standard;
+        }
         $standard->save();
         return response()->json(['success' => 'Standard Added Successfully']);
     }

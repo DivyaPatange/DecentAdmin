@@ -15,6 +15,9 @@ use App\Http\Controllers\Admin\AllotmentController;
 use App\Http\Controllers\Admin\VisitorController;
 use App\Http\Controllers\Admin\InwardController;
 use App\Http\Controllers\Admin\OutwardController;
+use App\Http\Controllers\Admin\CertificateController;
+use App\Http\Controllers\Admin\PrimarySchoolController;
+use App\Http\Controllers\Admin\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -118,4 +121,16 @@ Route::prefix('admin')->name('admin.')->group(function() {
     Route::resource('/outward', OutwardController::class);
     Route::post('/get-outward', [OutwardController::class, 'getOutward'])->name('get.outward');
     Route::post('/outward/update', [OutwardController::class, 'updateOutward']);
+
+    // Certificate Route
+    Route::get('/junior-certificate', [CertificateController::class, 'index'])->name('certificate.index');
+    Route::get('/junior-bonafide-certificate/{id}', [CertificateController::class, 'jrBonafideCertificate'])->name('junior-bonafide.certificate');
+    Route::get('/junior-character-certificate/{id}', [CertificateController::class, 'jrCharacterCertificate'])->name('junior-character.certificate');
+    Route::get('/junior-leaving-certificate/{id}', [CertificateController::class, 'jrLeavingCertificate'])->name('junior-leaving.certificate');
+    Route::post('/junior-leaving-certificate/save', [CertificateController::class, 'jrLeavingCertificateSave'])->name('junior-leaving.save');
+
+    Route::resource('/primary-school', PrimarySchoolController::class);
+
+    // User Route
+    Route::resource('/users', UserController::class);
 });

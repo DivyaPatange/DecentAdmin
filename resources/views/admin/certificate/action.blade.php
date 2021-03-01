@@ -1,0 +1,3 @@
+<a href="{{ route('admin.junior-bonafide.certificate', $id) }}"><button class="btn waves-effect btn-sm waves-dark btn-primary btn-outline-primary btn-icon">BC</button></a>
+<a href="{{ route('admin.junior-character.certificate', $id) }}"><button class="btn waves-effect btn-sm waves-dark btn-primary btn-outline-primary btn-icon">CC</button></a>
+<a href="{{ route('admin.junior-leaving.certificate', $id) }}"><button class="btn waves-effect btn-sm waves-dark btn-primary btn-outline-primary btn-icon">LL</button></a>

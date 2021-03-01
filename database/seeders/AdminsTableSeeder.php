@@ -20,6 +20,7 @@ class AdminsTableSeeder extends Seeder
             'name' => 'admin',
             'email' => 'admin@admin.com',
             'password' => Hash::make('admin@admin.com'),
+            'acc_type' => 'superadmin',
         ]);
     }
 }

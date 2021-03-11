@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\CertificateController;
 use App\Http\Controllers\Admin\PrimarySchoolController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\DocumentController;
+use App\Http\Controllers\Admin\TeachersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,12 +62,19 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+Route::get('/enquiry', [App\Http\Controllers\EnquiryController::class, 'create']);
+Route::post('/enquiry/save', [App\Http\Controllers\EnquiryController::class, 'store'])->name('enquiry.submit');
+
 Route::prefix('admin')->name('admin.')->group(function() {
     // Admin Authentication Route
     Route::get('/login', [AdminLoginController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [AdminLoginController::class, 'login'])->name('login.submit');
     Route::get('/', [AdminController::class, 'index'])->name('dashboard');
     Route::get('/logout', [AdminLoginController::class, 'logout'])->name('logout');
+
+    // Teachers Route
+    Route::resource('/teachers', TeachersController::class);
+
     // Academic Year Route
     Route::resource('/academic-year', AcademicYearController::class);
     Route::post('/get-academic-year', [AcademicYearController::class, 'getAcademicYear'])->name('get.academic-year');

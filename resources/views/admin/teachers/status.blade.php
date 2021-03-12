@@ -1,1 +1,4 @@
-<button class="btn waves-effect waves-light btn-primary btn-outline-primary btn-sm">Active</button>
+
+<div class="switch_box box_1">
+    <input type="checkbox" class="switch_1" data-id="{{ $id }}" @if($status == 1) Checked @endif>
+</div>

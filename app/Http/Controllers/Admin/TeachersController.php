@@ -96,7 +96,8 @@ class TeachersController extends Controller
      */
     public function show($id)
     {
-        //
+        $teacher = Teacher::findorfail($id);
+        return view('admin.teachers.show', compact('teacher'));
     }
 
     /**
@@ -162,5 +163,19 @@ class TeachersController extends Controller
         }
         $teacher->delete();
         return response()->json(['success' => 'Teacher Profile Deleted Successfully']);
+    }
+
+    public function status($id, Request $request)
+    {
+        $teacher = Teacher::findorfail($id);
+        if($teacher->status == 1)
+        {
+            $teacher->status = 0;
+        }
+        else{
+            $teacher->status = 1;
+        }
+        $teacher->update($request->all());
+        return response()->json(['success' => 'Teacher Profile Status Changed Successfully']);
     }
 }

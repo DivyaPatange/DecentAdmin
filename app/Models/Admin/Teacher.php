@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Teacher extends Model
 {
     use HasFactory;
+    protected $table = "teachers";
+
+    protected $fillable = ['name', 'designation', 'qualification', 'dob', 'gender', 'religion', 'email', 'username', 'password'];
+
+    public function sections(){
+        return $this->hasMany('App\Models\Admin\Section','teacher_id', 'id');
+    }
 }

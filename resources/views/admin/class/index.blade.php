@@ -15,104 +15,56 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('files/assets/icon/icofont/css/icofont.css') }}">
 <!-- animation nifty modal window effects css -->
 <link rel="stylesheet" type="text/css" href="{{ asset('files/assets/css/component.css') }}">
+<style>
+td.details-control {
+background: url('{{ asset('plus1.png') }}') no-repeat center center;
+cursor: pointer;
+background-size:25px;
+}
+tr.shown td.details-control {
+    background: url('{{ asset('minus-flat.png') }}') no-repeat center center;
+    background-size:25px;
+}
+</style>
 @endsection
 @section('content')
 <div class="row">
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <h5>Add Class</h5>
-                <!--<span>Add class of <code>.form-control</code> with <code>&lt;input&gt;</code> tag</span>-->
-            </div>
-            <div class="card-block">
-                <form class="form-material" id="form-submit" method="POST">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group form-default">
-                                <select name="standard" class="form-control" id="standard">
-                                    <option value="">-Select Standard-</option>
-                                    @foreach($standards as $s)
-                                    <option value="{{ $s->standard }}">{{ $s->standard }}</option>
-                                    @endforeach
-                                </select>
-                                <span class="form-bar"></span>
-                                <label class="float-label">Standard<span style="color:red;">*</span><span  style="color:red" id="standard_err"> </span></label>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group form-default">
-                                <select name="section" class="form-control" id="section">
-                                    <option value="">-Select Section-</option>
-                                    @foreach($sections as $sec)
-                                    <option value="{{ $sec->section }}">{{ $sec->section }}</option>
-                                    @endforeach
-                                </select>
-                                <span class="form-bar"></span>
-                                <label class="float-label">Section
-                                    <!-- <span style="color:red;">*</span><span  style="color:red" id="section_err"> </span> -->
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group form-default">
-                                <select name="status" class="form-control" id="status">
-                                    <option value="">-Select Status-</option>
-                                    <option value="1">Active</option>
-                                    <option value="0">Inactive</option>
-                                </select>
-                                <span class="form-bar"></span>
-                                <label class="float-label">Status<span style="color:red;">*</span><span  style="color:red" id="status_err"> </span></label>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                        <button class="btn btn-sm waves-effect waves-light hor-grd btn-grd-primary" type="button" id="submitForm">Submit</button>
-                        </div>
-                    </div>
-                    
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col-sm-12">
-        <!-- Zero config.table start -->
-        <div class="card">
-            <div class="card-header">
                 <h5>Class List</h5>
+                <a href="{{ route('admin.class.create') }}"><button class="btn waves-effect waves-light btn-primary btn-sm float-right"><i class="icofont icofont-plus"></i>Add New</button></a>
             </div>
             <div class="card-block">
                 <div class="dt-responsive table-responsive">
                     <table id="simpletable" class="table table-striped table-bordered nowrap">
                         <thead>
                             <tr>
-                                <th>Sr. No.</th>
-                                <th>Class</th>
-                                <th>Standard</th>
-                                <th>Section</th>
-                                <th>Status</th>
-                                <th>Action</th>
+                                <th></th>
+                                <th>Class Name</th>
+                                <th>Numeric Value</th>
+                                <th>Is Open For Admission</th>
+                                <th>Note</th>
                             </tr>
                         </thead>
                         <tbody>
                         </tbody>
                         <tfoot>
                             <tr>
-                                <th>Sr. No.</th>
-                                <th>Class</th>
-                                <th>Standard</th>
-                                <th>Section</th>
-                                <th>Status</th>
-                                <th>Action</th>
+                                <th></th>
+                                <th>Class Name</th>
+                                <th>Numeric Value</th>
+                                <th>Is Open For Admission</th>
+                                <th>Note</th>
                             </tr>
                         </tfoot>
                     </table>
                 </div>
             </div>
         </div>
-        <!-- Zero config.table end -->
     </div>
 </div>
+
 
 <!-- Modal -->
 <div class="md-modal md-effect-8" id="modal-8">
@@ -121,41 +73,49 @@
         <div>
             <form method="POST" id="editForm">
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="form-group form-default">
-                            <select name="standard" class="form-control" id="edit_standard">
-                                <option value="">-Select Standard-</option>
-                                @foreach($standards as $s)
-                                <option value="{{ $s->standard }}">{{ $s->standard }}</option>
-                                @endforeach
-                            </select>
+                            <input type="text" name="class_name" class="form-control" id="class_name">
                             <span class="form-bar"></span>
-                            <label class="float-label">Standard<span style="color:red;">*</span><span  style="color:red" id="edit_standard_err"> </span></label>
+                            <label class="float-label">Class Name<span style="color:red;">*</span><span  style="color:red" id="name_err"> </span></label>
                         </div>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="form-group form-default">
-                            <select name="section" class="form-control" id="edit_section">
-                                <option value="">-Select Section-</option>
-                                @foreach($sections as $sec)
-                                <option value="{{ $sec->section }}">{{ $sec->section }}</option>
-                                @endforeach
-                            </select>
+                            <input type="number" name="numeric_value" class="form-control" id="numeric_value">
                             <span class="form-bar"></span>
-                            <label class="float-label">Section 
-                                <!-- <span style="color:red;">*</span><span  style="color:red" id="edit_section_err"> </span> -->
+                            <label class="float-label">Numeric Value
+                                <span style="color:red;">*</span><span  style="color:red" id="numeric_err"> </span>
                             </label>
                         </div>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="form-group form-default">
-                            <select name="status" class="form-control" id="edit_status">
+                            <div class="form-check-inline">
+                                <label class="form-check-label">
+                                    Is Open For Admission?
+                                    <input type="checkbox" name="adm" id="adm" class="form-check-input" value="1">
+                                </label>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-default">
+                            <textarea name="note" id="note" class="form-control"></textarea>
+                            <span class="form-bar"></span>
+                            <label class="float-label">Note</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-default">
+                            <select name="status" class="form-control" id="status">
                                 <option value="">-Select Status-</option>
                                 <option value="1">Active</option>
                                 <option value="0">Inactive</option>
                             </select>
                             <span class="form-bar"></span>
-                            <label class="float-label">Status<span style="color:red;">*</span><span  style="color:red" id="edit_status_err"> </span></label>
+                            <label class="float-label">Status<span style="color:red;">*</span><span  style="color:red" id="status_err"> </span></label>
                         </div>
                     </div>
                     <div class="col-md-12">
@@ -191,7 +151,21 @@
 
 <script>
 var SITEURL = '{{ route('admin.class.index')}}';
-$('#simpletable').DataTable({
+function format ( d ) {
+    // `d` is the original data object for the row
+    return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px; width:100%">'+
+        '<tr>'+
+            '<td style="text-align:center">Status</td>'+
+            '<td style="text-align:center">'+d.status+'</td>'+
+        '</tr>'+
+        '<tr>'+
+            '<td style="text-align:center">Action</td>'+
+            '<td style="text-align:center">'+d.action+'</td>'+
+        '</tr>'+
+    '</table>';
+}
+$(document).ready(function() {
+    var table = $('#simpletable').DataTable({
     processing: true,
     serverSide: true,
     ajax: {
@@ -199,61 +173,37 @@ $('#simpletable').DataTable({
     type: 'GET',
     },
     columns: [
-            {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false,searchable: false},
-            { data: 'class', name: 'class' },
-            { data: 'standard', name: 'standard' },
-            { data: 'section', name: 'section' },
-            { data: 'status', name: 'status' },
-            {data: 'action', name: 'action', orderable: false},
+            {
+                "className":      'details-control',
+                "orderable":      false,
+                "data":           null,
+                "defaultContent": ''
+            },
+            { data: 'class_name', name: 'class_name' },
+            { data: 'numeric_value', name: 'numeric_value' },
+            { data: 'is_open_for_adm', name: 'is_open_for_adm' },
+            { data: 'note', name: 'note' },
         ],
     order: [[0, 'desc']]
-});
-
-
-$('body').on('click', '#submitForm', function () {
-    var standard = $("#standard").val();
-    var section = $("#section").val();
-    var status = $("#status").val();
-    if (standard=="") {
-        $("#standard_err").fadeIn().html("Required");
-        setTimeout(function(){ $("#standard_err").fadeOut(); }, 3000);
-        $("#standard").focus();
-        return false;
-    }
-    // if (section=="") {
-    //     $("#section_err").fadeIn().html("Required");
-    //     setTimeout(function(){ $("#section_err").fadeOut(); }, 3000);
-    //     $("#section").focus();
-    //     return false;
-    // }
-    if (status=="") {
-        $("#status_err").fadeIn().html("Required");
-        setTimeout(function(){ $("#status_err").fadeOut(); }, 3000);
-        $("#status").focus();
-        return false;
-    }
-    else
-    { 
-        var datastring="standard="+standard+"&status="+status+"&section="+section;
-        // alert(datastring);
-        $.ajax({
-            type:"POST",
-            url:"{{ route('admin.class.store') }}",
-            data:datastring,
-            cache:false,        
-            success:function(returndata)
-            {
-                document.getElementById("form-submit").reset();
-                var oTable = $('#simpletable').dataTable(); 
-                oTable.fnDraw(false);
-                toastr.success(returndata.success);
-            
-            // location.reload();
-            // $("#pay").val("");
-            }
-        });
-    }
+    });
+    $('#simpletable tbody').on('click', 'td.details-control', function () {
+        var tr = $(this).closest('tr');
+        var row = table.row( tr );
+ 
+        if ( row.child.isShown() ) {
+            // This row is already open - close it
+            row.child.hide();
+            tr.removeClass('shown');
+        }
+        else {
+            // Open this row
+            row.child( format(row.data()) ).show();
+            tr.addClass('shown');
+        }
+    } );
 })
+
+
 
 function EditModel(obj,bid)
 {
@@ -271,9 +221,14 @@ function EditModel(obj,bid)
             $("#modal-8").addClass("md-show");
             var json = JSON.parse(returndata);
             $("#id").val(json.id);
-            $("#edit_standard").val(json.standard);
-            $("#edit_section").val(json.section);
-            $("#edit_status").val(json.status);
+            $("#class_name").val(json.class_name);
+            $("#numeric_value").val(json.numeric_value);
+            if(json.is_open_for_adm == 1)
+            {
+                $("#adm").attr("checked","");
+            }
+            $("#note").val(json.note);
+            $("#status").val(json.status);
         }
         }
     });
@@ -281,14 +236,26 @@ function EditModel(obj,bid)
 
 function checkSubmit()
 {
-    var standard = $("#edit_standard").val();
-    var section = $("#edit_section").val();
-    var status = $("#edit_status").val();
+    var name = $("#class_name").val();
+    var numeric = $("#numeric_value").val();
+    var admission = $("input[name='adm']:checked").val();
+    if(admission == null)
+    {
+        admission = 0;
+    }
+    var note = $("#note").val();
     var id = $("#id").val().trim();
-    if (standard=="") {
-        $("#edit_standard_err").fadeIn().html("Required");
-        setTimeout(function(){ $("#edit_standard_err").fadeOut(); }, 3000);
-        $("#edit_standard").focus();
+    var status = $("#status").val();
+    if (name=="") {
+        $("#name_err").fadeIn().html("Required");
+        setTimeout(function(){ $("#name_err").fadeOut(); }, 3000);
+        $("#class_name").focus();
+        return false;
+    }
+    if (numeric=="") {
+        $("#numeric_err").fadeIn().html("Required");
+        setTimeout(function(){ $("#numeric_err").fadeOut(); }, 3000);
+        $("#numeric_value").focus();
         return false;
     }
     // if (section=="") {
@@ -298,15 +265,15 @@ function checkSubmit()
     //     return false;
     // }
     if (status=="") {
-        $("#edit_status_err").fadeIn().html("Required");
-        setTimeout(function(){ $("#edit_status_err").fadeOut(); }, 3000);
-        $("#edit_status").focus();
+        $("#status_err").fadeIn().html("Required");
+        setTimeout(function(){ $("#status_err").fadeOut(); }, 3000);
+        $("#status").focus();
         return false;
     }
     else
     { 
         $('#editButton').attr('disabled',true);
-        var datastring="standard="+standard+"&status="+status+"&id="+id+"&section="+section;
+        var datastring="name="+name+"&status="+status+"&id="+id+"&numeric="+numeric+"&admission="+admission+"&note="+note;
         // alert(datastring);
         $.ajax({
             type:"POST",

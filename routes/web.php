@@ -74,6 +74,7 @@ Route::prefix('admin')->name('admin.')->group(function() {
 
     // Teachers Route
     Route::resource('/teachers', TeachersController::class);
+    Route::get('/teachers/status/{id}', [TeachersController::class, 'status']);
 
     // Academic Year Route
     Route::resource('/academic-year', AcademicYearController::class);

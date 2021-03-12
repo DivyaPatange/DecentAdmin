@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Admin\Section;
+use App\Models\Admin\Teacher;
+use App\Models\Admin\Classes;
 
 class SectionController extends Controller
 {
@@ -19,9 +21,17 @@ class SectionController extends Controller
      */
     public function index()
     {
-        $sections = Section::all();
+        $sections = Section::orderBy('id', 'DESC')->get();
         if(request()->ajax()) {
             return datatables()->of($sections)
+            ->addColumn('class_id', function(Section $section){
+                if(!empty($section->classes->class_name))
+                return $section->classes->class_name;
+            })
+            ->addColumn('teacher_id', function(Section $section){
+                if(!empty($section->teachers->name))
+                return $section->teachers->name;
+            })
             ->addColumn('status', function($row){
                 if($row->status == 1)
                 return 'Active';
@@ -43,7 +53,9 @@ class SectionController extends Controller
      */
     public function create()
     {
-        //
+        $teachers = Teacher::orderBy('id', 'DESC')->get();
+        $classes = Classes::where('status', 1)->orderBy('id', 'DESC')->get();
+        return view('admin.section.create', compact('teachers', 'classes'));
     }
 
     /**
@@ -55,10 +67,14 @@ class SectionController extends Controller
     public function store(Request $request)
     {
         $section = new Section();
-        $section->section = $request->section;
-        $section->status = $request->status;
+        $section->section_name = $request->section_name;
+        $section->capacity = $request->capacity;
+        $section->class_id = $request->class_name;
+        $section->teacher_id = $request->teacher_name;
+        $section->note = $request->note;
+        $section->status = 1;
         $section->save();
-        return response()->json(['success' => 'Section Added Successfully']);
+        return redirect('/admin/sections')->with('success', 'Section Added Successfully!');
     }
 
     /**

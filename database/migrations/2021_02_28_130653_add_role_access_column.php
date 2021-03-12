@@ -15,7 +15,7 @@ class AddRoleAccessColumn extends Migration
     {
         Schema::table('admins', function($table){
             $table->string('acc_type');
-            $table->string('role_access');
+            $table->text('role_access');
         });
     }
 
@@ -27,7 +27,7 @@ class AddRoleAccessColumn extends Migration
     public function down()
     {
         Schema::table('admins', function($table){
-            $table->string('acc_type');
+            $table->dropColumn('acc_type');
             $table->dropColumn('role_access');
         });
     }

@@ -46,7 +46,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group form-default">
-                            <label class="">Class Name
+                                <label class="">Class Name
                                     <span style="color:red;">*</span><span  style="color:red" id="class_err"> </span>
                                 </label>
                                 <select class="js-example-basic-single col-sm-12" name="class_name" id="class_name">

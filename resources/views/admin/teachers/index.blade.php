@@ -54,9 +54,9 @@ input[type="checkbox"].switch_1{
 	-webkit-appearance: none;
 	   -moz-appearance: none;
 	        appearance: none;
-	width: 3em;
-	height: 1.5em;
-	background: #ddd;
+	width: 2.5em;
+	height: 1.2em;
+	background: #dd0c0c;
 	border-radius: 3em;
 	position: relative;
 	cursor: pointer;
@@ -83,6 +83,7 @@ input[type="checkbox"].switch_1{
 	left: 0;
 	-webkit-transition: all .2s ease-in-out;
 	transition: all .2s ease-in-out;
+    top:-3px;
   }
   
   input[type="checkbox"].switch_1:checked:after{

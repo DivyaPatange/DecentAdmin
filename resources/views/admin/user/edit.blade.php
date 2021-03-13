@@ -97,10 +97,11 @@
                                                     </label>
                                                 </div>
                                             </div>
+                                            
                                             <div class="col-md-4">
                                                 <div class="form-check-inline">
                                                     <label class="form-check-label">
-                                                        <input type="checkbox" name="role_access[]" class="form-check-input" value="Standard" @if(in_array("Standard", $role_access)) Checked @endif>Standard
+                                                        <input type="checkbox" name="role_access[]" class="form-check-input" value="Class" @if(in_array("Class", $role_access)) Checked @endif>Class
                                                     </label>
                                                 </div>
                                             </div>
@@ -114,7 +115,14 @@
                                             <div class="col-md-4">
                                                 <div class="form-check-inline">
                                                     <label class="form-check-label">
-                                                        <input type="checkbox" name="role_access[]" class="form-check-input" value="Class" @if(in_array("Class", $role_access)) Checked @endif>Class
+                                                        <input type="checkbox" name="role_access[]" class="form-check-input" value="Subject" @if(in_array("Subject", $role_access)) Checked @endif>Subject
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-check-inline">
+                                                    <label class="form-check-label">
+                                                        <input type="checkbox" name="role_access[]" class="form-check-input" value="Subject Teacher" @if(in_array("Subject Teacher", $role_access)) Checked @endif>Subject Teacher
                                                     </label>
                                                 </div>
                                             </div>

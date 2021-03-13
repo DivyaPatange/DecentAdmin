@@ -20,4 +20,8 @@ class Classes extends Model
     public function sections(){
         return $this->hasMany('App\Models\Admin\Section','class_id', 'id');
     }
+
+    public function subjects(){
+        return $this->hasMany('App\Models\Admin\Subject','class_id', 'id');
+    }
 }

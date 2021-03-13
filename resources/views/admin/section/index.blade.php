@@ -13,6 +13,11 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 <!-- ico font -->
 <link rel="stylesheet" type="text/css" href="{{ asset('files/assets/icon/icofont/css/icofont.css') }}">
+<!-- Select 2 css -->
+<link rel="stylesheet" href="{{ asset('files/bower_components/select2/css/select2.min.css') }}" />
+<!-- Multi Select css -->
+<link rel="stylesheet" type="text/css" href="{{ asset('files/bower_components/bootstrap-multiselect/css/bootstrap-multiselect.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('files/bower_components/multiselect/css/multi-select.css') }}" />
 <!-- animation nifty modal window effects css -->
 <link rel="stylesheet" type="text/css" href="{{ asset('files/assets/css/component.css') }}">
 <style>
@@ -25,6 +30,49 @@ tr.shown td.details-control {
     background: url('{{ asset('minus-flat.png') }}') no-repeat center center;
     background-size:25px;
 }
+input[type="checkbox"].switch_1{
+	font-size: 20px;
+	-webkit-appearance: none;
+	   -moz-appearance: none;
+	        appearance: none;
+	width: 2.5em;
+	height: 1.2em;
+	background: #dd0c0c;
+	border-radius: 3em;
+	position: relative;
+	cursor: pointer;
+	outline: none;
+	-webkit-transition: all .2s ease-in-out;
+	transition: all .2s ease-in-out;
+  }
+  
+  input[type="checkbox"].switch_1:checked{
+	background: green;
+  }
+  
+  input[type="checkbox"].switch_1:after{
+	position: absolute;
+	content: "";
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 50%;
+	background: #fff;
+	-webkit-box-shadow: 0 0 .25em rgba(0,0,0,.3);
+	        box-shadow: 0 0 .25em rgba(0,0,0,.3);
+	-webkit-transform: scale(.7);
+	        transform: scale(.7);
+	left: 0;
+	-webkit-transition: all .2s ease-in-out;
+	transition: all .2s ease-in-out;
+    top:-3px;
+  }
+  
+  input[type="checkbox"].switch_1:checked:after{
+	left: calc(100% - 1.5em);
+  }
+  .select2-container--open .select2-dropdown--below{
+      z-index:100000;
+  }
 </style>
 @endsection
 @section('content')
@@ -75,22 +123,53 @@ tr.shown td.details-control {
         <div>
             <form method="POST" id="editForm">
                 <div class="row">
-                    <div class="col-md-12">
+                <div class="col-md-6">
                         <div class="form-group form-default">
-                            <input type="text" name="section" class="form-control" id="edit_section" value="">
+                            <input type="text" name="section_name" class="form-control" id="section_name" value="">
                             <span class="form-bar"></span>
-                            <label class="float-label">Section<span style="color:red;">*</span><span  style="color:red" id="edit_section_err"> </span></label>
+                            <label class="float-label">Section Name<span style="color:red;">*</span><span  style="color:red" id="name_err"> </span></label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-default">
+                            <input type="number" name="capacity" class="form-control" id="capacity" value="">
+                            <span class="form-bar"></span>
+                            <label class="float-label">Capacity
+                                <span style="color:red;">*</span><span  style="color:red" id="capacity_err"> </span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-default">
+                            <label class="">Class Name
+                                <span style="color:red;">*</span><span  style="color:red" id="class_err"> </span>
+                            </label>
+                            <select class="js-example-basic-single col-sm-12" name="class_name" id="class_name">
+                                <option value="">Select Class</option>
+                                @foreach($classes as $c)
+                                <option value="{{ $c->id }}">{{ $c->class_name }}</option>
+                                @endforeach
+                            </select>    
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-default">
+                            <label class="">Teacher Name
+                                <span style="color:red;">*</span><span  style="color:red" id="teacher_err"> </span>
+                            </label>
+                            <select class="js-example-basic-single col-sm-12" name="teacher_name" id="teacher_name">
+                                <option value="">Select Teacher</option>
+                                @foreach($teachers as $t)
+                                <option value="{{ $t->id }}">{{ $t->name }}</option>
+                                @endforeach
+                            </select>    
                         </div>
                     </div>
                     <div class="col-md-12">
                         <div class="form-group form-default">
-                            <select name="status" class="form-control" id="edit_status">
-                                <option value="">-Select Status-</option>
-                                <option value="1">Active</option>
-                                <option value="0">Inactive</option>
-                            </select>
+                            <textarea name="note" id="note" class="form-control"></textarea>
                             <span class="form-bar"></span>
-                            <label class="float-label">Status<span style="color:red;">*</span><span  style="color:red" id="edit_status_err"> </span></label>
+                            <label class="float-label">Note</label>
                         </div>
                     </div>
                     <div class="col-md-12">
@@ -122,7 +201,15 @@ tr.shown td.details-control {
 <script src="{{ asset('files/bower_components/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js') }}"></script>
 <!-- Custom js -->
 <script src="{{ asset('files/assets/pages/data-table/js/data-table-custom.js') }}"></script>
-
+<!-- Select 2 js -->
+<script type="text/javascript" src="{{ asset('files/bower_components/select2/js/select2.full.min.js') }}"></script>
+<!-- Multiselect js -->
+<script type="text/javascript" src="{{ asset('files/bower_components/bootstrap-multiselect/js/bootstrap-multiselect.js') }}">
+</script>
+<script type="text/javascript" src="{{ asset('files/bower_components/multiselect/js/jquery.multi-select.js') }}"></script>
+<script type="text/javascript" src="{{ asset('files/assets/js/jquery.quicksearch.js') }}"></script>
+<!-- Custom js -->
+<script type="text/javascript" src="{{ asset('files/assets/pages/advance-elements/select2-custom.js') }}"></script>
 
 <script>
 var SITEURL = '{{ route('admin.sections.index')}}';
@@ -177,43 +264,6 @@ $(document).ready(function() {
 })
 
 
-$('body').on('click', '#submitForm', function () {
-    var section = $("#section").val();
-    var status = $("#status").val();
-    if (section=="") {
-        $("#section_err").fadeIn().html("Required");
-        setTimeout(function(){ $("#section_err").fadeOut(); }, 3000);
-        $("#section").focus();
-        return false;
-    }
-    if (status=="") {
-        $("#status_err").fadeIn().html("Required");
-        setTimeout(function(){ $("#status_err").fadeOut(); }, 3000);
-        $("#status").focus();
-        return false;
-    }
-    else
-    { 
-        var datastring="section="+section+"&status="+status;
-        // alert(datastring);
-        $.ajax({
-            type:"POST",
-            url:"{{ route('admin.sections.store') }}",
-            data:datastring,
-            cache:false,        
-            success:function(returndata)
-            {
-                document.getElementById("form-submit").reset();
-                var oTable = $('#simpletable').dataTable(); 
-                oTable.fnDraw(false);
-                toastr.success(returndata.success);
-            
-            // location.reload();
-            // $("#pay").val("");
-            }
-        });
-    }
-})
 
 function EditModel(obj,bid)
 {
@@ -231,8 +281,11 @@ function EditModel(obj,bid)
             $("#modal-8").addClass("md-show");
             var json = JSON.parse(returndata);
             $("#id").val(json.id);
-            $("#edit_section").val(json.section);
-            $("#edit_status").val(json.status);
+            $("#section_name").val(json.section_name);
+            $("#capacity").val(json.capacity);
+            $("#class_name").val(json.class_id).select2();
+            $("#teacher_name").val(json.teacher_id).select2();
+            $("#note").val(json.note);
         }
         }
     });
@@ -240,25 +293,41 @@ function EditModel(obj,bid)
 
 function checkSubmit()
 {
-    var section = $("#edit_section").val();
-    var status = $("#edit_status").val();
+    var section_name = $("#section_name").val();
+    var capacity = $("#capacity").val();
+    var class_name = $("#class_name").val();
+    var teacher_name = $("#teacher_name").val();
+    var note = $("#note").val();
     var id = $("#id").val().trim();
-    if (section=="") {
-        $("#edit_section_err").fadeIn().html("Required");
-        setTimeout(function(){ $("#edit_section_err").fadeOut(); }, 3000);
-        $("#edit_section").focus();
+    // alert(teacher_name);
+    if (section_name=="") {
+        $("#name_err").fadeIn().html("Required");
+        setTimeout(function(){ $("#name_err").fadeOut(); }, 3000);
+        $("#section_name").focus();
         return false;
     }
-    if (status=="") {
-        $("#edit_status_err").fadeIn().html("Required");
-        setTimeout(function(){ $("#edit_status_err").fadeOut(); }, 3000);
-        $("#edit_status").focus();
+    if (capacity=="") {
+        $("#capacity_err").fadeIn().html("Required");
+        setTimeout(function(){ $("#capacity_err").fadeOut(); }, 3000);
+        $("#capacity").focus();
+        return false;
+    }
+    if (class_name=="") {
+        $("#class_err").fadeIn().html("Required");
+        setTimeout(function(){ $("#class_err").fadeOut(); }, 3000);
+        $("#class_name").focus();
+        return false;
+    }
+    if (teacher_name=="") {
+        $("#teacher_err").fadeIn().html("Required");
+        setTimeout(function(){ $("#teacher_err").fadeOut(); }, 3000);
+        $("#teacher_name").focus();
         return false;
     }
     else
     { 
         $('#editButton').attr('disabled',true);
-        var datastring="section="+section+"&status="+status+"&id="+id;
+        var datastring="section_name="+section_name+"&capacity="+capacity+"&id="+id+"&class_name="+class_name+"&teacher_name="+teacher_name+"&note="+note;
         // alert(datastring);
         $.ajax({
             type:"POST",
@@ -302,6 +371,26 @@ $('body').on('click', '#delete', function () {
 $('body').on('click', '.md-close', function () {
     $("#modal-8").removeClass("md-show");
 })
+
+$('body').on('click', '.switch_1', function () {
+    var id = $(this).data("id");
+    // alert(id);
+    if(id != ''){
+        $.ajax({
+            type: "get",
+            url: "{{ url('admin/sections/status') }}"+'/'+id,
+            success: function (data) {
+                // alert(data.teacher);
+            var oTable = $('#simpletable').dataTable(); 
+            oTable.fnDraw(false);
+            toastr.success(data.success);
+            },
+            error: function (data) {
+                console.log('Error:', data);
+            }
+        });
+    }
+});
 </script>
 
 @endsection

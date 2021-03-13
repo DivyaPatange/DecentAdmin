@@ -22,6 +22,8 @@ class SectionController extends Controller
     public function index()
     {
         $sections = Section::orderBy('id', 'DESC')->get();
+        $teachers = Teacher::orderBy('id', 'DESC')->where('status', 1)->get();
+        $classes = Classes::where('status', 1)->orderBy('id', 'DESC')->get();
         if(request()->ajax()) {
             return datatables()->of($sections)
             ->addColumn('class_id', function(Section $section){
@@ -33,17 +35,22 @@ class SectionController extends Controller
                 return $section->teachers->name;
             })
             ->addColumn('status', function($row){
-                if($row->status == 1)
-                return 'Active';
-                else
-                return 'Inactive';
+                $button = '';
+                $button .= '<div class="switch_box box_1">
+                <input type="checkbox" class="switch_1" data-id="'.$row->id.'"';
+                 if($row->status == 1){ 
+                 $button .= 'Checked'; 
+                 }
+                 $button .= '>
+                </div>';
+                return $button;
             })
             ->addColumn('action', 'admin.section.action')
-            ->rawColumns(['action'])
+            ->rawColumns(['action', 'status'])
             ->addIndexColumn()
             ->make(true);
         }
-        return view('admin.section.index');
+        return view('admin.section.index', compact('teachers', 'classes'));
     }
 
     /**
@@ -104,7 +111,7 @@ class SectionController extends Controller
         $section = Section::where('id', $request->bid)->first();
         if (!empty($section)) 
         {
-            $data = array('id' =>$section->id,'section' =>$section->section,'status' =>$section->status
+            $data = array('id' =>$section->id,'section_name' =>$section->section_name,'capacity' =>$section->capacity, 'class_id' => $section->class_id, 'teacher_id' => $section->teacher_id, 'note' => $section->note
             );
         }else{
             $data =0;
@@ -116,8 +123,11 @@ class SectionController extends Controller
     {
         $section = Section::where('id', $request->id)->first();
         $input_data = array (
-            'section' => $request->section,
-            'status' => $request->status,
+            'section_name' => $request->section_name,
+            'capacity' => $request->capacity,
+            'class_id' => $request->class_name,
+            'teacher_id' => $request->teacher_name,
+            'note' => $request->note,
         );
 
         Section::whereId($section->id)->update($input_data);
@@ -147,5 +157,19 @@ class SectionController extends Controller
         $section = Section::findorfail($id);
         $section->delete();
         return response()->json(['success' => 'Section Deleted Successfully']);
+    }
+
+    public function status($id, Request $request)
+    {
+        $section = Section::findorfail($id);
+        if($section->status == 1)
+        {
+            $section->status = 0;
+        }
+        else{
+            $section->status = 1;
+        }
+        $section->update($request->all());
+        return response()->json(['success' => 'Status Updated Successfully']);
     }
 }

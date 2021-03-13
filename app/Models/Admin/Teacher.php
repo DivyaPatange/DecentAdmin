@@ -15,4 +15,8 @@ class Teacher extends Model
     public function sections(){
         return $this->hasMany('App\Models\Admin\Section','teacher_id', 'id');
     }
+
+    public function subjectTeacher(){
+        return $this->hasMany('App\Models\Admin\SubjectTeacher','teacher_id', 'id');
+    }
 }

@@ -120,17 +120,68 @@
                 <div class="tab-pane fade" id="float" role="tabpanel">
                     <div class="generic-card-body">
                         <h6 class="sub-title">Class & Section </h6>
-                        <code data-toggle="tooltip" data-placement="top" title="FLoat-left">.f-left</code>
-                        <code data-toggle="tooltip" data-placement="top" title="Float-right">.f-right</code>
-                        <code data-toggle="tooltip" data-placement="top" title="Float-none">.f-none</code>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Class</th>
+                                                <th>Section</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($sections as $s)
+                                            <tr>
+                                            <?php 
+                                                $class = DB::table('classes')->where('id', $s->class_id)->first();
+                                            ?>
+                                                <td>@if(!empty($class)){{ $class->class_name }}@endif</td>
+                                                <td>{{ $s->section_name }}</td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="tab-pane fade" id="overflow" role="tabpanel">
                     <div class="generic-card-body">
                         <h6 class="sub-title">Subjects </h6>
-                        <code data-toggle="tooltip" data-placement="top" title="Overflow Hidden">.o-hidden</code>
-                        <code data-toggle="tooltip" data-placement="top" title="Overflow Auto">.o-auto</code>
-                        <code data-toggle="tooltip" data-placement="top" title="Overflow Visible">.o-visible</code>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Class</th>
+                                                <th>Subject</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($subTeacher as $st)
+                                            <tr>
+                                            <?php 
+                                                $section = DB::table('sections')->where('id', $st->section_id)->first();
+                                                $subject = DB::table('subjects')->where('id', $st->subject_id)->first();
+                                            ?>
+                                                <td>@if(!empty($section))
+                                                <?php 
+                                                    $class1 = DB::table('classes')->where('id', $section->class_id)->first();
+                                                ?>
+                                                @if(!empty($class1)){{ $class1->class_name }} {{ $section->section_name }} @endif
+                                                @endif
+                                                </td>
+                                                <td>@if(!empty($subject)){{ $subject->subject_name }}@endif</td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

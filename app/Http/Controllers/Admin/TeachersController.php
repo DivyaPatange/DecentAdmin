@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Admin\Teacher;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Admin\Section;
+use App\Models\Admin\SubjectTeacher;
 
 class TeachersController extends Controller
 {
@@ -97,7 +99,9 @@ class TeachersController extends Controller
     public function show($id)
     {
         $teacher = Teacher::findorfail($id);
-        return view('admin.teachers.show', compact('teacher'));
+        $sections = Section::where('teacher_id', $id)->get();
+        $subTeacher = SubjectTeacher::where('teacher_id', $id)->get();
+        return view('admin.teachers.show', compact('teacher', 'sections', 'subTeacher'));
     }
 
     /**

@@ -51,6 +51,10 @@ return [
             'driver' => 'session',
             'provider' => 'admins',
         ],
+        'parent' => [
+            'driver' => 'session',
+            'provider' => 'parents',
+        ],
     ],
 
     /*
@@ -81,6 +85,11 @@ return [
             'model' => App\Models\Admin::class,
         ],
         
+
+        'parents' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\ParentLogin::class,
+        ],
 
         // 'users' => [
         //     'driver' => 'database',

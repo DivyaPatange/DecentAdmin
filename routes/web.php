@@ -1,10 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
+// Admin Controller
 use App\Http\Controllers\Auth\AdminLoginController;
 use App\Http\Controllers\Auth\AdminController;
 use App\Http\Controllers\Admin\AcademicYearController;
-use App\Http\Controllers\Admin\StandardController;
 use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\Admin\ClassController;
 use App\Http\Controllers\Admin\JuniorAdmissionController;
@@ -19,6 +20,14 @@ use App\Http\Controllers\Admin\CertificateController;
 use App\Http\Controllers\Admin\PrimarySchoolController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\DocumentController;
+use App\Http\Controllers\Admin\TeachersController;
+use App\Http\Controllers\Admin\SubjectController;
+use App\Http\Controllers\Admin\SubjectTeacherController;
+
+// Parent Controller
+use App\Http\Controllers\Auth\ParentLoginController;
+use App\Http\Controllers\Auth\ParentController;
+use App\Http\Controllers\Auth\ParentRegisterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,24 +70,41 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+Route::get('/enquiry', [App\Http\Controllers\EnquiryController::class, 'create']);
+Route::post('/enquiry/save', [App\Http\Controllers\EnquiryController::class, 'store'])->name('enquiry.submit');
+
 Route::prefix('admin')->name('admin.')->group(function() {
     // Admin Authentication Route
     Route::get('/login', [AdminLoginController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [AdminLoginController::class, 'login'])->name('login.submit');
     Route::get('/', [AdminController::class, 'index'])->name('dashboard');
     Route::get('/logout', [AdminLoginController::class, 'logout'])->name('logout');
+
+    // Teachers Route
+    Route::resource('/teachers', TeachersController::class);
+    Route::get('/teachers/status/{id}', [TeachersController::class, 'status']);
+
     // Academic Year Route
     Route::resource('/academic-year', AcademicYearController::class);
     Route::post('/get-academic-year', [AcademicYearController::class, 'getAcademicYear'])->name('get.academic-year');
     Route::post('/academic-year/update', [AcademicYearController::class, 'updateAcademicYear']);
-    // Standard Route
-    Route::resource('/standards', StandardController::class);
-    Route::post('/get-standard', [StandardController::class, 'getStandard'])->name('get.standard');
-    Route::post('/standard/update', [StandardController::class, 'updateStandard']);
+    // Subject Route
+    Route::resource('/subjects', SubjectController::class);
+    Route::post('/get-subject', [SubjectController::class, 'getSubject'])->name('get.subject');
+    Route::post('/subject/update', [SubjectController::class, 'updateSubject']);
+    Route::get('/subjects/status/{id}', [SubjectController::class, 'status']);
+
+    // Subject Teacher Route
+    Route::resource('/subject-teacher', SubjectTeacherController::class);
+    Route::get('/subject-teacher/status/{id}', [SubjectTeacherController::class, 'status']);
+    Route::get('/get-subject-list', [SubjectTeacherController::class, 'getSubjectList']);
+
+
     // Section Route
     Route::resource('/sections', SectionController::class);
     Route::post('/get-section', [SectionController::class, 'getSection'])->name('get.section');
     Route::post('/section/update', [SectionController::class, 'updateSection']);
+    Route::get('/sections/status/{id}', [SectionController::class, 'status']);
     // Class Route
     Route::resource('/class', ClassController::class);
     Route::post('/get-class', [ClassController::class, 'getClass'])->name('get.class');
@@ -142,4 +168,17 @@ Route::prefix('admin')->name('admin.')->group(function() {
     Route::resource('/documents', DocumentController::class);
     Route::post('/get-document', [DocumentController::class, 'getDocument'])->name('get.document');
     Route::post('/document/update', [DocumentController::class, 'updateDocument']);
+});
+
+Route::prefix('parent')->name('parent.')->group(function() {
+    // Admin Authentication Route
+    Route::get('/login', [ParentLoginController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [ParentLoginController::class, 'login'])->name('login.submit');
+    Route::get('/register', [ParentRegisterController::class, 'showRegisterForm'])->name('register');
+    Route::post('/register', [ParentRegisterController::class, 'register'])->name('register.submit');
+    Route::get('/', [ParentController::class, 'index'])->name('dashboard');
+    Route::get('/logout', [ParentLoginController::class, 'logout'])->name('logout');
+
+    // Junior College Admission
+    Route::resource('/junior-college-admission', App\Http\Controllers\Parent\JuniorCollegeController::class);
 });

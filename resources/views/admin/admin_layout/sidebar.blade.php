@@ -81,11 +81,18 @@
                 </ul>
             </li>
             @endif
-            @if((in_array("Academic Year", $explodeRole)) || (in_array("Standard", $explodeRole)) || (in_array("Section", $explodeRole)) || (in_array("Class", $explodeRole)) || (in_array("Document", $explodeRole)))
+            <li class="">
+                <a href="{{ route('admin.teachers.index') }}" class="waves-effect waves-dark">
+                    <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
+                    <span class="pcoded-mtext">Teachers</span>
+                    <span class="pcoded-mcaret"></span>
+                </a>
+            </li>
+            @if((in_array("Academic Year", $explodeRole)) || (in_array("Subject", $explodeRole)) || (in_array("Section", $explodeRole)) || (in_array("Class", $explodeRole)) || (in_array("Document", $explodeRole)) || (in_array("Subject Teacher", $explodeRole)))
             <li class="pcoded-hasmenu">
                 <a href="javascript:void(0)" class="waves-effect waves-dark">
                     <span class="pcoded-micon"><i class="ti-layout"></i><b>P</b></span>
-                    <span class="pcoded-mtext">Master Tab</span>
+                    <span class="pcoded-mtext">Academic</span>
                     <!-- <span class="pcoded-badge label label-warning">NEW</span> -->
                     <span class="pcoded-mcaret"></span>
                 </a>
@@ -108,11 +115,11 @@
                         </a>
                     </li>
                     @endif 
-                    @if(in_array("Standard", $explodeRole))
+                    @if(in_array("Class", $explodeRole))
                     <li class=" ">
-                        <a href="{{ route('admin.standards.index') }}" class="waves-effect waves-dark">
+                        <a href="{{ route('admin.class.index') }}" class="waves-effect waves-dark">
                             <span class="pcoded-micon"><i class="icon-pie-chart"></i></span>
-                            <span class="pcoded-mtext">Standard</span>
+                            <span class="pcoded-mtext">Class</span>
                             <span class="pcoded-mcaret"></span>
                         </a>
                     </li>
@@ -126,15 +133,24 @@
                         </a>
                     </li>
                     @endif 
-                    @if(in_array("Class", $explodeRole))
+                    @if(in_array("Subject", $explodeRole))
                     <li class=" ">
-                        <a href="{{ route('admin.class.index') }}" class="waves-effect waves-dark">
+                        <a href="{{ route('admin.subjects.index') }}" class="waves-effect waves-dark">
                             <span class="pcoded-micon"><i class="icon-pie-chart"></i></span>
-                            <span class="pcoded-mtext">Class</span>
+                            <span class="pcoded-mtext">Subject</span>
                             <span class="pcoded-mcaret"></span>
                         </a>
                     </li>
                     @endif
+                    @if(in_array("Subject Teacher", $explodeRole))
+                    <li class=" ">
+                        <a href="{{ route('admin.subject-teacher.index') }}" class="waves-effect waves-dark">
+                            <span class="pcoded-micon"><i class="icon-pie-chart"></i></span>
+                            <span class="pcoded-mtext">Subject Teacher</span>
+                            <span class="pcoded-mcaret"></span>
+                        </a>
+                    </li>
+                    @endif 
                 </ul>
             </li>
             @endif

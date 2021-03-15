@@ -11,5 +11,12 @@ class Section extends Model
 
     protected $table = "sections";
 
-    protected $fillable = ['section', 'status'];
+    protected $fillable = ['section_name', 'capacity', 'class_id', 'teacher_id', 'note', 'status'];
+    public function classes(){
+        return $this->belongsTo('App\Models\Admin\Classes','class_id', 'id');
+    }
+
+    public function teachers(){
+        return $this->belongsTo('App\Models\Admin\Teacher','teacher_id', 'id');
+    }
 }

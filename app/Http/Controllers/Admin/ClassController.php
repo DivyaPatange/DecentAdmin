@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Admin\Classes;
-use App\Models\Admin\Standard;
 use App\Models\Admin\Section;
 
 class ClassController extends Controller
@@ -21,8 +20,6 @@ class ClassController extends Controller
      */
     public function index()
     {
-        $standards = Standard::where('status', 1)->get();
-        $sections = Section::where('status', 1)->get();
         $class = Classes::all();
         if(request()->ajax()) {
             return datatables()->of($class)
@@ -32,12 +29,18 @@ class ClassController extends Controller
                 else
                 return 'Inactive';
             })
+            ->addColumn('is_open_for_adm', function($row){
+                if($row->is_open_for_adm == 1)
+                return 'Yes';
+                else
+                return 'No';
+            })
             ->addColumn('action', 'admin.class.action')
-            ->rawColumns(['action'])
+            ->rawColumns(['action', 'status'])
             ->addIndexColumn()
             ->make(true);
         }
-        return view('admin.class.index', compact('standards', 'sections'));
+        return view('admin.class.index');
     }
 
     /**
@@ -47,7 +50,7 @@ class ClassController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.class.create');
     }
 
     /**
@@ -59,12 +62,13 @@ class ClassController extends Controller
     public function store(Request $request)
     {
         $class = new Classes();
-        $class->class = $request->standard.' '.$request->section;
-        $class->standard = $request->standard;
-        $class->section = $request->section;
-        $class->status = $request->status;
+        $class->class_name = $request->class_name;
+        $class->numeric_value = $request->numeric_value;
+        $class->is_open_for_adm = $request->adm;
+        $class->note = $request->note;
+        $class->status = 1;
         $class->save();
-        return response()->json(['success' => 'Class Added Successfully']);
+        return redirect('/admin/class')->with('success', 'Class Added Successfully!');
     }
 
     public function getClass(Request $request)
@@ -72,7 +76,7 @@ class ClassController extends Controller
         $class = Classes::where('id', $request->bid)->first();
         if (!empty($class)) 
         {
-            $data = array('id' =>$class->id,'section' =>$class->section,'status' =>$class->status, 'standard' => $class->standard
+            $data = array('id' =>$class->id,'class_name' =>$class->class_name,'numeric_value' =>$class->numeric_value, 'is_open_for_adm' => $class->is_open_for_adm, 'note' => $class->note,'status' => $class->status
             );
         }else{
             $data =0;
@@ -84,9 +88,10 @@ class ClassController extends Controller
     {
         $class = Classes::where('id', $request->id)->first();
         $input_data = array (
-            'class' => $request->standard.' '.$request->section,
-            'standard' => $request->standard,
-            'section' => $request->section,
+            'class_name' => $request->name,
+            'numeric_value' => $request->numeric,
+            'is_open_for_adm' => $request->admission,
+            'note' => $request->note,
             'status' => $request->status,
         );
 

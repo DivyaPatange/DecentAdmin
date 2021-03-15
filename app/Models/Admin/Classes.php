@@ -11,9 +11,17 @@ class Classes extends Model
 
     protected $table = "classes";
 
-    protected $fillable = ['standard', 'section', 'status', 'class'];
+    protected $fillable = ['class_name', 'numeric_value', 'is_open_for_adm', 'status'];
 
     public function allotments(){
         return $this->hasMany('App\Models\Admin\Allotment','class_id', 'id');
+    }
+
+    public function sections(){
+        return $this->hasMany('App\Models\Admin\Section','class_id', 'id');
+    }
+
+    public function subjects(){
+        return $this->hasMany('App\Models\Admin\Subject','class_id', 'id');
     }
 }

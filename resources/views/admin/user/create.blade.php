@@ -115,7 +115,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-check-inline">
                                                     <label class="form-check-label">
-                                                        <input type="checkbox" name="role_access[]" class="form-check-input" value="Standard">Standard
+                                                        <input type="checkbox" name="role_access[]" class="form-check-input" value="Class">Class
                                                     </label>
                                                 </div>
                                             </div>
@@ -129,7 +129,14 @@
                                             <div class="col-md-4">
                                                 <div class="form-check-inline">
                                                     <label class="form-check-label">
-                                                        <input type="checkbox" name="role_access[]" class="form-check-input" value="Class">Class
+                                                        <input type="checkbox" name="role_access[]" class="form-check-input" value="Subject">Subject
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-check-inline">
+                                                    <label class="form-check-label">
+                                                        <input type="checkbox" name="role_access[]" class="form-check-input" value="Subject Teacher">Subject Teacher
                                                     </label>
                                                 </div>
                                             </div>

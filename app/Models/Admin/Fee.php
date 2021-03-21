@@ -18,7 +18,7 @@ class Fee extends Model
     }
 
     public function classes(){
-        return $this->belongsTo('App\Models\Admin\Standard','class_id', 'standard');
+        return $this->belongsTo('App\Models\Admin\Classes','class_id', 'id');
     }
 
     public function sessions(){

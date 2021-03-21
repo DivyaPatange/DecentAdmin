@@ -10,8 +10,8 @@
     <!-- task, page, download counter  start -->
     <div class="col-xl-3 col-md-4">
     <?php 
-        $jrAdmission = DB::table('junior_admissions')->where('admission_date', date('Y-m-d'))->get();
-        $prAdmission = DB::table('primary_schools')->where('admission_date', date('Y-m-d'))->get();
+        $jrAdmission = DB::table('admissions')->where('admission_date', date('Y-m-d'))->where('admission_for', "Junior College Admission")->get();
+        $prAdmission = DB::table('admissions')->where('admission_date', date('Y-m-d'))->where('admission_for', "Primary School Admission")->get();
         $totalFee = DB::table('pays')->get();
         $visitors = DB::table('visitors')->where('visit_date', date('Y-m-d'))->get();
         $inward = DB::table('inwards')->where('in_date', date('Y-m-d'))->get();

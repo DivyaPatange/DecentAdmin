@@ -11,5 +11,5 @@ class Student extends Model
 
     protected $table = "students";
 
-    protected $fillable = ['admission_id', 'collage_ID'];
+    protected $fillable = ['admission_id', 'regi_no', 'class_id', 'section_id', 'academic_id', 'roll_no', 'status', 'is_promoted' ,'old_registration_id', 'created_by'];
 }

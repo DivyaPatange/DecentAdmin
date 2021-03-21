@@ -21,7 +21,7 @@ class AdminsTableSeeder extends Seeder
             'email' => 'admin@admin.com',
             'password' => Hash::make('admin@admin.com'),
             'acc_type' => 'superadmin',
-            'role_access' => 'Add User,User List,Academic Year,Document,Subject,Subject Teacher,Section,Class,New Junior Admission,Junior Admission List,New School Admission,School Admission List,New Allotment,Allotment List,Junior College Certificate,Primary School Certificate,Fee Head,Add Fee,Pay Fee,Visitor Registration,Inward Document,Outward Document',
+            'role_access' => 'Add User,User List,Academic Year,Document,Subject,Subject Teacher,Section,Class,New Admission,Admission List,New School Admission,School Admission List,New Allotment,Allotment List,Junior College Certificate,Primary School Certificate,Fee Head,Add Fee,Pay Fee,Visitor Registration,Inward Document,Outward Document',
         ]);
     }
 }

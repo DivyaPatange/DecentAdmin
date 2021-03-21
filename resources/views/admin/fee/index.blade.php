@@ -43,7 +43,7 @@
                                 <select name="classes" class="form-control" id="classes">
                                     <option value="">-Select Class-</option>
                                     @foreach($standard as $c)
-                                    <option value="{{ $c->standard }}">{{ $c->standard }}</option>
+                                    <option value="{{ $c->id }}">{{ $c->class_name }}</option>
                                     @endforeach
                                 </select>
                                 <span class="form-bar"></span>
@@ -165,7 +165,7 @@
                             <select name="classes" class="form-control" id="edit_class">
                                 <option value="">-Select Class-</option>
                                 @foreach($standard as $c)
-                                <option value="{{ $c->standard }}">{{ $c->standard }}</option>
+                                <option value="{{ $c->id }}">{{ $c->class_name }}</option>
                                 @endforeach
                             </select>
                             <span class="form-bar"></span>
@@ -403,7 +403,7 @@ function checkSubmit()
     { 
         $('#editButton').attr('disabled',true);
         var datastring="fee_head="+fee_head+"&status="+status+"&id="+id+"&description="+description+"&classes="+classes+"&academic_year="+academic_year+"&amount="+amount;
-        alert(datastring);
+        // alert(datastring);
         $.ajax({
             type:"POST",
             url:"{{ url('/admin/fee/update') }}",

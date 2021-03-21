@@ -23,7 +23,7 @@
     <div class="col-md-4">
         <div class="card">
             <div class="card-header text-center">
-                <img src="@if($teacher->photo){{  URL::asset('teacherPhoto/' . $teacher->photo) }}@else {{ asset('avatar.jpg') }}@endif" alt="" class="img-fluid">
+                <img src="@if($teacher->photo){{  URL::asset('teacherPhoto/' . $teacher->photo) }}@else {{ asset('avatar.png') }}@endif" alt="" class="img-fluid" width="100px">
                 <h4>{{ $teacher->name }}</h4>
                 <p>{{ $teacher->designation }}</p>
             </div>

@@ -23,6 +23,8 @@ use App\Http\Controllers\Admin\DocumentController;
 use App\Http\Controllers\Admin\TeachersController;
 use App\Http\Controllers\Admin\SubjectController;
 use App\Http\Controllers\Admin\SubjectTeacherController;
+use App\Http\Controllers\Admin\AdmissionController;
+use App\Http\Controllers\Admin\StudentController;
 
 // Parent Controller
 use App\Http\Controllers\Auth\ParentLoginController;
@@ -168,6 +170,23 @@ Route::prefix('admin')->name('admin.')->group(function() {
     Route::resource('/documents', DocumentController::class);
     Route::post('/get-document', [DocumentController::class, 'getDocument'])->name('get.document');
     Route::post('/document/update', [DocumentController::class, 'updateDocument']);
+
+    // Admission Route
+    Route::resource('/admission', AdmissionController::class);
+    Route::post('/junior-admission/store', [AdmissionController::class, 'storeJuniorAdmission']);
+    Route::post('/primary-admission/store', [AdmissionController::class, 'storePrimaryAdmission']);
+    Route::put('/junior-admission/update/{id}', [AdmissionController::class, 'updateJuniorAdmission'])->name('junior-admission.update');
+    Route::put('/primary-admission/update/{id}', [AdmissionController::class, 'updatePrimaryAdmission'])->name('primary-admission.update');
+    Route::get('/admission/status/{id}', [AdmissionController::class, 'status']);
+
+    // Parents Route
+    Route::resource('/parents', App\Http\Controllers\Admin\ParentController::class);
+
+    // Students Route
+    Route::resource('/students', StudentController::class);
+    Route::get('/get-section-list', [StudentController::class, 'getSectionList']);
+    Route::get('/students/status/{id}', [StudentController::class, 'status']);
+
 });
 
 Route::prefix('parent')->name('parent.')->group(function() {
@@ -179,6 +198,11 @@ Route::prefix('parent')->name('parent.')->group(function() {
     Route::get('/', [ParentController::class, 'index'])->name('dashboard');
     Route::get('/logout', [ParentLoginController::class, 'logout'])->name('logout');
 
-    // Junior College Admission
-    Route::resource('/junior-college-admission', App\Http\Controllers\Parent\JuniorCollegeController::class);
+    // Admission Route
+    Route::resource('/admission', App\Http\Controllers\Parent\AdmissionController::class);
+    Route::post('/junior-admission/store', [App\Http\Controllers\Parent\AdmissionController::class, 'storeJuniorAdmission']);
+    Route::post('/primary-admission/store', [App\Http\Controllers\Parent\AdmissionController::class, 'storePrimaryAdmission']);
+    Route::put('/junior-admission/update/{id}', [App\Http\Controllers\Parent\AdmissionController::class, 'updateJuniorAdmission'])->name('junior-admission.update');
+    Route::put('/primary-admission/update/{id}', [App\Http\Controllers\Parent\AdmissionController::class, 'updatePrimaryAdmission'])->name('primary-admission.update');
+
 });

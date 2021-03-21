@@ -162,9 +162,7 @@
                         <div class="form-group form-default">
                             <select name="last_exam_passed" class="form-control" id="last_exam_passed">
                                 <option value="">Choose</option>
-                                @foreach($standards as $s)
-                                <option value="{{ $s->standard }}">{{ $s->standard }}</option>
-                                @endforeach
+                               
                             </select>
                             <span class="form-bar"></span>
                             <label class="float-label">Last Promotion Examination Passed<span style="color:red;">*</span><span  style="color:red" id="last_ep_err"> </span></label>
@@ -174,9 +172,7 @@
                         <div class="form-group form-default">
                             <select name="adm_sought" class="form-control" id="adm_sought">
                                 <option value="">Choose</option>
-                                @foreach($standards as $s)
-                                <option value="{{ $s->standard }}">{{ $s->standard }}</option>
-                                @endforeach
+                               
                             </select>
                             <span class="form-bar"></span>
                             <label class="float-label">Class in which admission sought<span style="color:red;">*</span><span  style="color:red" id="adm_s_err"> </span></label>

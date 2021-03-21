@@ -61,10 +61,10 @@
                 <div id="submenu-2" class="collapse submenu" style="">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('parent.junior-college-admission.index') }}">Junior College Admission </a>
+                            <a class="nav-link" href="{{ route('parent.admission.create') }}">New Admission </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="pages/general.html">Primary School Admission</a>
+                            <a class="nav-link" href="{{ route('parent.admission.index') }}">Admission List</a>
                         </li>
                     </ul>
                 </div>

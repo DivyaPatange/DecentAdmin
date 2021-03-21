@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateJuniorAdmissionsTable extends Migration
+class CreateAdmissionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,13 @@ class CreateJuniorAdmissionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('junior_admissions', function (Blueprint $table) {
+        Schema::create('admissions', function (Blueprint $table) {
             $table->id();
+            $table->string('created_by');
+            $table->unsignedInteger('parent_id');
+            $table->foreign('parent_id')->references('id')->on('parents');
+            $table->string('admission_for');
+            $table->string('application_no');
             $table->string('admission_reg_no')->nullable();
             $table->unsignedInteger('academic_id');
             $table->foreign('academic_id')->references('id')->on('academic_years');
@@ -28,7 +33,7 @@ class CreateJuniorAdmissionsTable extends Migration
             $table->string('mobile_no')->nullable();
             $table->text('address')->nullable();
             $table->string('adhaar_no')->nullable();
-            $table->date('date_of_birth')->nullable();
+            $table->date('dob')->nullable();
             $table->string('id_no')->nullable();
             $table->string('religion')->nullable();
             $table->string('caste')->nullable();
@@ -42,9 +47,33 @@ class CreateJuniorAdmissionsTable extends Migration
             $table->string('board')->nullable();
             $table->string('adm_sought')->nullable();
             $table->string('stream')->nullable();
+            $table->string('gr_no')->nullable();
+            $table->string('full_name_pupil')->nullable();
+            $table->string('surname')->nullable();
+            $table->text('postal_address')->nullable();
+            $table->string('occupation')->nullable();
+            $table->string('race_caste')->nullable();
+            $table->string('monthly_income')->nullable();
+            $table->string('birth_place')->nullable();
+            $table->string('nationality')->nullable();
+            $table->string('medium')->nullable();
+            $table->string('rte')->nullable();
+            $table->string('father_name1')->nullable();
+            $table->string('f_education')->nullable();
+            $table->text('f_address')->nullable();
+            $table->string('f_phone_no')->nullable();
+            $table->string('mother_name1')->nullable();
+            $table->string('m_education')->nullable();
+            $table->text('m_address')->nullable();
+            $table->string('m_phone_no')->nullable();
+            $table->string('guardian_name')->nullable();
+            $table->string('g_occupation')->nullable();
+            $table->string('g_education')->nullable();
+            $table->text('g_address')->nullable();
+            $table->string('g_phone_no')->nullable();
             $table->string('other_board')->nullable();
-            $table->string('collage_ID')->nullable();
-            $table->boolean('status');
+            $table->boolean('is_register');
+            $table->boolean('is_allot');
             $table->timestamps();
         });
     }
@@ -56,6 +85,6 @@ class CreateJuniorAdmissionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('junior_admissions');
+        Schema::dropIfExists('admissions');
     }
 }

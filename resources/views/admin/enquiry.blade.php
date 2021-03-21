@@ -169,13 +169,13 @@
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <?php 
-                                            $standard = DB::table('standards')->orderBy('id', 'DESC')->get();
+                                            $standard = DB::table('classes')->orderBy('id', 'DESC')->get();
                                         ?>
                                         <div class="form-group form-primary">
                                             <select name="last_exam_passed" id="last_exam_passed" class="form-control">
                                                 <option value="">-Select-</option>
                                                 @foreach($standard as $s)
-                                                <option value="{{ $s->id }}">{{ $s->standard }}</option>
+                                                <option value="{{ $s->id }}">{{ $s->class_name }}</option>
                                                 @endforeach
                                             </select>
                                             <span class="form-bar"></span>
@@ -194,7 +194,7 @@
                                     <select name="adm_sought" id="adm_sought" class="form-control">
                                         <option value="">-Select-</option>
                                         @foreach($standard as $s)
-                                        <option value="{{ $s->id }}">{{ $s->standard }}</option>
+                                        <option value="{{ $s->id }}">{{ $s->class_name }}</option>
                                         @endforeach
                                     </select>
                                     <span class="form-bar"></span>

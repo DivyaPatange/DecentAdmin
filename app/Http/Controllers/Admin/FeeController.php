@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Admin\FeeHead;
 use App\Models\Admin\Fee;
-use App\Models\Admin\Standard;
+use App\Models\Admin\Classes;
 use App\Models\Admin\AcademicYear;
 
 class FeeController extends Controller
@@ -23,7 +23,7 @@ class FeeController extends Controller
     public function index()
     {
         $fees = Fee::all();
-        $standard = Standard::where('status', 1)->get();
+        $standard = Classes::where('status', 1)->get();
         $academicYear = AcademicYear::where('status', 1)->get();
         $feeHead = FeeHead::where('status', 1)->get();
         if(request()->ajax()) {
@@ -34,8 +34,8 @@ class FeeController extends Controller
                 }
             })
             ->addColumn('class_id', function(Fee $fee){
-                if(!empty($fee->classes->standard)){
-                    return $fee->classes->standard;
+                if(!empty($fee->classes->class_name)){
+                    return $fee->classes->class_name;
                 }
             })
             ->addColumn('academic_id', function(Fee $fee){

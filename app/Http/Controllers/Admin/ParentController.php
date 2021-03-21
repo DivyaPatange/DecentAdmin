@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Parent;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\ParentLogin;
 
-class JuniorCollegeController extends Controller
+class ParentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +15,17 @@ class JuniorCollegeController extends Controller
      */
     public function index()
     {
-        return view('parents.jrAdmission.index');
+        $parents = ParentLogin::all();
+        if(request()->ajax()) {
+            return datatables()->of($parents)
+            ->addColumn('created_at', function($row){
+                return date("d-m-Y", strtotime($row->created_at));  
+            })
+            ->rawColumns(['created_at'])
+            ->addIndexColumn()
+            ->make(true);
+        }
+        return view('admin.parents.index');
     }
 
     /**
@@ -24,7 +35,7 @@ class JuniorCollegeController extends Controller
      */
     public function create()
     {
-        return view('parents.jrAdmission.create');
+        //
     }
 
     /**

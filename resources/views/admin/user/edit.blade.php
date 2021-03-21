@@ -129,14 +129,14 @@
                                             <div class="col-md-4">
                                                 <div class="form-check-inline">
                                                     <label class="form-check-label">
-                                                        <input type="checkbox" name="role_access[]" class="form-check-input" value="New Junior Admission" @if(in_array("New Junior Admission", $role_access)) Checked @endif>New Junior Admission
+                                                        <input type="checkbox" name="role_access[]" class="form-check-input" value="New Junior Admission" @if(in_array("New Admission", $role_access)) Checked @endif>New Admission
                                                     </label>
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-check-inline">
                                                     <label class="form-check-label">
-                                                        <input type="checkbox" name="role_access[]" class="form-check-input" value="Junior Admission List" @if(in_array("Junior Admission List", $role_access)) Checked @endif>Junior Admission List
+                                                        <input type="checkbox" name="role_access[]" class="form-check-input" value="Junior Admission List" @if(in_array("Admission List", $role_access)) Checked @endif>Admission List
                                                     </label>
                                                 </div>
                                             </div>

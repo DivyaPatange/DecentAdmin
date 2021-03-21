@@ -81,10 +81,27 @@
                 </ul>
             </li>
             @endif
+            
+            @if((in_array("New Allotment", $explodeRole)) || (in_array("Allotment List", $explodeRole)))
+            <li class=" ">
+                <a href="{{ route('admin.students.index') }}" class="waves-effect waves-dark">
+                    <span class="pcoded-micon"><i class="ti-write"></i><b>FM</b></span>
+                    <span class="pcoded-mtext">Students</span>
+                    <span class="pcoded-mcaret"></span>
+                </a>
+            </li>
+            @endif
             <li class="">
                 <a href="{{ route('admin.teachers.index') }}" class="waves-effect waves-dark">
                     <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
                     <span class="pcoded-mtext">Teachers</span>
+                    <span class="pcoded-mcaret"></span>
+                </a>
+            </li>
+            <li class="">
+                <a href="{{ route('admin.parents.index') }}" class="waves-effect waves-dark">
+                    <span class="pcoded-micon"><i class="ti-layout-cta-right"></i><b>N</b></span>
+                    <span class="pcoded-mtext">Parents</span>
                     <span class="pcoded-mcaret"></span>
                 </a>
             </li>
@@ -154,26 +171,26 @@
                 </ul>
             </li>
             @endif
-            @if((in_array("New Junior Admission", $explodeRole)) || (in_array("Junior Admission List", $explodeRole)))
+            @if((in_array("New Admission", $explodeRole)) || (in_array("Admission List", $explodeRole)))
             <li class="pcoded-hasmenu">
                 <a href="javascript:void(0)" class="waves-effect waves-dark">
                     <span class="pcoded-micon"><i class="ti-view-grid"></i><b></b></span>
-                    <span class="pcoded-mtext">Jr. College Admission</span>
+                    <span class="pcoded-mtext">Admission</span>
                     <span class="pcoded-mcaret"></span>
                 </a>
                 <ul class="pcoded-submenu">
-                    @if(in_array("New Junior Admission", $explodeRole))
+                    @if(in_array("New Admission", $explodeRole))
                     <li class="">
-                        <a href="{{ route('admin.junior-college-admission.create') }}" class="waves-effect waves-dark">
+                        <a href="{{ route('admin.admission.create') }}" class="waves-effect waves-dark">
                             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
                             <span class="pcoded-mtext">New Admission</span>
                             <span class="pcoded-mcaret"></span>
                         </a>
                     </li>
                     @endif 
-                    @if(in_array("Junior Admission List", $explodeRole))
+                    @if(in_array("Admission List", $explodeRole))
                     <li class=" ">
-                        <a href="{{ route('admin.junior-college-admission.index') }}" class="waves-effect waves-dark">
+                        <a href="{{ route('admin.admission.index') }}" class="waves-effect waves-dark">
                             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
                             <span class="pcoded-mtext">Admission List</span>
                             <span class="pcoded-mcaret"></span>
@@ -183,92 +200,35 @@
                 </ul>
             </li>
             @endif
-            @if((in_array("New School Admission", $explodeRole)) || (in_array("School Admission List", $explodeRole)))
-            <li class="pcoded-hasmenu">
-                <a href="javascript:void(0)" class="waves-effect waves-dark">
-                    <span class="pcoded-micon"><i class="ti-star"></i><b>I</b></span>
-                    <span class="pcoded-mtext">School Admission</span>
-                    <span class="pcoded-mcaret"></span>
-                </a>
-                <ul class="pcoded-submenu">
-                    @if(in_array("New School Admission", $explodeRole))
-                    <li class=" ">
-                        <a href="{{ route('admin.primary-school.create') }}" class="waves-effect waves-dark">
-                            <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                            <span class="pcoded-mtext">New Admission</span>
-                            <span class="pcoded-mcaret"></span>
-                        </a>
-                    </li>
-                    @endif
-                    @if(in_array("School Admission List", $explodeRole))
-                    <li class=" ">
-                        <a href="{{ route('admin.primary-school.index') }}" class="waves-effect waves-dark">
-                            <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                            <span class="pcoded-mtext">Admission List</span>
-                            <span class="pcoded-mcaret"></span>
-                        </a>
-                    </li>
-                    @endif
-                </ul>
-            </li>
-            @endif
-            @if((in_array("New Allotment", $explodeRole)) || (in_array("Allotment List", $explodeRole)))
-            <li class="pcoded-hasmenu">
-                <a href="javascript:void(0)" class="waves-effect waves-dark">
-                    <span class="pcoded-micon"><i class="ti-crown"></i><b>AC</b></span>
-                    <span class="pcoded-mtext">Allotment</span>
-                    <span class="pcoded-mcaret"></span>
-                </a>
-                <ul class="pcoded-submenu">
-                    @if(in_array("New Allotment", $explodeRole))
-                    <li class=" ">
-                        <a href="{{ route('admin.allotment.create') }}" class="waves-effect waves-dark">
-                            <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                            <span class="pcoded-mtext">New Allotment</span>
-                            <span class="pcoded-mcaret"></span>
-                        </a>
-                    </li>
-                    @endif 
-                    @if(in_array("Allotment List", $explodeRole))
-                    <li class=" ">
-                        <a href="{{ route('admin.allotment.index') }}" class="waves-effect waves-dark">
-                            <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                            <span class="pcoded-mtext">Allotment List</span>
-                            <span class="pcoded-mcaret"></span>
-                        </a>
-                    </li>
-                    @endif
-                </ul>
-            </li>
-            @endif
+            
             @if((in_array("Junior College Certificate", $explodeRole)) || (in_array("Primary School Certificate", $explodeRole)))
-            <li class="pcoded-hasmenu">
-                <a href="javascript:void(0)" class="waves-effect waves-dark">
-                    <span class="pcoded-micon"><i class="ti-layout-cta-right"></i><b>N</b></span>
-                    <span class="pcoded-mtext">Certificates</span>
-                    <span class="pcoded-mcaret"></span>
-                </a>
-                <ul class="pcoded-submenu">
-                    @if(in_array("Junior College Certificate", $explodeRole))
-                    <li class=" ">
-                        <a href="{{ route('admin.certificate.index') }}" class="waves-effect waves-dark">
-                            <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                            <span class="pcoded-mtext">Junior College</span>
-                            <span class="pcoded-mcaret"></span>
-                        </a>
-                    </li> 
-                    @endif 
-                    @if(in_array("Primary School Certificate", $explodeRole))
-                    <li class=" ">
-                        <a href="{{ route('admin.fee.index') }}" class="waves-effect waves-dark">
-                            <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                            <span class="pcoded-mtext">Primary School</span>
-                            <span class="pcoded-mcaret"></span>
-                        </a>
-                    </li>
-                    @endif
-                </ul>
-            </li>
+            <!--<li class="pcoded-hasmenu">-->
+            <!--    <a href="javascript:void(0)" class="waves-effect waves-dark">-->
+            <!--        <span class="pcoded-micon"><i class="ti-layout-cta-right"></i><b>N</b></span>-->
+            <!--        <span class="pcoded-mtext">Certificates</span>-->
+            <!--        <span class="pcoded-mcaret"></span>-->
+            <!--    </a>-->
+            <!--    <ul class="pcoded-submenu">-->
+            <!--        @if(in_array("Junior College Certificate", $explodeRole))-->
+            <!--        <li class=" ">-->
+            <!--            <a href="{{ route('admin.certificate.index') }}" class="waves-effect waves-dark">-->
+            <!--                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>-->
+            <!--                <span class="pcoded-mtext">Junior College</span>-->
+            <!--                <span class="pcoded-mcaret"></span>-->
+            <!--            </a>-->
+            <!--        </li> -->
+            <!--        @endif -->
+            <!--        @if(in_array("Primary School Certificate", $explodeRole))-->
+            <!--        <li class=" ">-->
+            <!--            <a href="{{ route('admin.fee.index') }}" class="waves-effect waves-dark">-->
+            <!--                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>-->
+            <!--                <span class="pcoded-mtext">Primary School</span>-->
+            <!--                <span class="pcoded-mcaret"></span>-->
+            <!--            </a>-->
+            <!--        </li>-->
+            <!--        @endif-->
+            <!--    </ul>-->
+            <!--</li>-->
             @endif
         </ul>
         <ul class="pcoded-item pcoded-left-item">

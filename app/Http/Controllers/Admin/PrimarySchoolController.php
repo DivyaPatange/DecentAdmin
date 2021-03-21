@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Admin\Standard;
 use App\Models\Admin\PrimarySchool;
 use App\Models\Admin\AcademicYear;
 
@@ -46,9 +45,8 @@ class PrimarySchoolController extends Controller
     public function create()
     {
         $academicYear = AcademicYear::all();
-        $standards = Standard::where('class_code', '<=', 10)->get();
         // dd($standards);
-        return view('admin.primary-admission.create', compact('standards', 'academicYear'));
+        return view('admin.primary-admission.create', compact('academicYear'));
     }
 
     /**

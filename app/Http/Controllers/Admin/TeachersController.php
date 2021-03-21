@@ -33,7 +33,7 @@ class TeachersController extends Controller
                 }
                 else
                 {
-                $imageUrl = asset('avatar.jpg');
+                $imageUrl = asset('avatar.png');
                 return '<img src="'.$imageUrl.'" width="100px">';
                 }
             })

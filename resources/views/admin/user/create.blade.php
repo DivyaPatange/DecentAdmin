@@ -143,14 +143,14 @@
                                             <div class="col-md-4">
                                                 <div class="form-check-inline">
                                                     <label class="form-check-label">
-                                                        <input type="checkbox" name="role_access[]" class="form-check-input" value="New Junior Admission">New Junior Admission
+                                                        <input type="checkbox" name="role_access[]" class="form-check-input" value="New Admission">New Admission
                                                     </label>
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-check-inline">
                                                     <label class="form-check-label">
-                                                        <input type="checkbox" name="role_access[]" class="form-check-input" value="Junior Admission List">Junior Admission List
+                                                        <input type="checkbox" name="role_access[]" class="form-check-input" value="Admission List">Admission List
                                                     </label>
                                                 </div>
                                             </div>

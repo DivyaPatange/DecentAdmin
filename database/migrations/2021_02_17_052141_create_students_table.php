@@ -17,6 +17,7 @@ class CreateStudentsTable extends Migration
             $table->id();
             $table->unsignedInteger('admission_id');
             $table->foreign('admission_id')->references('id')->on('admissions');
+            $table->string('student_name');
             $table->unsignedInteger('class_id');
             $table->foreign('class_id')->references('id')->on('classes');
             $table->unsignedInteger('section_id');

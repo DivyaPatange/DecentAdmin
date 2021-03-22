@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Admin\Pay;
-use App\Models\Admin\JuniorAdmission;
-use App\Models\Admin\PrimarySchool;
+use App\Models\Admin\Admission;
+use App\Models\Admin\Classes;
+use App\Models\Admin\Section;
+use App\Models\Admin\Student;
 use DB;
 
 class PayController extends Controller
@@ -22,20 +24,65 @@ class PayController extends Controller
      */
     public function index()
     {
-        $admission = JuniorAdmission::orderBy('id', 'DESC')->get();
+        $classes = Classes::where('status', 1)->get();
         if(request()->ajax()) {
-            return datatables()->of($admission)
-            ->addColumn('academic_id', function(JuniorAdmission $juniorAdmission){
-                if(!empty($juniorAdmission->sessions->from_academic_year) && !empty($juniorAdmission->sessions->to_academic_year)){
-                return '('.$juniorAdmission->sessions->from_academic_year.') - ('.$juniorAdmission->sessions->to_academic_year.')';
-                }
+            if(!empty($request->classID) || !empty($request->sectionID) || !empty($request->student) || !empty($request->date_from) || !empty($request->date_to)){
+                $payment = Pay::where('class_id', $request->classID)->where('section_id', $request->sectionID)->where('student_id', $request->student)->whereBetween('payment_date', [$request->date_from, $request->date_to])->get();
+            }
+            else{
+                $payment = Pay::orderBy('id', 'DESC')->get();
+            }
+            return datatables()->of($payment)
+            ->addColumn('student_name', function($row){    
+                $student = Student::where('id', $row->student_id)->first();
+                if(!empty($student))
+                {
+                    return $student->student_name;
+                }                                                                                                                                                                                                                                                                                              
+            })
+            ->addColumn('class', function($row){    
+                $student = Student::where('id', $row->student_id)->first();
+                if(!empty($student))
+                {
+                    $class = Classes::where('id', $student->class_id)->first();
+                    if(!empty($class))
+                    {
+                        return $class->class_name;
+                    }
+                }                                                                                                                                                                                                                                                                                              
+            })
+            ->addColumn('section', function($row){    
+                $student = Student::where('id', $row->student_id)->first();
+                if(!empty($student))
+                {
+                    $section = Section::where('id', $student->section_id)->first();
+                    if(!empty($section))
+                    {
+                        return $section->section_name;
+                    }
+                }                                                                                                                                                                                                                                                                                              
+            })
+            ->addColumn('roll_no', function($row){    
+                $student = Student::where('id', $row->student_id)->first();
+                if(!empty($student))
+                {
+                   return $student->roll_no;
+                }                                                                                                                                                                                                                                                                                              
             })
             ->addColumn('action', 'admin.payment.action')
             ->rawColumns(['academic_id', 'action'])
             ->addIndexColumn()
             ->make(true);
         }
-        return view('admin.payment.index');
+        return view('admin.payment.index', compact('classes'));
+    }
+
+    public function getStudentList(Request $request)
+    {
+        $student = DB::table('students')->where("class_id", $request->classID)->where('section_id', $request->sectionID)
+        ->pluck("student_name","id");
+        // return $student;
+        return response()->json($student);
     }
 
     /**
@@ -45,7 +92,8 @@ class PayController extends Controller
      */
     public function create()
     {
-        //
+        $classes = Classes::where('status', 1)->get();
+        return view('admin.payment.create', compact('classes'));
     }
 
     /**

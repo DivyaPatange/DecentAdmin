@@ -232,7 +232,7 @@ $(document).ready(function(){
     columns: [
             { data: 'student_photo', name: 'student_photo'},
             { data: 'regi_no', name: 'regi_no' },
-            { data: 'name', name: 'name' },
+            { data: 'student_name', name: 'student_name' },
             { data: 'mobile_no', name: 'mobile_no' },
             { data: 'address', name: 'address' },
             { data: 'status', name: 'status' },

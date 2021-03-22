@@ -247,16 +247,15 @@ $('body').on('click', '#allotSubmitForm', function () {
             cache:false,        
             success:function(returndata)
             {
-                // console.log(returndata);
-                // document.getElementById("allot-form-submit").reset();
-                // document.getElementById("form-submit").reset();
-                // $('#simpletable').DataTable().clear();
-                // $('#simpletable').DataTable().draw();
-                // // var oTable = $('#simpletable').dataTable(); 
-                // // oTable.fnDraw(false);
-                // toastr.success(returndata.success);
-            
-            location.reload();
+                console.log(returndata);
+                document.getElementById("allot-form-submit").reset();
+                document.getElementById("form-submit").reset();
+                $('#simpletable').DataTable().clear();
+                $('#simpletable').DataTable().draw();
+                // var oTable = $('#simpletable').dataTable(); 
+                // oTable.fnDraw(false);
+                toastr.success(returndata.success);
+                
             // $("#pay").val("");
             }
         });

@@ -9,6 +9,7 @@ use App\Models\Admin\Admission;
 use App\Models\Admin\Classes;
 use App\Models\Admin\Section;
 use App\Models\Admin\Student;
+use App\Models\Admin\Fee;
 use DB;
 
 class PayController extends Controller
@@ -83,6 +84,39 @@ class PayController extends Controller
         ->pluck("student_name","id");
         // return $student;
         return response()->json($student);
+    }
+
+    public function getStudentName(Request $request)
+    {
+        if($request->regi_no){
+            $student = Student::where('regi_no', $request->regi_no)->first();
+            $fees = Fee::where('class_id', $student->class_id)
+            ->where('status', 1)
+            ->with('fee_head')
+            ->get()
+            ->pluck('fee_head.fee_head', 'id');
+            return response()->json(['name' => $student->student_name, 'fees' => $fees]);
+        }
+        elseif($request->roll_no && $request->classs && $request->section)
+        {
+            $student = Student::where('roll_no', $request->roll_no)->where('class_id', $request->classs)->where('section_id', $request->section)->first();
+            $fees = Fee::where('class_id', $student->class_id)
+            ->where('status', 1)
+            ->with('fee_head')
+            ->get()
+            ->pluck('fee_head.fee_head', 'id');
+            return response()->json(['name' => $student->student_name, 'fees' => $fees]);
+        }
+    }
+
+    public function getFeeAmount(Request $request)
+    {
+        $fees = Fee::where('id', $request->fee_id)
+        ->where('status', 1)
+        ->with('fee_head')
+        ->get()
+        ->pluck('fee_head.fee_head', 'amount');
+        return response()->json(['id' => $request->fee_id, 'fees' => $fees]);
     }
 
     /**

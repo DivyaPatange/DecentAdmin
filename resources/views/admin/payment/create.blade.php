@@ -5,6 +5,10 @@
 @section('customcss')
 <!-- Select 2 css -->
 <link rel="stylesheet" href="{{ asset('files/bower_components/select2/css/select2.min.css') }}" />
+<!-- themify-icons line icon -->
+<link rel="stylesheet" type="text/css" href="{{ asset('files/assets/icon/themify-icons/themify-icons.css') }}">
+<!-- ico font -->
+<link rel="stylesheet" type="text/css" href="{{ asset('files/assets/icon/icofont/css/icofont.css') }}">
 <style>
 .select2-container .select2-selection--single{
     height:39px;
@@ -14,6 +18,9 @@
 }
 .select2-container--default .select2-selection--single .select2-selection__rendered{
     padding: 4px 30px 4px 20px;
+}
+.icons-alert:before{
+    top:10px;
 }
 </style>
 @endsection
@@ -90,10 +97,72 @@
                             <input type="text" name="student_name" readonly class="form-control" id="student_name">
                         </div>
                     </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-default">
+                        <br>
+                            <button type="button" id="getList" class="btn btn-primary btn-sm">Search</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
         <!-- Material tab card end -->
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5>Fee Info</h5>
+            </div>
+            <div class="card-block">
+
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h5>Pay Fee</h5>
+            </div>
+            <div class="card-block">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="alert alert-danger icons-alert">
+                            <p><strong>Note!</strong> Search Student First</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group form-default">
+                            <label>Fee Head <span  style="color:red" id="allot_class_err"> </span></label>
+                            <select name="fee_head" class="form-control js-example-basic-single" id="fee_head">
+                                
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="table-responsive"> 
+                            <table class="table table-bordered"> 
+                                <thead> 
+                                    <tr> 
+                                        <th class="text-center">Fee Head</th> 
+                                        <th class="text-center">Amount</th> 
+                                        <th></th>
+                                    </tr> 
+                                </thead> 
+                                <tbody id="tbody"> 
+                        
+                                </tbody> 
+                            </table> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 @endsection
@@ -127,5 +196,58 @@ $('#class_name').change(function(){
     $("#section_name").empty();
   }   
   });
+
+$('#getList').click(function(){
+    // the click occured outside '#element'
+    var regi_no = $('#student_regi_no').val();
+    var roll_no = $('#roll_no').val();
+    var classs = $('#class_name').val();
+    var section = $('#section_name').val();
+    // alert(regi_no != '');
+    if((regi_no != '') || (roll_no != '') || (classs != '') || (section != ''))
+    {
+        $.ajax({
+        type:"GET",
+        url:"{{url('admin/get-student-name')}}?regi_no="+regi_no+"&roll_no="+roll_no+"&classs="+classs+"&section="+section,
+        success:function(res){ 
+            // alert(res.fees);
+            $("#student_name").val(res.name);
+            if(res.fees){
+            $("#fee_head").empty();
+            $("#fee_head").append('<option value="">Select Fee Head</option>');
+            $.each(res.fees,function(key,value){
+                // alert(key, value);
+            $("#fee_head").append('<option value="'+key+'">'+value+'</option>');
+            });
+            }
+            else{
+                $("#fee_head").empty();
+            }
+        }
+        })  
+    }
+   
+});
+
+var rowIdx = 0; 
+$( document ).ready(function() {
+$('#fee_head').change(function(){
+    var feeID = $(this).val();
+    // alert(feeID);
+    if(feeID)
+    {
+        $.ajax({
+        type:"GET",
+        url:"{{url('admin/get-fee-amount')}}?fee_id="+feeID,
+        success:function(res){
+            // alert(res);
+            $.each(res.fees,function(key,value){
+            $('#tbody').append('<tr id="'+res.id+'"><td class="row-index text-center"><p>'+value+'</p></td><td class="row-index text-center"><p>'+key+'</p></td><td class="text-center"><button class="btn btn-danger btn-sm remove" type="button"><i class="fa fa-times mr-0"></i></button></td></tr>'); 
+            })
+        }
+        })
+    }
+});
+});
 </script>
 @endsection

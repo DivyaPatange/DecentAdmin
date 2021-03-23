@@ -133,6 +133,8 @@ Route::prefix('admin')->name('admin.')->group(function() {
         return view('admin.payment.demo');
     });
     Route::get('/get-student-list', [PayController::class, 'getStudentList']);
+    Route::get('/get-student-name', [PayController::class, 'getStudentName']);
+    Route::get('/get-fee-amount', [PayController::class, 'getFeeAmount']);
 
     Route::get('/primary-school-list', [PayController::class, 'primarySchoolList'])->name('primary-school-list');
     Route::get('/school-payment/{id}', [PayController::class, 'getSchoolPayment']);

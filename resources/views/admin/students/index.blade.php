@@ -18,14 +18,19 @@
 <!-- animation nifty modal window effects css -->
 <link rel="stylesheet" type="text/css" href="{{ asset('files/assets/css/component.css') }}">
 <style>
-td.details-control {
-background: url('{{ asset('plus1.png') }}') no-repeat center center;
-cursor: pointer;
-background-size:25px;
+td.details-control:before {
+    font-family: 'FontAwesome';
+    /*content: '\f105';*/
+    display: block;
+    text-align: center;
+    font-size: 20px;
 }
-tr.shown td.details-control {
-    background: url('{{ asset('minus-flat.png') }}') no-repeat center center;
-    background-size:25px;
+tr.shown td.details-control:before{
+   font-family: 'FontAwesome';
+    /*content: '\f107';*/
+    display: block;
+    text-align: center;
+    font-size: 20px;
 }
 .switch_box{
 	display: -webkit-box;
@@ -153,26 +158,26 @@ input[type="checkbox"].switch_1{
                     <table id="simpletable" class="table table-striped table-bordered nowrap">
                         <thead>
                             <tr>
+                                <th></th>
                                 <th>Photo</th>
                                 <th>Regi. No.</th>
                                 <th>Name</th>
+                                <th>Roll No.</th>
                                 <th>Mobile No.</th>
                                 <th>Address</th>
-                                <th>Status</th>
-                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                         </tbody>
                         <tfoot>
                             <tr>
+                                <th></th>
                                 <th>Photo</th>
                                 <th>Regi. No.</th>
                                 <th>Name</th>
+                                <th>Roll No.</th>
                                 <th>Mobile No.</th>
                                 <th>Address</th>
-                                <th>Status</th>
-                                <th>Action</th>
                             </tr>
                         </tfoot>
                     </table>
@@ -196,6 +201,7 @@ input[type="checkbox"].switch_1{
 <script src="{{ asset('files/bower_components/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
 <script src="{{ asset('files/bower_components/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
 <script src="{{ asset('files/bower_components/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js') }}"></script>
+
 <!-- Custom js -->
 <script src="{{ asset('files/assets/pages/data-table/js/data-table-custom.js') }}"></script>
 <!-- Select 2 js -->
@@ -205,24 +211,24 @@ input[type="checkbox"].switch_1{
 
 <script>
 var SITEURL = '{{ route('admin.students.index')}}';
-// function format ( d ) {
-//     // `d` is the original data object for the row
-//     return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px; width:100%">'+
-//         '<tr>'+
-//             '<td style="text-align:center">Status</td>'+
-//             '<td style="text-align:center">'+d.action+'</td>'+
-//         '</tr>'+
-//         '<tr>'+
-//             '<td style="text-align:center">Action</td>'+
-//             '<td style="text-align:center">'+d.action1+'</td>'+
-//         '</tr>'+
-//     '</table>';
-// }
+function format ( d ) {
+    // `d` is the original data object for the row
+    return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px; width:100%">'+
+        '<tr>'+
+            '<td style="text-align:center">Status</td>'+
+            '<td style="text-align:center">'+d.status+'</td>'+
+        '</tr>'+
+        '<tr>'+
+            '<td style="text-align:center">Action</td>'+
+            '<td style="text-align:center">'+d.action+'</td>'+
+        '</tr>'+
+    '</table>';
+}
 $(document).ready(function(){
   fetch_data();
   function fetch_data(section = '', classs = '')
   {
-    $('#simpletable').DataTable({
+    var table =$('#simpletable').DataTable({
         processing: true,
         serverSide: true,
     ajax: {
@@ -230,15 +236,35 @@ $(document).ready(function(){
       data: {section:section, classs:classs}
     },
     columns: [
+            {
+                "className":      'details-control',
+                "orderable":      false,
+                "data":           null,
+                "defaultContent": ''
+            },
             { data: 'student_photo', name: 'student_photo'},
             { data: 'regi_no', name: 'regi_no' },
             { data: 'student_name', name: 'student_name' },
+            { data: 'roll_no', name: 'roll_no' },
             { data: 'mobile_no', name: 'mobile_no' },
             { data: 'address', name: 'address' },
-            { data: 'status', name: 'status' },
-            {data: 'action', name: 'action', orderable: false},
         ],
     order: [[0, 'desc']]
+    });
+    $('#simpletable tbody').on('click', 'td.details-control', function () {
+        var tr = $(this).closest('tr');
+        var row = table.row( tr );
+ 
+        if ( row.child.isShown() ) {
+            // This row is already open - close it
+            row.child.hide();
+            tr.removeClass('shown');
+        }
+        else {
+            // Open this row
+            row.child( format(row.data()) ).show();
+            tr.addClass('shown');
+        }
     });
   }
     $('#section_name').change(function(){

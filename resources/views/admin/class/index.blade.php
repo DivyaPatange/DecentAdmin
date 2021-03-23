@@ -16,14 +16,19 @@
 <!-- animation nifty modal window effects css -->
 <link rel="stylesheet" type="text/css" href="{{ asset('files/assets/css/component.css') }}">
 <style>
-td.details-control {
-background: url('{{ asset('plus1.png') }}') no-repeat center center;
-cursor: pointer;
-background-size:25px;
+td.details-control:before {
+    font-family: 'FontAwesome';
+    /*content: '\f105';*/
+    display: block;
+    text-align: center;
+    font-size: 20px;
 }
-tr.shown td.details-control {
-    background: url('{{ asset('minus-flat.png') }}') no-repeat center center;
-    background-size:25px;
+tr.shown td.details-control:before{
+   font-family: 'FontAwesome';
+    /*content: '\f107';*/
+    display: block;
+    text-align: center;
+    font-size: 20px;
 }
 </style>
 @endsection

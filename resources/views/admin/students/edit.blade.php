@@ -42,15 +42,21 @@
                 @csrf 
                 @method('PUT')
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group form-default">
                                 <label>Registration No.</label>
                                 <input type="text" class="form-control" readonly value="{{ $student->regi_no }}">
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group form-default">
-                                <label>Class<span style="color:red;">*</span><span  style="color:red" id="from_err"> </span></label><br>
+                                <label>Roll No. <span style="color:red;">*</span><span  style="color:red" id="roll_err"> </span></label>
+                                <input type="text" class="form-control" name="roll_no" id="roll_no" value="{{ $student->roll_no }}">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group form-default">
+                                <label>Class<span  style="color:red" id="from_err"> </span></label><br>
                                 <span class="text-danger">Class Can't Change</span>
                             </div>
                         </div>
@@ -77,7 +83,7 @@
                             </div>
                         </div>
                         <div class="col-md-12">
-                        <button class="btn btn-sm waves-effect waves-light hor-grd btn-grd-primary" type="button" id="submitForm">Search</button>
+                        <button class="btn btn-sm waves-effect waves-light hor-grd btn-grd-primary" type="button" id="submitForm">Update</button>
                         </div>
                     </div>
                     
@@ -113,8 +119,14 @@
 $('body').on('click', '#submitForm', function () {
     var section = $("#section").val();
     var academic_id = $("#academic_year").val();
+    var roll_no = $("#roll_no").val();
     
-    
+    if (roll_no=="") {
+        $("#roll_err").fadeIn().html("Required");
+        setTimeout(function(){ $("#roll_err").fadeOut(); }, 3000);
+        $("#roll_no").focus();
+        return false;
+    }
     if (section=="") {
         $("#section_err").fadeIn().html("Required");
         setTimeout(function(){ $("#section_err").fadeOut(); }, 3000);
@@ -129,7 +141,7 @@ $('body').on('click', '#submitForm', function () {
     }
     else
     { 
-        
+        $("#form-submit").submit();
     }
 })
 

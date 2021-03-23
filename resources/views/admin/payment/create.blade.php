@@ -7,6 +7,9 @@
 <link rel="stylesheet" href="{{ asset('files/bower_components/select2/css/select2.min.css') }}" />
 <!-- themify-icons line icon -->
 <link rel="stylesheet" type="text/css" href="{{ asset('files/assets/icon/themify-icons/themify-icons.css') }}">
+<link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 <!-- ico font -->
 <link rel="stylesheet" type="text/css" href="{{ asset('files/assets/icon/icofont/css/icofont.css') }}">
 <style>
@@ -21,6 +24,9 @@
 }
 .icons-alert:before{
     top:10px;
+}
+.table td, .table th{
+    padding: 0.75rem 0.75rem;
 }
 </style>
 @endsection
@@ -134,7 +140,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="form-group form-default">
                             <label>Fee Head <span  style="color:red" id="allot_class_err"> </span></label>
                             <select name="fee_head" class="form-control js-example-basic-single" id="fee_head">
@@ -158,6 +164,53 @@
                         
                                 </tbody> 
                             </table> 
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <tr>
+                                    <th>Total Amount</th>
+                                    <td><input type="text" class="form-control" id="total_amt" name="total_amt" readonly></td>
+                                </tr>
+                                <tr>
+                                    <th>Discount Amount</th>
+                                    <td><input type="text" class="form-control" id="discount" name="discount"></td>
+                                </tr>
+                                <tr>
+                                    <th>Net Amount</th>
+                                    <td><input type="text" class="form-control" id="net_amt" name="net_amt" readonly></td>
+                                </tr>
+                                <tr>
+                                    <th>Paid Amount</th>
+                                    <td><input type="text" class="form-control" id="paid_amt" name="paid_amt"></td>
+                                </tr>
+                                <tr>
+                                    <th>Due Amount</th>
+                                    <td><input type="text" class="form-control" id="due_amt" name="due_amt" readonly></td>
+                                </tr>
+                                <tr>
+                                    <th>Payment Method</th>
+                                    <td>
+                                        <select class="form-control js-example-basic-single" id="pay_method" name="pay_method">
+                                            <option value="">Pick a method</option>
+                                            <option value="Cash">Cash</option>
+                                            <option value="NEFT">NEFT</option>
+                                            <option value="Cheque">Cheque</option>
+                                            <option value="D.D.">D.D.</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Payment Reference No.</th>
+                                    <td><input type="text" class="form-control" id="pay_ref_no" name="pay_ref_no"></td>
+                                </tr>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -229,7 +282,7 @@ $('#getList').click(function(){
    
 });
 
-var rowIdx = 0; 
+// var rowIdx = 0; 
 $( document ).ready(function() {
 $('#fee_head').change(function(){
     var feeID = $(this).val();
@@ -241,9 +294,34 @@ $('#fee_head').change(function(){
         url:"{{url('admin/get-fee-amount')}}?fee_id="+feeID,
         success:function(res){
             // alert(res);
-            $.each(res.fees,function(key,value){
-            $('#tbody').append('<tr id="'+res.id+'"><td class="row-index text-center"><p>'+value+'</p></td><td class="row-index text-center"><p>'+key+'</p></td><td class="text-center"><button class="btn btn-danger btn-sm remove" type="button"><i class="fa fa-times mr-0"></i></button></td></tr>'); 
-            })
+            var arr = [];
+            i = 0;
+            $('#tbody tr').each(function()
+            {
+                    // alert($(this).attr('id'));
+                    arr[i++] = $(this).attr('id');
+                    //I should store id in an array
+            });
+            // alert(arr);
+            // alert(findValueInArray(res.id, arr));
+            if(arr.length == 0)
+            {
+                $.each(res.fees,function(key,value){
+                    $('#tbody').append('<tr id="'+res.id+'"><td class="row-index text-center"><p>'+value+'</p></td><td class="row-index text-center"><p>'+key+'</p></td><td class="text-center"><button class="btn btn-danger btn-sm remove" type="button"><i class="fa fa-times mr-0"></i></button></td></tr>'); 
+                })
+            }
+            else{
+                for(var i=0; i<arr.length; i++){
+                    if(res.id != arr[i]){
+                        $.each(res.fees,function(key,value){
+                        $('#tbody').append('<tr id="'+res.id+'"><td class="row-index text-center"><p>'+value+'</p></td><td class="row-index text-center"><p>'+key+'</p></td><td class="text-center"><button class="btn btn-danger btn-sm remove" type="button"><i class="fa fa-times mr-0"></i></button></td></tr>'); 
+                        })
+                    }
+                    else{
+                        toastr.error("Fee already added in list.");
+                    }
+                }
+            }
         }
         })
     }

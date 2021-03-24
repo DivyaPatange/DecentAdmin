@@ -10,6 +10,7 @@ use App\Models\Admin\Classes;
 use App\Models\Admin\Section;
 use App\Models\Admin\Student;
 use App\Models\Admin\Fee;
+use Auth;
 use DB;
 
 class PayController extends Controller
@@ -138,24 +139,41 @@ class PayController extends Controller
      */
     public function store(Request $request)
     {
-        $paymentLogs = \DB::table('pays')->where('id', \DB::raw("(select max(`id`) from pays)"))->first();
-        // dd($paymentLogs);
-        $payment = new Pay();
-        $payment->admission_id = $request->id;
-        $payment->adm_sought = $request->adm_sought;
-        $payment->fee_id = $request->fee_head;
-        $payment->payment_amount = $request->pay_amt;
-        $payment->payment_date = $request->pay_date;
-        $payment->due_date = $request->due_date;
-        if($paymentLogs == null)
+        if($request->regi_no){
+            $student = Student::where('regi_no', $request->regi_no)->first();
+        }
+        elseif($request->roll_no && $request->classs && $request->section)
         {
-            $payment->receipt_no = 1021;
+            $student = Student::where('roll_no', $request->roll_no)->where('class_id', $request->classs)->where('section_id', $request->section)->first();
         }
-        else{
-            $payment->receipt_no = $paymentLogs->receipt_no + 1;
-        }
-        $payment->save();
-        return response()->json(['success' => 'Payment is Successfully Done']);
+        $paymentLogs = \DB::table('pays')->where('id', \DB::raw("(select max(`id`) from pays)"))->first();
+        // // dd($paymentLogs);
+        $feeHead = $request->feeHead;
+        $payment = new Pay();
+        $payment->student_id = $student->id;
+        $payment->class_id = $student->class_id;
+        $payment->section_id = $student->section_id;
+        $payment->fee_id = implode(",", $feeHead);
+        // $payment->payment_amount = number_format((float)$request->paid_amt, 2, '.', '');
+        // $payment->payment_date = date("Y-m-d");
+        // $payment->discount = number_format((float)$request->discount, 2, '.', '');
+        // if($paymentLogs == null)
+        // {
+        //     $payment->receipt_no = 1021;
+        // }
+        // else{
+        //     $payment->receipt_no = $paymentLogs->receipt_no + 1;
+        // }
+        // $payment->due_amount = number_format((float)$request->due_amt, 2, '.', '');
+        // $payment->due_date = date("Y-m-d", strtotime($request->due_date));
+        // $payment->payment_method = $request->pay_method;
+        // $payment->payment_method_no = $request->pay_ref_no;
+        // $payment->payment_method_date = date("Y-m-d");
+        // $payment->status = 1;
+        // $payment->created_by = Auth::guard('admin')->user()->id;
+        // $payment->save();
+        // return response()->json(['success' => 'Payment is Successfully Done']);
+        return $payment->fee_id;
     }
 
     /**

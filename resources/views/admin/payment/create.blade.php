@@ -28,6 +28,9 @@
 .table td, .table th{
     padding: 0.75rem 0.75rem;
 }
+.hidden{
+    display:none;
+}
 </style>
 @endsection
 @section('content')
@@ -152,7 +155,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="table-responsive"> 
-                            <table class="table table-bordered"> 
+                            <table class="table table-bordered" id="feeHeadTable"> 
                                 <thead> 
                                     <tr> 
                                         <th class="text-center">Fee Head</th> 
@@ -168,34 +171,36 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6">
-
-                    </div>
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="table-responsive">
+                            <form method="post" id="submitForm">
                             <table class="table table-striped">
                                 <tr>
                                     <th>Total Amount</th>
-                                    <td><input type="text" class="form-control" id="total_amt" name="total_amt" readonly></td>
+                                    <td><input type="text" class="form-control" id="total_amt" name="total_amt" readonly value="0.00"></td>
                                 </tr>
                                 <tr>
                                     <th>Discount Amount</th>
-                                    <td><input type="text" class="form-control" id="discount" name="discount"></td>
+                                    <td><input type="text" class="form-control" id="discount" name="discount" value="0.00"></td>
                                 </tr>
                                 <tr>
                                     <th>Net Amount</th>
-                                    <td><input type="text" class="form-control" id="net_amt" name="net_amt" readonly></td>
+                                    <td><input type="text" class="form-control" id="net_amt" name="net_amt" readonly value="0.00"></td>
                                 </tr>
                                 <tr>
-                                    <th>Paid Amount</th>
-                                    <td><input type="text" class="form-control" id="paid_amt" name="paid_amt"></td>
+                                    <th>Paid Amount <span style="color:red;">*</span><span  style="color:red" id="amt_err"> </span></th>
+                                    <td><input type="text" class="form-control" id="paid_amt" name="paid_amt" value="0.00"></td>
                                 </tr>
                                 <tr>
                                     <th>Due Amount</th>
-                                    <td><input type="text" class="form-control" id="due_amt" name="due_amt" readonly></td>
+                                    <td><input type="text" class="form-control" id="due_amt" name="due_amt" readonly value="0.00"></td>
                                 </tr>
                                 <tr>
-                                    <th>Payment Method</th>
+                                    <th>Due Date</th>
+                                    <td><input type="date" class="form-control" id="due_date" name="due_date"></td>
+                                </tr>
+                                <tr>
+                                    <th>Payment Method <span style="color:red;">*</span><span  style="color:red" id="method_err"> </span></th>
                                     <td>
                                         <select class="form-control js-example-basic-single" id="pay_method" name="pay_method">
                                             <option value="">Pick a method</option>
@@ -203,6 +208,7 @@
                                             <option value="NEFT">NEFT</option>
                                             <option value="Cheque">Cheque</option>
                                             <option value="D.D.">D.D.</option>
+                                            <option value="Online Banking">Online Banking</option>
                                         </select>
                                     </td>
                                 </tr>
@@ -211,7 +217,14 @@
                                     <td><input type="text" class="form-control" id="pay_ref_no" name="pay_ref_no"></td>
                                 </tr>
                             </table>
+                            </form>
                         </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <button class="btn btn-primary waves-effect waves-light btn-sm" id="button1">Pay Fee</button>
+                        <button class="btn btn-success waves-effect waves-light btn-sm hidden" id="button2" class="hidden">Pay Fee</button>
                     </div>
                 </div>
             </div>
@@ -235,7 +248,7 @@ $('#class_name').change(function(){
       success:function(res){        
       if(res){
         $("#section_name").empty();
-        $("#section_name").append('<option>Select Section</option>');
+        $("#section_name").append('<option value="">Select Section</option>');
         $.each(res,function(key,value){
           $("#section_name").append('<option value="'+key+'">'+value+'</option>');
         });
@@ -248,7 +261,20 @@ $('#class_name').change(function(){
   }else{
     $("#section_name").empty();
   }   
-  });
+});
+
+$('#pay_method').change(function(){
+    var pay_method = $(this).val();
+    if(pay_method == "Online Banking")
+    {
+        $('#button2').removeClass("hidden");
+        $('#button1').addClass("hidden");
+    }
+    else{
+        $('#button1').removeClass("hidden");
+        $('#button2').addClass("hidden");
+    }
+})
 
 $('#getList').click(function(){
     // the click occured outside '#element'
@@ -282,6 +308,61 @@ $('#getList').click(function(){
    
 });
 
+$('#button1').click(function(){
+    var paid_amt = $('#paid_amt').val();
+    var pay_method = $('#pay_method').val();
+    var pay_ref_no = $('#pay_ref_no').val();
+    var regi_no = $('#student_regi_no').val();
+    var roll_no = $('#roll_no').val();
+    var classs = $('#class_name').val();
+    var section = $('#section_name').val();
+    var due_date = $('#due_date').val();
+    var feeHead = [];
+    i = 0;
+    $('#tbody tr').each(function()
+    {
+        feeHead[i++] = $(this).attr('id');
+    });
+    var discount = $('#discount').val();
+    var net_amt = $('#net_amt').val();
+    var due_amt = $('#due_amt').val();
+    if(paid_amt == '')
+    {
+        $("#amt_err").fadeIn().html("Required");
+        setTimeout(function(){ $("#amt_err").fadeOut(); }, 3000);
+        $("#paid_amt").focus();
+        return false;
+    }
+    if(pay_method == '')
+    {
+        $("#method_err").fadeIn().html("Required");
+        setTimeout(function(){ $("#method_err").fadeOut(); }, 3000);
+        $("#pay_method").focus();
+        return false;
+    }
+    else
+    { 
+        var datastring="paid_amt="+paid_amt+"&pay_method="+pay_method+"&pay_ref_no="+pay_ref_no+"&feeHead="+feeHead+"&discount="+discount+"&net_amt="+net_amt+"&due_amt="+due_amt+"&regi_no="+regi_no+"&roll_no="+roll_no+"&classs="+classs+"&section="+section+"&due_date="+due_date;
+        alert(datastring);
+        $.ajax({
+            type:"POST",
+            url:"{{ route('admin.payment.store') }}",
+            data:datastring,
+            cache:false,        
+            success:function(returndata)
+            {
+                alert(returndata);
+                $("#tbody").empty();
+                document.getElementById("submitForm").reset();
+                toastr.success(returndata.success);
+            
+            // location.reload();
+            // $("#pay").val("");
+            }
+        });
+    }
+})
+
 // var rowIdx = 0; 
 $( document ).ready(function() {
 $('#fee_head').change(function(){
@@ -296,36 +377,60 @@ $('#fee_head').change(function(){
             // alert(res);
             var arr = [];
             i = 0;
+            var TotalValue = 0;
             $('#tbody tr').each(function()
             {
-                    // alert($(this).attr('id'));
-                    arr[i++] = $(this).attr('id');
-                    //I should store id in an array
+                arr[i++] = $(this).attr('id');
             });
             // alert(arr);
-            // alert(findValueInArray(res.id, arr));
             if(arr.length == 0)
             {
                 $.each(res.fees,function(key,value){
-                    $('#tbody').append('<tr id="'+res.id+'"><td class="row-index text-center"><p>'+value+'</p></td><td class="row-index text-center"><p>'+key+'</p></td><td class="text-center"><button class="btn btn-danger btn-sm remove" type="button"><i class="fa fa-times mr-0"></i></button></td></tr>'); 
+                    $('#tbody').append('<tr id="'+res.id+'"><th class="row-index text-center"><p>'+value+'</p></th><td class="row-index text-center"><p>'+key+'</p></td><th class="text-center"><button class="btn btn-danger btn-sm remove" type="button"><i class="fa fa-times mr-0"></i></button></th></tr>'); 
                 })
             }
             else{
-                for(var i=0; i<arr.length; i++){
-                    if(res.id != arr[i]){
-                        $.each(res.fees,function(key,value){
-                        $('#tbody').append('<tr id="'+res.id+'"><td class="row-index text-center"><p>'+value+'</p></td><td class="row-index text-center"><p>'+key+'</p></td><td class="text-center"><button class="btn btn-danger btn-sm remove" type="button"><i class="fa fa-times mr-0"></i></button></td></tr>'); 
-                        })
-                    }
-                    else{
-                        toastr.error("Fee already added in list.");
-                    }
+                if(arr.includes(res.id) == false){
+                    $.each(res.fees,function(key,value){
+                    $('#tbody').append('<tr id="'+res.id+'"><th class="row-index text-center"><p>'+value+'</p></th><td class="row-index text-center"><p>'+key+'</p></td><th class="text-center"><button class="btn btn-danger btn-sm remove" type="button"><i class="fa fa-times mr-0"></i></button></td></tr>'); 
+                    })
+                }
+                else{
+                    toastr.error("Fee already added in list.");
                 }
             }
+            $("#tbody td").each(function(index,value){
+                currentRow = parseFloat($(this).text());
+                TotalValue += currentRow
+            });
+            $('#total_amt').val(TotalValue);
+            $('#net_amt').val(TotalValue);
+            $('#due_amt').val(TotalValue);
         }
         })
     }
 });
 });
+$("#paid_amt").keyup(function(){
+    var paid_amt = $(this).val();
+    var total_amt = $('#total_amt').val();
+    var discount = $('#discount').val();
+    var due_amt = total_amt - discount - paid_amt;
+    $('#due_amt').val(due_amt);
+})
+$("#discount").keyup(function(){
+    var discount = $(this).val();
+    var total_amt = $('#total_amt').val();
+    var paid_amt = $('#paid_amt').val();
+    var due_amt = total_amt - discount;
+    if(paid_amt != 0){
+    var paid_amt1 = total_amt -discount;
+    }
+    else{
+        var paid_amt1 = paid_amt -discount;
+    }
+    $('#due_amt').val(due_amt);
+    $('#paid_amt').val(paid_amt1);
+})
 </script>
 @endsection

@@ -23,6 +23,8 @@ class CreatePaysTable extends Migration
             $table->foreign('section_id')->references('id')->on('sections');
             $table->unsignedInteger('fee_id');
             $table->string('receipt_no')->nullable();
+            $table->decimal('total_amt')->nullable();
+            $table->decimal('net_amt')->nullable();
             $table->decimal('payment_amount', 20)->nullable();
             $table->decimal('discount', 20)->nullable();
             $table->date('payment_date')->nullable();

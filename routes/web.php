@@ -25,6 +25,7 @@ use App\Http\Controllers\Admin\SubjectController;
 use App\Http\Controllers\Admin\SubjectTeacherController;
 use App\Http\Controllers\Admin\AdmissionController;
 use App\Http\Controllers\Admin\StudentController;
+use App\Http\Controllers\Admin\BookController;
 
 // Parent Controller
 use App\Http\Controllers\Auth\ParentLoginController;
@@ -135,6 +136,7 @@ Route::prefix('admin')->name('admin.')->group(function() {
     Route::get('/get-student-list', [PayController::class, 'getStudentList']);
     Route::get('/get-student-name', [PayController::class, 'getStudentName']);
     Route::get('/get-fee-amount', [PayController::class, 'getFeeAmount']);
+    Route::get('/pay-due-amount/{id}', [PayController::class, 'showDueAmountForm'])->name('due_amount.get');
 
     Route::get('/primary-school-list', [PayController::class, 'primarySchoolList'])->name('primary-school-list');
     Route::get('/school-payment/{id}', [PayController::class, 'getSchoolPayment']);
@@ -190,6 +192,9 @@ Route::prefix('admin')->name('admin.')->group(function() {
     Route::resource('/students', StudentController::class);
     Route::get('/get-section-list', [StudentController::class, 'getSectionList']);
     Route::get('/students/status/{id}', [StudentController::class, 'status']);
+
+    // Book Route
+    Route::resource('/books', BookController::class);
 
 });
 

@@ -1,7 +1,7 @@
 @extends('admin.admin_layout.main')
-@section('title', 'Fees')
-@section('page_title', 'Fees List')
-@section('breadcrumb', 'Fees List')
+@section('title', 'Library Book')
+@section('page_title', 'Library Book List')
+@section('breadcrumb', 'Library Book List')
 @section('customcss')
 
 <!-- Data Table Css -->
@@ -50,54 +50,56 @@ tr.shown td.details-control:before{
         <div class="card">
             <div class="card-header">
                 <h5>Filters</h5>
-                <a href="{{ route('admin.payment.create') }}"><button class="btn waves-effect waves-light btn-primary btn-sm float-right"><i class="fa fa-plus"></i>Add New</button></a>
+                <a href="{{ route('admin.books.create') }}"><button class="btn waves-effect waves-light btn-primary btn-sm float-right"><i class="fa fa-plus"></i>Add New</button></a>
             </div>
             <div class="card-block">
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div class="form-group form-default">
-                            <label>Class <span  style="color:red" id="allot_class_err"> </span></label>
-                            <select name="class_name" class="form-control js-example-basic-single" id="class_name">
-                                <option value="">-Select Class-</option>
+                            <label>Code/ISBN No. </label>
+                            <input type="text" name="code" id="code" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-default">
+                            <label>Book Name</label>
+                            <input type="text" name="book_name" id="book_name" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-default">
+                            <label>Author </label>
+                            <input type="text" name="author_name" id="author_name" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group form-default">
+                            <label>Type <span  style="color:red" id="allot_academic_err"> </span></label>
+                            <select name="type" class="form-control js-example-basic-single" id="type">
+                                <option value="All">All</option>
+                                <option value="Academic">Academic</option>
+                                <option value="Novel">Novel</option>
+                                <option value="Magazine">Magazine</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-default">
+                            <label>Class <span  style="color:red" id="allot_academic_err"> </span></label>
+                            <select name="class_id" class="form-control js-example-basic-single" id="class_id">
+                                <option value="">Pick a Class</option>
                                 @foreach($classes as $c)
                                 <option value="{{ $c->id }}">{{ $c->class_name }}</option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <div class="form-group form-default">
-                            <label>Section <span  style="color:red" id="section_err"> </span></label>
-                            <select name="section_name" class="form-control js-example-basic-single" id="section_name">
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group form-default">
-                            <label>Student <span  style="color:red" id="allot_academic_err"> </span></label>
-                            <select name="student" class="form-control js-example-basic-single" id="student">
-                            
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="form-group form-default">
-                            <label>Date From <span  style="color:red" id="allot_academic_err"> </span></label>
-                            <input type="date" name="date_from" class="form-control" id="date_from" value="{{ date('Y-m-d') }}">
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group form-default">
-                            <label>Date To <span  style="color:red" id="allot_academic_err"> </span></label>
-                            <input type="date" name="date_to" class="form-control" id="date_to" value="{{ date('Y-m-d') }}">
-                        </div>
-                    </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div class="form-group form-default">
                             <br>
-                            <button type="button" id="getList" class="btn btn-primary btn-sm">Get List</button>
+                            <button type="button" id="getList" class="btn btn-primary btn-sm mt-2">Get List</button>
                         </div>
                     </div>
                 </div>
@@ -106,14 +108,11 @@ tr.shown td.details-control:before{
                         <thead>
                             <tr>
                                 <th></th>
-                                <th>Receipt No.</th>
-                                <th>Payment Date</th>
-                                <th>Student Name</th>
+                                <th>Code/ISBN No.</th>
+                                <th>Book Name</th>
+                                <th>Author Name</th>
+                                <th>Type</th>
                                 <th>Class</th>
-                                <th>Section</th>
-                                <th>Roll No.</th>
-                                <th>Total</th>
-                                <th>Discount</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -121,14 +120,11 @@ tr.shown td.details-control:before{
                         <tfoot>
                             <tr>
                                 <th></th>
-                                <th>Receipt No.</th>
-                                <th>Payment Date</th>
-                                <th>Student Name</th>
+                                <th>Code/ISBN No.</th>
+                                <th>Book Name</th>
+                                <th>Author Name</th>
+                                <th>Type</th>
                                 <th>Class</th>
-                                <th>Section</th>
-                                <th>Roll No.</th>
-                                <th>Total</th>
-                                <th>Discount</th>
                             </tr>
                         </tfoot>
                     </table>
@@ -161,29 +157,17 @@ tr.shown td.details-control:before{
 <script type="text/javascript" src="{{ asset('files/assets/pages/advance-elements/select2-custom.js') }}"></script>
 
 <script>
-var SITEURL = '{{ route('admin.payment.index')}}';
+var SITEURL = '{{ route('admin.books.index')}}';
 function format ( d ) {
     // `d` is the original data object for the row
     return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px; width:100%">'+
         '<tr>'+
-            '<td style="text-align:center">Net Total</td>'+
-            '<td style="text-align:center">'+d.payment_amount+'</td>'+
+            '<td style="text-align:center">Total Quantity</td>'+
+            '<td style="text-align:center">'+d.quantity+'</td>'+
         '</tr>'+
         '<tr>'+
-            '<td style="text-align:center">Paid</td>'+
-            '<td style="text-align:center">'+d.payment_amount+'</td>'+
-        '</tr>'+
-        '<tr>'+
-            '<td style="text-align:center">Payment Method</td>'+
-            '<td style="text-align:center">'+d.payment_method+'</td>'+
-        '</tr>'+
-        '<tr>'+
-            '<td style="text-align:center">Cheque/NEFT</td>'+
-            '<td style="text-align:center">'+d.payment_method_no+'</td>'+
-        '</tr>'+
-        '<tr>'+
-            '<td style="text-align:center">Cheque/NEFT Date</td>'+
-            '<td style="text-align:center">'+d.payment_method_date+'</td>'+
+            '<td style="text-align:center">Stock Quantity</td>'+
+            '<td style="text-align:center">'+d.quantity+'</td>'+
         '</tr>'+
         '<tr>'+
             '<td style="text-align:center">Action</td>'+
@@ -192,16 +176,19 @@ function format ( d ) {
     '</table>';
 }
 $(document).ready(function() {
-    fetch_data(sectionID = '', classID = '', student = '', date_from = '', date_to = '');
-    function fetch_data(sectionID = '', classID = '', student = '', date_from = '', date_to = ''){
-        // alert(student);
     var table = $('#simpletable').DataTable({
     processing: true,
     serverSide: true,
     ajax: {
-    url: SITEURL,
-    type: 'GET',
-    data: {sectionID:sectionID, classID:classID, student:student, date_from:date_from, date_to:date_to}
+        url: SITEURL,
+        type: 'GET',
+        data: function(d){
+            d.code = $("#code").val(), 
+            d.book_name = $("#book_name").val(), 
+            d.author_name = $("#author_name").val(), 
+            d.type = $("#type").val(), 
+            d.class_id = $("#class_id").val()
+        },
     },
     columns: [
             {
@@ -210,14 +197,11 @@ $(document).ready(function() {
                 "data":           null,
                 "defaultContent": ''
             },
-            { data: 'receipt_no', name: 'receipt_no' },
-            { data: 'payment_date', name: 'payment_date' },
-            { data: 'student_name', name: 'student_name' },
-            { data: 'class', name: 'class' },
-            { data: 'section', name: 'section' },
-            { data: 'roll_no', name: 'roll_no' },
-            { data: 'payment_amount', name: 'payment_amount' },
-            { data: 'discount', name: 'discount' },
+            { data: 'book_code', name: 'book_code' },
+            { data: 'name', name: 'name' },
+            { data: 'author', name: 'author' },
+            { data: 'type', name: 'type' },
+            { data: 'class_id', name: 'class_id' },
         ],
     order: [[0, 'desc']]
     });
@@ -236,16 +220,10 @@ $(document).ready(function() {
             tr.addClass('shown');
         }
     });
-    }
+
     $('#getList').click(function () {
-        var sectionID = $("#section_name").val();
-        var classID = $("#class_name").val(); 
-        var student = $("#student").val();   
-        var date_from = $("#date_from").val();
-        var date_to = $("#date_to").val();
-        // alert(student);
-        $("#simpletable").DataTable().destroy();
-        fetch_data(sectionID, classID, student, date_from, date_to);
+        
+        table.draw();
     });
 });
 

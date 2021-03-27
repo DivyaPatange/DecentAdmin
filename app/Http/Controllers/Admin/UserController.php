@@ -55,6 +55,7 @@ class UserController extends Controller
             'password' => 'required|confirmed',
             'role_access' => 'required',
         ]);
+        // dd($request->role_access);
         $admin = new Admin();
         $admin->name = $request->name;
         $admin->email = $request->email;

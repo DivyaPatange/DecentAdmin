@@ -28,12 +28,23 @@ class PayController extends Controller
     {
         $classes = Classes::where('status', 1)->get();
         if(request()->ajax()) {
-            if(!empty($request->classID) || !empty($request->sectionID) || !empty($request->student) || !empty($request->date_from) || !empty($request->date_to)){
-                $payment = Pay::where('class_id', $request->classID)->where('section_id', $request->sectionID)->where('student_id', $request->student)->whereBetween('payment_date', [$request->date_from, $request->date_to])->get();
+            $payment1 = Pay::where('status', 1);
+            // dd(!empty($request->classID) && !empty($request->sectionID) && !empty($request->student));
+            if(!empty($request->classID)){
+                $payment1 = $payment1->where('class_id', $request->classID);
             }
-            else{
-                $payment = Pay::orderBy('id', 'DESC')->get();
+            if(!empty($request->sectionID))
+            {
+                $payment1 = $payment1->where('section_id', $request->sectionID);
             }
+            if(!empty($request->student))
+            {
+                $payment1 = $payment1->where('student_id', $request->student);
+            }
+            if(!empty($request->date_from) && !empty($request->date_to)){
+                $payment1 = $payment1->whereBetween('payment_date', [date("Y-m-d", strtotime($request->date_from)), date("Y-m-d", strtotime($request->date_to))])->get();
+            }
+            $payment = $payment1->orderBy('id', 'DESC')->get();
             return datatables()->of($payment)
             ->addColumn('student_name', function($row){    
                 $student = Student::where('id', $row->student_id)->first();
@@ -71,8 +82,14 @@ class PayController extends Controller
                    return $student->roll_no;
                 }                                                                                                                                                                                                                                                                                              
             })
+            ->addColumn('payment_method_no', function($row){    
+                if($row->payment_method_no != null)
+                {
+                    return $row->payment_method_no;
+                }                                                                                                                                                                                                                                                                                             
+            })
             ->addColumn('action', 'admin.payment.action')
-            ->rawColumns(['academic_id', 'action'])
+            ->rawColumns(['student_name', 'action', 'payment_method_no'])
             ->addIndexColumn()
             ->make(true);
         }
@@ -96,6 +113,18 @@ class PayController extends Controller
             ->with('fee_head')
             ->get()
             ->pluck('fee_head.fee_head', 'id');
+            $dueAmount = Pay::where('student_id', $student->id)->where('due_amount', '!=', '0.00')->get();
+            $output = '';
+            $output .= '<table width="100%">';
+            foreach($dueAmount as $d)
+            {
+                $url = route('admin.due_amount.get', $d->id);
+                $output .= '<tr>
+                    <td>'.$d->due_date.'</td>'. 
+                    '<td><a href="'.$url.'" target="_blank">'.$d->due_amount.'</a></td>'.
+                '</tr>';
+            }
+            $output .= '</table>';
             return response()->json(['name' => $student->student_name, 'fees' => $fees]);
         }
         elseif($request->roll_no && $request->classs && $request->section)
@@ -106,7 +135,19 @@ class PayController extends Controller
             ->with('fee_head')
             ->get()
             ->pluck('fee_head.fee_head', 'id');
-            return response()->json(['name' => $student->student_name, 'fees' => $fees]);
+            $dueAmount = Pay::where('student_id', $student->id)->where('due_amount', '!=', '0.00')->get();
+            $output = '';
+            $output .= '<table width="100%">';
+            foreach($dueAmount as $d)
+            {
+                $url = route('admin.due_amount.get', $d->id);
+                $output .= '<tr>
+                    <td>'.$d->due_date.'</td>'. 
+                    '<td><a href="'.$url.'" target="_blank" style="background-color: red;color: white;padding: 5px 10px;border-radius: 20px;">'.$d->due_amount.'</a></td>'.
+                '</tr>';
+            }
+            $output .= '</table>';
+            return response()->json(['name' => $student->student_name, 'fees' => $fees, 'output' => $output]);
         }
     }
 
@@ -154,26 +195,34 @@ class PayController extends Controller
         $payment->class_id = $student->class_id;
         $payment->section_id = $student->section_id;
         $payment->fee_id = implode(",", $feeHead);
-        // $payment->payment_amount = number_format((float)$request->paid_amt, 2, '.', '');
-        // $payment->payment_date = date("Y-m-d");
-        // $payment->discount = number_format((float)$request->discount, 2, '.', '');
-        // if($paymentLogs == null)
-        // {
-        //     $payment->receipt_no = 1021;
-        // }
-        // else{
-        //     $payment->receipt_no = $paymentLogs->receipt_no + 1;
-        // }
-        // $payment->due_amount = number_format((float)$request->due_amt, 2, '.', '');
-        // $payment->due_date = date("Y-m-d", strtotime($request->due_date));
-        // $payment->payment_method = $request->pay_method;
-        // $payment->payment_method_no = $request->pay_ref_no;
-        // $payment->payment_method_date = date("Y-m-d");
-        // $payment->status = 1;
-        // $payment->created_by = Auth::guard('admin')->user()->id;
-        // $payment->save();
-        // return response()->json(['success' => 'Payment is Successfully Done']);
-        return $payment->fee_id;
+        $payment->payment_amount = number_format((float)$request->paid_amt, 2, '.', '');
+        $payment->total_amt = number_format((float)$request->total_amt, 2, '.', '');
+        $payment->net_amt = number_format((float)$request->net_amt, 2, '.', '');
+        $payment->payment_date = $request->payment_date;
+        $payment->discount = number_format((float)$request->discount, 2, '.', '');
+        if($paymentLogs == null)
+        {
+            $payment->receipt_no = 1021;
+        }
+        else{
+            $payment->receipt_no = $paymentLogs->receipt_no + 1;
+        }
+        $payment->due_amount = number_format((float)$request->due_amt, 2, '.', '');
+        $payment->due_date = date("Y-m-d", strtotime($request->due_date));
+        $payment->payment_method = $request->pay_method;
+        $payment->payment_method_no = $request->pay_ref_no;
+        $payment->payment_method_date = $request->pay_method_date;
+        $payment->status = 1;
+        $payment->created_by = Auth::guard('admin')->user()->id;
+        $payment->save();
+        return response()->json(['success' => 'Payment is Successfully Done']);
+        return $payment->payment_date;
+    }
+
+    public function showDueAmountForm($id)
+    {
+        $pay = Pay::findorfail($id);
+        return view('admin.payment.due', compact('pay'));
     }
 
     /**

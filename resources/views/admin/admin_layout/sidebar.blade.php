@@ -503,6 +503,36 @@
                 </ul>
             </li>
             @endif
+            <li class="pcoded-hasmenu">
+                <a href="javascript:void(0)" class="waves-effect waves-dark">
+                    <span class="pcoded-micon"><i class="ti-star"></i><b>I</b></span>
+                    <span class="pcoded-mtext">Library</span>
+                    <span class="pcoded-mcaret"></span>
+                </a>
+                <ul class="pcoded-submenu">
+                    <li class=" ">
+                        <a href="{{ route('admin.books.index') }}" class="waves-effect waves-dark">
+                            <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                            <span class="pcoded-mtext">Book</span>
+                            <span class="pcoded-mcaret"></span>
+                        </a>
+                    </li>
+                    <li class=" ">
+                        <a href="icon-themify.html" class="waves-effect waves-dark">
+                            <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                            <span class="pcoded-mtext">Issue Book</span>
+                            <span class="pcoded-mcaret"></span>
+                        </a>
+                    </li>
+                    <li class=" ">
+                        <a href="icon-simple-line.html" class="waves-effect waves-dark">
+                            <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                            <span class="pcoded-mtext">Fine Collection</span>
+                            <span class="pcoded-mcaret"></span>
+                            </a>
+                    </li>
+                </ul>
+            </li>
             <!--<li class=" ">
                 <a href="animation.html" class="waves-effect waves-dark">
                     <span class="pcoded-micon"><i class="ti-reload rotate-refresh"></i><b>A</b></span>

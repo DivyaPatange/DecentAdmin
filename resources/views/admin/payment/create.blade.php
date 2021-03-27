@@ -125,7 +125,31 @@
                 <h5>Fee Info</h5>
             </div>
             <div class="card-block">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h6>Due Amount</h6>
+                    </div>
+                    <div class="col-md-12">
+                        <div id="invoice_div">
 
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group form-default">
+                            <label>Invoice No. </label>
+                            <input type="text" placeholder="will auto generate after submitting form" readonly class="form-control" >
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-default">
+                            <label>Payment Date</label>
+                            <input type="date" id="payment_date" style="background-color:#e9ecef" class="form-control" value="{{ date('Y-m-d') }}">
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -216,6 +240,10 @@
                                     <th>Payment Reference No.</th>
                                     <td><input type="text" class="form-control" id="pay_ref_no" name="pay_ref_no"></td>
                                 </tr>
+                                <tr>
+                                    <th>Cheque/NEFT/D.D. Date</th>
+                                    <td><input type="date" class="form-control" id="pay_method_date" name="pay_method_date"></td>
+                                </tr>
                             </table>
                             </form>
                         </div>
@@ -291,6 +319,7 @@ $('#getList').click(function(){
         success:function(res){ 
             // alert(res.fees);
             $("#student_name").val(res.name);
+            $("#invoice_div").html(res.output);
             if(res.fees){
             $("#fee_head").empty();
             $("#fee_head").append('<option value="">Select Fee Head</option>');
@@ -317,12 +346,15 @@ $('#button1').click(function(){
     var classs = $('#class_name').val();
     var section = $('#section_name').val();
     var due_date = $('#due_date').val();
-    var feeHead = [];
-    i = 0;
+    var total_amt = $('#total_amt').val();
+    var pay_method_date = $('#pay_method_date').val();
+    var payment_date = $('#payment_date').val();
+    var feeHead = new Array();
     $('#tbody tr').each(function()
     {
-        feeHead[i++] = $(this).attr('id');
+        feeHead.push($(this).attr('id'));
     });
+    // alert(feeHead);
     var discount = $('#discount').val();
     var net_amt = $('#net_amt').val();
     var due_amt = $('#due_amt').val();
@@ -342,12 +374,12 @@ $('#button1').click(function(){
     }
     else
     { 
-        var datastring="paid_amt="+paid_amt+"&pay_method="+pay_method+"&pay_ref_no="+pay_ref_no+"&feeHead="+feeHead+"&discount="+discount+"&net_amt="+net_amt+"&due_amt="+due_amt+"&regi_no="+regi_no+"&roll_no="+roll_no+"&classs="+classs+"&section="+section+"&due_date="+due_date;
-        alert(datastring);
+        // var datastring="paid_amt="+paid_amt+"&pay_method="+pay_method+"&pay_ref_no="+pay_ref_no+"&feeHead="+feeHead+"&discount="+discount+"&net_amt="+net_amt+"&due_amt="+due_amt+"&regi_no="+regi_no+"&roll_no="+roll_no+"&classs="+classs+"&section="+section+"&due_date="+due_date;
+        // alert(datastring);
         $.ajax({
             type:"POST",
             url:"{{ route('admin.payment.store') }}",
-            data:datastring,
+            data:{paid_amt:paid_amt, pay_method:pay_method, pay_ref_no:pay_ref_no, feeHead:feeHead, discount:discount, net_amt:net_amt, due_amt:due_amt, regi_no:regi_no, roll_no:roll_no, classs:classs, section:section, due_date:due_date, total_amt:total_amt, pay_method_date:pay_method_date, payment_date:payment_date},
             cache:false,        
             success:function(returndata)
             {
@@ -422,15 +454,10 @@ $("#discount").keyup(function(){
     var discount = $(this).val();
     var total_amt = $('#total_amt').val();
     var paid_amt = $('#paid_amt').val();
-    var due_amt = total_amt - discount;
-    if(paid_amt != 0){
-    var paid_amt1 = total_amt -discount;
-    }
-    else{
-        var paid_amt1 = paid_amt -discount;
-    }
+    var due_amt = total_amt - discount - paid_amt;
+    var net_amt = total_amt - discount
     $('#due_amt').val(due_amt);
-    $('#paid_amt').val(paid_amt1);
+    $('#net_amt').val(net_amt);
 })
 </script>
 @endsection

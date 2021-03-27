@@ -97,7 +97,7 @@ tr.shown td.details-control:before{
                     <div class="col-md-3">
                         <div class="form-group form-default">
                             <br>
-                            <button type="button" id="getList" class="btn btn-primary btn-sm">Get List</button>
+                            <button type="button" id="getList" class="btn btn-primary btn-sm mt-2">Get List</button>
                         </div>
                     </div>
                 </div>

@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Admin\Classes;
 use App\Models\Admin\Book;
+use App\Models\Admin\IssueBook;
+use DB;
 
 class BookController extends Controller
 {
@@ -17,8 +19,31 @@ class BookController extends Controller
     public function index(Request $request)
     {
         $classes = Classes::where('status', 1)->get();
-        $books = Book::select('*');
         if(request()->ajax()) {
+            $books1 = DB::table('books');
+            if(isset($request->code) && !empty($request->code))
+            {
+                $books1 = $books1->where('book_code', $request->code); 
+            }
+            if(isset($request->book_name))
+            {
+                $books1 = $books1->where('name', 'LIKE', $request->book_name.'%'); 
+            }
+            if(isset($request->author_name))
+            {
+                $books1 = $books1->where('author', 'LIKE', $request->author_name.'%'); 
+            }
+            if(isset($request->type))
+            {
+                if($request->type != "All"){
+                    $books1 = $books1->where('type', $request->type); 
+                }
+            }
+            if(isset($request->class_id))
+            {
+                $books1 = $books1->where('class_id', $request->class_id);
+            }
+            $books = $books1->orderBy('id', 'DESC')->get();
             return datatables()->of($books)
             ->addColumn('class_id', function($row){
                 $class = Classes::where('id', $row->class_id)->first();
@@ -27,33 +52,13 @@ class BookController extends Controller
                     return $class->class_name;
                 }
             })
-            ->filter(function ($instance) use ($request) {
-                if ($request->get('code')) {
-                    $instance->where('book_code', $request->get('code'));
-                }
+            ->addColumn('stock_quantity', function($row){
+                $issueBook = IssueBook::where('book_code', $row->book_code)->get()->sum('quantity');
+                $stockQuantity = $row->quantity - $issueBook;
+                return $stockQuantity;
             })
-            ->filter(function ($instance) use ($request) {
-                if ($request->get('book_name')) {
-                    $instance->where('name', $request->get('book_name'));
-                }
-            })
-            ->filter(function ($instance) use ($request) {
-                if ($request->get('author_name')) {
-                    $instance->where('author', $request->get('author_name'));
-                }
-            })
-            ->filter(function ($instance) use ($request) {
-                if ($request->get('type') != "All") {
-                    $instance->where('type', $request->get('type'));
-                }
-            })
-            ->filter(function ($instance) use ($request) {
-                if ($request->get('class_id')) {
-                    $instance->where('class_id', $request->get('class_id'));
-                }
-            })
-            ->addColumn('action', 'admin.academic-year.action')
-            ->rawColumns(['action'])
+            ->addColumn('action', 'admin.books.action')
+            ->rawColumns(['action', 'stock_quantity'])
             ->addIndexColumn()
             ->make(true);
         }
@@ -79,16 +84,23 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        $book = new Book();
-        $book->book_code = $request->code;
-        $book->name = $request->book_name;
-        $book->author = $request->author_name;
-        $book->type = $request->type;
-        $book->class_id = $request->class_id;
-        $book->quantity = $request->quantity;
-        $book->rack_no = $request->rack_no;
-        $book->save();
-        return response()->json(['success' => 'Book Added Successfully']);
+        $checkBook = Book::where('book_code', $request->code)->first();
+        if(!empty($checkBook))
+        {
+            return response()->json(['error' => 'This ISBN No. is already taken.']);
+        }
+        else{
+            $book = new Book();
+            $book->book_code = $request->code;
+            $book->name = $request->book_name;
+            $book->author = $request->author_name;
+            $book->type = $request->type;
+            $book->class_id = $request->class_id;
+            $book->quantity = $request->quantity;
+            $book->rack_no = $request->rack_no;
+            $book->save();
+            return response()->json(['success' => 'Book Added Successfully']);
+        }
     }
 
     /**
@@ -110,7 +122,9 @@ class BookController extends Controller
      */
     public function edit($id)
     {
-        //
+        $classes = Classes::where('status', 1)->get();
+        $book = Book::findorfail($id);
+        return view('admin.books.edit', compact('book', 'classes'));
     }
 
     /**
@@ -122,7 +136,19 @@ class BookController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $book = Book::where('id', $request->id)->first();
+        $input_data = array (
+            'book_code' => $request->code,
+            'name' => $request->book_name,
+            'author' => $request->author_name,
+            'type' => $request->type,
+            'class_id' => $request->class_id,
+            'quantity' => $request->quantity,
+            'rack_no' => $request->rack_no,
+        );
+
+        Book::whereId($book->id)->update($input_data);
+        return response()->json(['success' => 'Book Updated Successfully']);
     }
 
     /**
@@ -133,6 +159,8 @@ class BookController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $book = Book::findorfail($id);
+        $book->delete();
+        return response()->json(['success' => 'Book Deleted Successfully']);
     }
 }

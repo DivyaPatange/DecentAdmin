@@ -1,7 +1,7 @@
 @extends('admin.admin_layout.main')
-@section('title', 'Library Book')
-@section('page_title', 'Library Book List')
-@section('breadcrumb', 'Library Book List')
+@section('title', 'Library Fine')
+@section('page_title', 'Library Fine Collection List')
+@section('breadcrumb', 'Library Fine Collection List')
 @section('customcss')
 
 <!-- Data Table Css -->
@@ -50,53 +50,51 @@ tr.shown td.details-control:before{
         <div class="card">
             <div class="card-header">
                 <h5>Filters</h5>
-                <a href="{{ route('admin.books.create') }}"><button class="btn waves-effect waves-light btn-primary btn-sm float-right"><i class="fa fa-plus"></i>Add New</button></a>
+                <a href="{{ route('admin.library-fine.create') }}"><button class="btn waves-effect waves-light btn-primary btn-sm float-right"><i class="fa fa-plus"></i>Collect Fine</button></a>
             </div>
             <div class="card-block">
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="form-group form-default">
-                            <label>Code/ISBN No. </label>
-                            <input type="text" name="code" id="code" class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group form-default">
-                            <label>Book Name</label>
-                            <input type="text" name="book_name" id="book_name" class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group form-default">
-                            <label>Author </label>
-                            <input type="text" name="author_name" id="author_name" class="form-control">
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group form-default">
-                            <label>Type <span  style="color:red" id="allot_academic_err"> </span></label>
-                            <select name="type" class="form-control js-example-basic-single" id="type">
-                                <option value="All">All</option>
-                                <option value="Academic">Academic</option>
-                                <option value="Novel">Novel</option>
-                                <option value="Magazine">Magazine</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group form-default">
-                            <label>Class <span  style="color:red" id="allot_academic_err"> </span></label>
-                            <select name="class_id" class="form-control js-example-basic-single" id="class_id">
-                                <option value="">Pick a Class</option>
+                            <label>Class <span  style="color:red" id="allot_class_err"> </span></label>
+                            <select name="class_name" class="form-control js-example-basic-single" id="class_name">
+                                <option value="">-Select Class-</option>
                                 @foreach($classes as $c)
                                 <option value="{{ $c->id }}">{{ $c->class_name }}</option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
+                        <div class="form-group form-default">
+                            <label>Section <span  style="color:red" id="section_err"> </span></label>
+                            <select name="section_name" class="form-control js-example-basic-single" id="section_name">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group form-default">
+                            <label>Student <span  style="color:red" id="allot_academic_err"> </span></label>
+                            <select name="student" class="form-control js-example-basic-single" id="student">
+                            
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group form-default">
+                            <label>Date From <span  style="color:red" id="allot_academic_err"> </span></label>
+                            <input type="date" name="date_from" class="form-control" id="date_from" value="{{ date('Y-m-d') }}">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group form-default">
+                            <label>Date To <span  style="color:red" id="allot_academic_err"> </span></label>
+                            <input type="date" name="date_to" class="form-control" id="date_to" value="{{ date('Y-m-d') }}">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
                         <div class="form-group form-default">
                             <br>
                             <button type="button" id="getList" class="btn btn-primary btn-sm mt-2">Get List</button>
@@ -107,24 +105,24 @@ tr.shown td.details-control:before{
                     <table id="simpletable" class="table table-striped table-bordered nowrap">
                         <thead>
                             <tr>
-                                <th></th>
-                                <th>Code/ISBN No.</th>
-                                <th>Book Name</th>
-                                <th>Author Name</th>
-                                <th>Type</th>
-                                <th>Class</th>
+                                <th>#</th>
+                                <th>Student Name</th>
+                                <th>Collection Date</th>
+                                <th>Fine Amount</th>
+                                <th>Description</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                         </tbody>
                         <tfoot>
                             <tr>
-                                <th></th>
-                                <th>Code/ISBN No.</th>
-                                <th>Book Name</th>
-                                <th>Author Name</th>
-                                <th>Type</th>
-                                <th>Class</th>
+                                <th>#</th>
+                                <th>Student Name</th>
+                                <th>Collection Date</th>
+                                <th>Fine Amount</th>
+                                <th>Description</th>
+                                <th>Action</th>
                             </tr>
                         </tfoot>
                     </table>
@@ -157,87 +155,100 @@ tr.shown td.details-control:before{
 <script type="text/javascript" src="{{ asset('files/assets/pages/advance-elements/select2-custom.js') }}"></script>
 
 <script>
-var SITEURL = '{{ route('admin.books.index')}}';
-function format ( d ) {
-    // `d` is the original data object for the row
-    return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px; width:100%">'+
-        '<tr>'+
-            '<td style="text-align:center">Total Quantity</td>'+
-            '<td style="text-align:center">'+d.quantity+'</td>'+
-        '</tr>'+
-        '<tr>'+
-            '<td style="text-align:center">Stock Quantity</td>'+
-            '<td style="text-align:center">'+d.stock_quantity+'</td>'+
-        '</tr>'+
-        '<tr>'+
-            '<td style="text-align:center">Action</td>'+
-            '<td style="text-align:center">'+d.action+'</td>'+
-        '</tr>'+
-    '</table>';
-}
+var SITEURL = '{{ route('admin.library-fine.index')}}';
 $(document).ready(function() {
-    fetch_data();
-    function fetch_data(code = '', book_name = '', author_name = '', type= '', class_id = '')
-    {
-        var table = $('#simpletable').DataTable({
-        processing: true,
-        serverSide: true,
-        ajax: {
-            url: SITEURL,
-            type: 'GET',
-            data: {code:code, book_name:book_name, author_name:author_name, type:type, class_id:class_id}
-            // alert(data);
-        },
-        columns: [
-                {
-                    "className":      'details-control',
-                    "orderable":      false,
-                    "data":           null,
-                    "defaultContent": ''
-                },
-                { data: 'book_code', name: 'book_code' },
-                { data: 'name', name: 'name' },
-                { data: 'author', name: 'author' },
-                { data: 'type', name: 'type' },
-                { data: 'class_id', name: 'class_id' },
-            ],
-        order: [[0, 'desc']]
-        });
-        $('#simpletable tbody').on('click', 'td.details-control', function () {
-            var tr = $(this).closest('tr');
-            var row = table.row( tr );
-    
-            if ( row.child.isShown() ) {
-                // This row is already open - close it
-                row.child.hide();
-                tr.removeClass('shown');
-            }
-            else {
-                // Open this row
-                row.child( format(row.data()) ).show();
-                tr.addClass('shown');
-            }
-        });
+    fetch_data(sectionID = '', classID = '', student = '', date_from = '', date_to = '');
+    function fetch_data(sectionID = '', classID = '', student = '', date_from = '', date_to = ''){
+        // alert(student);
+    var table = $('#simpletable').DataTable({
+    processing: true,
+    serverSide: true,
+    ajax: {
+    url: SITEURL,
+    type: 'GET',
+    data: {sectionID:sectionID, classID:classID, student:student, date_from:date_from, date_to:date_to}
+    },
+    columns: [
+            { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false,searchable: false},
+            { data: 'student_name', name: 'student_name' },
+            { data: 'collection_date', name: 'collection_date' },
+            { data: 'fine_amt', name: 'fine_amt' },
+            { data: 'description', name: 'description' },
+            {data: 'action', name: 'action', orderable: false},
+        ],
+    order: [[0, 'desc']]
+    });
     }
     $('#getList').click(function () {
-        var code = $("#code").val();
-        var book_name = $("#book_name").val();
-        var author_name = $("#author_name").val();
-        var type = $("#type").val(); 
-        var class_id = $("#class_id").val();
-        $('#simpletable').DataTable().destroy();
- 
-        fetch_data(code, book_name, author_name, type, class_id);
+        var sectionID = $("#section_name").val();
+        var classID = $("#class_name").val(); 
+        var student = $("#student").val();   
+        var date_from = $("#date_from").val();
+        var date_to = $("#date_to").val();
+        // alert(student);
+        $("#simpletable").DataTable().destroy();
+        fetch_data(sectionID, classID, student, date_from, date_to);
     });
 });
 
+$('#class_name').change(function(){
+  var classID = $(this).val();  
+//   alert(brandID);
+  if(classID){
+    $.ajax({
+      type:"GET",
+      url:"{{url('admin/get-section-list')}}?class_id="+classID,
+      success:function(res){        
+      if(res){
+        $("#section_name").empty();
+        $("#section_name").append('<option>Select Section</option>');
+        $.each(res,function(key,value){
+          $("#section_name").append('<option value="'+key+'">'+value+'</option>');
+        });
+      
+      }else{
+        $("#section_name").empty();
+      }
+      }
+    });
+  }else{
+    $("#section_name").empty();
+  }   
+  });
+
+$('#section_name').change(function(){
+  var sectionID = $(this).val();
+  var classID = $("#class_name").val();   
+    //   alert(brandID);
+  if(sectionID && classID){
+    $.ajax({
+      type:"GET",
+      url:"{{url('admin/get-student-list')}}",
+      data:{ classID:classID, sectionID:sectionID},
+      success:function(res){        
+      if(res){
+        $("#student").empty();
+        $("#student").append('<option>Select Student</option>');
+        $.each(res,function(key,value){
+          $("#student").append('<option value="'+key+'">'+value+'</option>');
+        });
+      
+      }else{
+        $("#student").empty();
+      }
+      }
+    });
+  }else{
+    $("#student").empty();
+  }   
+});
 $('body').on('click', '#delete', function () {
     var id = $(this).data("id");
 
     if(confirm("Are You sure want to delete !")){
         $.ajax({
             type: "delete",
-            url: "{{ url('admin/books') }}"+'/'+id,
+            url: "{{ url('admin/library-fine') }}"+'/'+id,
             success: function (data) {
             var oTable = $('#simpletable').dataTable(); 
             oTable.fnDraw(false);
@@ -249,7 +260,6 @@ $('body').on('click', '#delete', function () {
         });
     }
 });
-
 </script>
 
 @endsection

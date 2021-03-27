@@ -26,6 +26,8 @@ use App\Http\Controllers\Admin\SubjectTeacherController;
 use App\Http\Controllers\Admin\AdmissionController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\BookController;
+use App\Http\Controllers\Admin\IssueBookController;
+use App\Http\Controllers\Admin\LibraryFineController;
 
 // Parent Controller
 use App\Http\Controllers\Auth\ParentLoginController;
@@ -112,9 +114,7 @@ Route::prefix('admin')->name('admin.')->group(function() {
     Route::resource('/class', ClassController::class);
     Route::post('/get-class', [ClassController::class, 'getClass'])->name('get.class');
     Route::post('/class/update', [ClassController::class, 'updateClass']);
-    // Junior College Admission Route
-    Route::resource('/junior-college-admission', JuniorAdmissionController::class);
-    Route::get('/searchStudentName', [JuniorAdmissionController::class, 'searchStudentName'])->name('searchStudentName');
+
     // Fee Head Route
     Route::resource('/fee-head', FeeHeadController::class);
     Route::post('/get-fee-head', [FeeHeadController::class, 'getFeeHead'])->name('get.fee-head');
@@ -167,8 +167,6 @@ Route::prefix('admin')->name('admin.')->group(function() {
     Route::get('/junior-leaving-certificate/{id}', [CertificateController::class, 'jrLeavingCertificate'])->name('junior-leaving.certificate');
     Route::post('/junior-leaving-certificate/save', [CertificateController::class, 'jrLeavingCertificateSave'])->name('junior-leaving.save');
 
-    Route::resource('/primary-school', PrimarySchoolController::class);
-
     // User Route
     Route::resource('/users', UserController::class);
 
@@ -195,6 +193,13 @@ Route::prefix('admin')->name('admin.')->group(function() {
 
     // Book Route
     Route::resource('/books', BookController::class);
+
+    // Book Issue Route
+    Route::resource('/book-issue', IssueBookController::class);
+    Route::get('/book-issue/status/{id}', [IssueBookController::class, 'status']);
+
+    // Library Fine Route
+    Route::resource('/library-fine', LibraryFineController::class);
 
 });
 

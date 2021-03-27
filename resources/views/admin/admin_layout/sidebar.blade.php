@@ -518,18 +518,50 @@
                         </a>
                     </li>
                     <li class=" ">
-                        <a href="icon-themify.html" class="waves-effect waves-dark">
+                        <a href="{{ route('admin.book-issue.index') }}" class="waves-effect waves-dark">
                             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
                             <span class="pcoded-mtext">Issue Book</span>
                             <span class="pcoded-mcaret"></span>
                         </a>
                     </li>
                     <li class=" ">
-                        <a href="icon-simple-line.html" class="waves-effect waves-dark">
+                        <a href="{{ route('admin.library-fine.index') }}" class="waves-effect waves-dark">
                             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
                             <span class="pcoded-mtext">Fine Collection</span>
                             <span class="pcoded-mcaret"></span>
-                            </a>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="pcoded-hasmenu ">
+                <a href="javascript:void(0)" class="waves-effect waves-dark">
+                    <span class="pcoded-micon"><i class="ti-calendar"></i><b>EC</b></span>
+                    <span class="pcoded-mtext">HRM</span>
+                    <span class="pcoded-mcaret"></span>
+                </a>
+                <ul class="pcoded-submenu">
+                    <li class="">
+                        <a href="event-full-calender.html" class="waves-effect waves-dark">
+                            <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                            <span class="pcoded-mtext">Employee</span>
+                            <span class="pcoded-mcaret"></span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="event-clndr.html" class="waves-effect waves-dark">
+                            <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                            <span class="pcoded-mtext">Leave</span>
+                            <span class="pcoded-badge label label-info">NEW</span>
+                            <span class="pcoded-mcaret"></span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="event-clndr.html" class="waves-effect waves-dark">
+                            <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                            <span class="pcoded-mtext">Policy</span>
+                            <span class="pcoded-badge label label-info">NEW</span>
+                            <span class="pcoded-mcaret"></span>
+                        </a>
                     </li>
                 </ul>
             </li>

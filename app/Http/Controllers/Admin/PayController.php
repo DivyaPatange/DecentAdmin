@@ -24,7 +24,7 @@ class PayController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $classes = Classes::where('status', 1)->get();
         if(request()->ajax()) {
@@ -42,7 +42,7 @@ class PayController extends Controller
                 $payment1 = $payment1->where('student_id', $request->student);
             }
             if(!empty($request->date_from) && !empty($request->date_to)){
-                $payment1 = $payment1->whereBetween('payment_date', [date("Y-m-d", strtotime($request->date_from)), date("Y-m-d", strtotime($request->date_to))])->get();
+                $payment1 = $payment1->whereBetween('payment_date', [date("Y-m-d", strtotime($request->date_from)), date("Y-m-d", strtotime($request->date_to))]);
             }
             $payment = $payment1->orderBy('id', 'DESC')->get();
             return datatables()->of($payment)

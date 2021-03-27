@@ -1,7 +1,7 @@
 @extends('admin.admin_layout.main')
-@section('title', 'Library Book')
-@section('page_title', 'Add Library Book')
-@section('breadcrumb', 'Add Library Book')
+@section('title', 'Library Fine Collection')
+@section('page_title', 'Edit Library Fine Collection')
+@section('breadcrumb', 'Edit Library Fine Collection')
 @section('customcss')
 
 <!-- Data Table Css -->
@@ -49,68 +49,40 @@ tr.shown td.details-control:before{
         <!-- Zero config.table start -->
         <div class="card">
             <div class="card-header">
-                <h5>Add Library Book</h5>
+                <h5>Edit Library Fine Collection</h5>
             </div>
             <div class="card-block">
                 <form method="POST" id="submitForm">
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group form-default">
-                                <label>Code/ISBN No. <span  style="color:red" id="code_err"> </span></label>
-                                <input type="text" name="code" id="code" class="form-control">
+                                <label>Student Regi. No. <span  style="color:red" id="regi_err"> </span></label>
+                                <input type="text" name="regi_no" id="regi_no" class="form-control" value="{{ $libraryFine->student_regi_no }}">
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group form-default">
-                                <label>Book Name <span  style="color:red" id="book_err"> </span></label>
-                                <input type="text" name="book_name" id="book_name" class="form-control">
+                                <label>Collection Date <span  style="color:red" id="date_err"> </span></label>
+                                <input type="date" name="collect_date" id="collect_date" class="form-control" value="{{ $libraryFine->collection_date }}">
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group form-default">
-                                <label>Author <span  style="color:red" id="author_err"> </span></label>
-                                <input type="text" name="author_name" id="author_name" class="form-control">
+                                <label>Fine Amount <span  style="color:red" id="amt_err"> </span></label>
+                                <input type="number" name="fine_amt" id="fine_amt" class="form-control" value="{{ $libraryFine->fine_amt }}">
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-8">
                             <div class="form-group form-default">
-                                <label>Type <span  style="color:red" id="type_err"> </span></label>
-                                <select name="type" class="form-control js-example-basic-single" id="type">
-                                    <option value="">Pick a Type</option>
-                                    <option value="Academic">Academic</option>
-                                    <option value="Novel">Novel</option>
-                                    <option value="Magazine">Magazine</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group form-default">
-                                <label>Class <span  style="color:red" id="class_err"> </span></label>
-                                <select name="class_id" class="form-control js-example-basic-single" id="class_id">
-                                    <option value="">Pick a Class</option>
-                                    @foreach($classes as $c)
-                                    <option value="{{ $c->id }}">{{ $c->class_name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group form-default">
-                                <label>Quantity <span  style="color:red" id="quantity_err"> </span></label>
-                                <input type="number" class="form-control" name="quantity" id="quantity">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group form-default">
-                                <label>Rack No. <span  style="color:red" id="rack_err"> </span></label>
-                                <input type="text" class="form-control" name="rack_no" id="rack_no">
+                                <label>Description <span  style="color:red" id="description_err"> </span></label>
+                                <textarea class="form-control" name="description" id="description">{{ $libraryFine->description }}</textarea>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group form-default">
-                                <button type="button" id="getList" class="btn btn-primary btn-sm mt-2">Add New</button>
+                                <button type="button" id="getList" class="btn btn-primary btn-sm mt-2">Update</button>
                             </div>
                         </div>
                     </div>
@@ -143,63 +115,37 @@ tr.shown td.details-control:before{
 <script type="text/javascript" src="{{ asset('files/assets/pages/advance-elements/select2-custom.js') }}"></script>
 
 <script>
+var SITEURL = '{{ route('admin.library-fine.update', $libraryFine->id)}}';
 $('body').on('click', '#getList', function () {
-    var code = $("#code").val();
-    var book_name = $("#book_name").val();
-    var author_name = $("#author_name").val();
-    var type = $("#type").val();
-    var class_id = $("#class_id").val();
-    var quantity = $("#quantity").val();
-    var rack_no = $("#rack_no").val();
-    if (code=="") {
-        $("#code_err").fadeIn().html("Required");
-        setTimeout(function(){ $("#code_err").fadeOut(); }, 3000);
-        $("#code").focus();
+    var regi_no = $("#regi_no").val();
+    var collect_date = $("#collect_date").val();
+    var fine_amt = $("#fine_amt").val();
+    var description = $("#description").val();
+    if (regi_no=="") {
+        $("#regi_err").fadeIn().html("Required");
+        setTimeout(function(){ $("#regi_err").fadeOut(); }, 3000);
+        $("#regi_no").focus();
         return false;
     }
-    if (book_name=="") {
-        $("#book_err").fadeIn().html("Required");
-        setTimeout(function(){ $("#book_err").fadeOut(); }, 3000);
-        $("#book_name").focus();
+    if (collect_date=="") {
+        $("#date_err").fadeIn().html("Required");
+        setTimeout(function(){ $("#date_err").fadeOut(); }, 3000);
+        $("#collect_date").focus();
         return false;
     }
-    if (author_name=="") {
-        $("#author_err").fadeIn().html("Required");
-        setTimeout(function(){ $("#author_err").fadeOut(); }, 3000);
-        $("#author_name").focus();
-        return false;
-    }
-    if (type=="") {
-        $("#type_err").fadeIn().html("Required");
-        setTimeout(function(){ $("#type_err").fadeOut(); }, 3000);
-        $("#type").focus();
-        return false;
-    }
-    if (class_id=="") {
-        $("#class_err").fadeIn().html("Required");
-        setTimeout(function(){ $("#class_err").fadeOut(); }, 3000);
-        $("#class_id").focus();
-        return false;
-    }
-    if (quantity=="") {
-        $("#quantity_err").fadeIn().html("Required");
-        setTimeout(function(){ $("#quantity_err").fadeOut(); }, 3000);
-        $("#quantity").focus();
-        return false;
-    }
-    if (rack_no=="") {
-        $("#rack_err").fadeIn().html("Required");
-        setTimeout(function(){ $("#rack_err").fadeOut(); }, 3000);
-        $("#rack_no").focus();
+    if (fine_amt=="") {
+        $("#amt_err").fadeIn().html("Required");
+        setTimeout(function(){ $("#amt_err").fadeOut(); }, 3000);
+        $("#fine_amt").focus();
         return false;
     }
     else
     { 
-        var datastring="code="+code+"&book_name="+book_name+"&author_name="+author_name+"&type="+type+"&class_id="+class_id+"&quantity="+quantity+"&rack_no="+rack_no;
+        var datastring="collect_date="+collect_date+"&regi_no="+regi_no+"&fine_amt="+fine_amt+"&description="+description;
         // alert(datastring);
         $.ajax({
-            type:"POST",
-            url:"{{ route('admin.books.store') }}",
+            type:"PUT",
+            url:"{{ route('admin.library-fine.update', $libraryFine->id) }}",
             data:datastring,
             cache:false,        
             success:function(returndata)
@@ -207,6 +153,7 @@ $('body').on('click', '#getList', function () {
                 if(returndata.success){
                 document.getElementById("submitForm").reset();
                 toastr.success(returndata.success);
+                // $("#submitForm").load(SITEURL); 
                 }
                 else{
                     toastr.error(returndata.error);

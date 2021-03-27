@@ -1,7 +1,7 @@
 @extends('admin.admin_layout.main')
-@section('title', 'Library Book')
-@section('page_title', 'Library Book List')
-@section('breadcrumb', 'Library Book List')
+@section('title', 'Issue Book')
+@section('page_title', 'Issue Book List')
+@section('breadcrumb', 'Issue Book List')
 @section('customcss')
 
 <!-- Data Table Css -->
@@ -41,6 +41,70 @@ tr.shown td.details-control:before{
     text-align: center;
     font-size: 20px;
 }
+.switch_box{
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	/* max-width: 200px; */
+	/* min-width: 200px; */
+	/* height: 200px; */
+	-webkit-box-pack: center;
+	    -ms-flex-pack: center;
+	        justify-content: center;
+	-webkit-box-align: center;
+	    -ms-flex-align: center;
+	        align-items: center;
+	-webkit-box-flex: 1;
+	    -ms-flex: 1;
+	        flex: 1;
+}
+
+/* Switch 1 Specific Styles Start */
+
+.box_1{
+	/* background: #eee; */
+}
+
+input[type="checkbox"].switch_1{
+	font-size: 20px;
+	-webkit-appearance: none;
+	   -moz-appearance: none;
+	        appearance: none;
+	width: 2.5em;
+	height: 1.2em;
+	background: #dd0c0c;
+	border-radius: 3em;
+	position: relative;
+	cursor: pointer;
+	outline: none;
+	-webkit-transition: all .2s ease-in-out;
+	transition: all .2s ease-in-out;
+  }
+  
+  input[type="checkbox"].switch_1:checked{
+	background: green;
+  }
+  
+  input[type="checkbox"].switch_1:after{
+	position: absolute;
+	content: "";
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 50%;
+	background: #fff;
+	-webkit-box-shadow: 0 0 .25em rgba(0,0,0,.3);
+	        box-shadow: 0 0 .25em rgba(0,0,0,.3);
+	-webkit-transform: scale(.7);
+	        transform: scale(.7);
+	left: 0;
+	-webkit-transition: all .2s ease-in-out;
+	transition: all .2s ease-in-out;
+    top:-3px;
+  }
+  
+  input[type="checkbox"].switch_1:checked:after{
+	left: calc(100% - 1.5em);
+  }
 </style>
 @endsection
 @section('content')
@@ -50,49 +114,43 @@ tr.shown td.details-control:before{
         <div class="card">
             <div class="card-header">
                 <h5>Filters</h5>
-                <a href="{{ route('admin.books.create') }}"><button class="btn waves-effect waves-light btn-primary btn-sm float-right"><i class="fa fa-plus"></i>Add New</button></a>
+                <a href="{{ route('admin.book-issue.create') }}"><button class="btn waves-effect waves-light btn-primary btn-sm float-right"><i class="fa fa-plus"></i>Add New</button></a>
             </div>
             <div class="card-block">
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
+                        <div class="form-group form-default">
+                            <label>Student Regi No.</label>
+                            <input type="text" name="regi_no" id="regi_no" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
                         <div class="form-group form-default">
                             <label>Code/ISBN No. </label>
                             <input type="text" name="code" id="code" class="form-control">
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="form-group form-default">
-                            <label>Book Name</label>
-                            <input type="text" name="book_name" id="book_name" class="form-control">
+                            <label>Issue Date </label>
+                            <input type="date" name="issue_date" id="issue_date" class="form-control">
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="form-group form-default">
-                            <label>Author </label>
-                            <input type="text" name="author_name" id="author_name" class="form-control">
+                            <label>Return Date </label>
+                            <input type="date" name="return_date" id="return_date" class="form-control">
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group form-default">
-                            <label>Type <span  style="color:red" id="allot_academic_err"> </span></label>
-                            <select name="type" class="form-control js-example-basic-single" id="type">
-                                <option value="All">All</option>
-                                <option value="Academic">Academic</option>
-                                <option value="Novel">Novel</option>
-                                <option value="Magazine">Magazine</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group form-default">
-                            <label>Class <span  style="color:red" id="allot_academic_err"> </span></label>
-                            <select name="class_id" class="form-control js-example-basic-single" id="class_id">
-                                <option value="">Pick a Class</option>
-                                @foreach($classes as $c)
-                                <option value="{{ $c->id }}">{{ $c->class_name }}</option>
-                                @endforeach
+                            <label>Status <span  style="color:red" id="allot_academic_err"> </span></label>
+                            <select name="status" class="form-control js-example-basic-single" id="status">
+                                <option value="">All</option>
+                                <option value="1">Returned</option>
+                                <option value="0">Not Return</option>
                             </select>
                         </div>
                     </div>
@@ -110,9 +168,10 @@ tr.shown td.details-control:before{
                                 <th></th>
                                 <th>Code/ISBN No.</th>
                                 <th>Book Name</th>
-                                <th>Author Name</th>
-                                <th>Type</th>
-                                <th>Class</th>
+                                <th>Student Name</th>
+                                <th>Issue Date</th>
+                                <th>Return Date</th>
+                                <th>Quantity</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -122,9 +181,10 @@ tr.shown td.details-control:before{
                                 <th></th>
                                 <th>Code/ISBN No.</th>
                                 <th>Book Name</th>
-                                <th>Author Name</th>
-                                <th>Type</th>
-                                <th>Class</th>
+                                <th>Student Name</th>
+                                <th>Issue Date</th>
+                                <th>Return Date</th>
+                                <th>Quantity</th>
                             </tr>
                         </tfoot>
                     </table>
@@ -157,17 +217,13 @@ tr.shown td.details-control:before{
 <script type="text/javascript" src="{{ asset('files/assets/pages/advance-elements/select2-custom.js') }}"></script>
 
 <script>
-var SITEURL = '{{ route('admin.books.index')}}';
+var SITEURL = '{{ route('admin.book-issue.index')}}';
 function format ( d ) {
     // `d` is the original data object for the row
     return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px; width:100%">'+
         '<tr>'+
-            '<td style="text-align:center">Total Quantity</td>'+
-            '<td style="text-align:center">'+d.quantity+'</td>'+
-        '</tr>'+
-        '<tr>'+
-            '<td style="text-align:center">Stock Quantity</td>'+
-            '<td style="text-align:center">'+d.stock_quantity+'</td>'+
+            '<td style="text-align:center">Status</td>'+
+            '<td style="text-align:center">'+d.status+'</td>'+
         '</tr>'+
         '<tr>'+
             '<td style="text-align:center">Action</td>'+
@@ -177,16 +233,16 @@ function format ( d ) {
 }
 $(document).ready(function() {
     fetch_data();
-    function fetch_data(code = '', book_name = '', author_name = '', type= '', class_id = '')
+    function fetch_data(code = '', regi_no = '', issue_date = '', return_date= '', status = '')
     {
+        // alert(regi_no);
         var table = $('#simpletable').DataTable({
         processing: true,
         serverSide: true,
         ajax: {
             url: SITEURL,
             type: 'GET',
-            data: {code:code, book_name:book_name, author_name:author_name, type:type, class_id:class_id}
-            // alert(data);
+            data: {code:code, regi_no:regi_no, issue_date:issue_date, return_date:return_date, status:status},
         },
         columns: [
                 {
@@ -196,10 +252,11 @@ $(document).ready(function() {
                     "defaultContent": ''
                 },
                 { data: 'book_code', name: 'book_code' },
-                { data: 'name', name: 'name' },
-                { data: 'author', name: 'author' },
-                { data: 'type', name: 'type' },
-                { data: 'class_id', name: 'class_id' },
+                { data: 'book_name', name: 'book_name' },
+                { data: 'student_name', name: 'student_name' },
+                { data: 'issue_date', name: 'issue_date' },
+                { data: 'return_date', name: 'return_date' },
+                { data: 'quantity', name: 'quantity' },
             ],
         order: [[0, 'desc']]
         });
@@ -221,13 +278,13 @@ $(document).ready(function() {
     }
     $('#getList').click(function () {
         var code = $("#code").val();
-        var book_name = $("#book_name").val();
-        var author_name = $("#author_name").val();
-        var type = $("#type").val(); 
-        var class_id = $("#class_id").val();
+        var regi_no = $("#regi_no").val();
+        var issue_date = $("#issue_date").val();
+        var return_date = $("#return_date").val(); 
+        var status = $("#status").val();
         $('#simpletable').DataTable().destroy();
  
-        fetch_data(code, book_name, author_name, type, class_id);
+        fetch_data(code, regi_no, issue_date, return_date, status);
     });
 });
 
@@ -237,8 +294,27 @@ $('body').on('click', '#delete', function () {
     if(confirm("Are You sure want to delete !")){
         $.ajax({
             type: "delete",
-            url: "{{ url('admin/books') }}"+'/'+id,
+            url: "{{ url('admin/book-issue') }}"+'/'+id,
             success: function (data) {
+            var oTable = $('#simpletable').dataTable(); 
+            oTable.fnDraw(false);
+            toastr.success(data.success);
+            },
+            error: function (data) {
+                console.log('Error:', data);
+            }
+        });
+    }
+});
+$('body').on('click', '.switch_1', function () {
+    var id = $(this).data("id");
+    // alert(id);
+    if(id != ''){
+        $.ajax({
+            type: "get",
+            url: "{{ url('admin/book-issue/status') }}"+'/'+id,
+            success: function (data) {
+                // alert(data.teacher);
             var oTable = $('#simpletable').dataTable(); 
             oTable.fnDraw(false);
             toastr.success(data.success);

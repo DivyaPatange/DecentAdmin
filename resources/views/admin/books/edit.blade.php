@@ -1,7 +1,7 @@
 @extends('admin.admin_layout.main')
 @section('title', 'Library Book')
-@section('page_title', 'Add Library Book')
-@section('breadcrumb', 'Add Library Book')
+@section('page_title', 'Edit Library Book')
+@section('breadcrumb', 'Edit Library Book')
 @section('customcss')
 
 <!-- Data Table Css -->
@@ -49,7 +49,7 @@ tr.shown td.details-control:before{
         <!-- Zero config.table start -->
         <div class="card">
             <div class="card-header">
-                <h5>Add Library Book</h5>
+                <h5>Edit Library Book</h5>
             </div>
             <div class="card-block">
                 <form method="POST" id="submitForm">
@@ -57,19 +57,19 @@ tr.shown td.details-control:before{
                         <div class="col-md-4">
                             <div class="form-group form-default">
                                 <label>Code/ISBN No. <span  style="color:red" id="code_err"> </span></label>
-                                <input type="text" name="code" id="code" class="form-control">
+                                <input type="text" name="code" id="code" class="form-control" value="{{ $book->book_code }}">
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group form-default">
                                 <label>Book Name <span  style="color:red" id="book_err"> </span></label>
-                                <input type="text" name="book_name" id="book_name" class="form-control">
+                                <input type="text" name="book_name" id="book_name" class="form-control" value="{{ $book->name }}">
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group form-default">
                                 <label>Author <span  style="color:red" id="author_err"> </span></label>
-                                <input type="text" name="author_name" id="author_name" class="form-control">
+                                <input type="text" name="author_name" id="author_name" class="form-control" value="{{ $book->author }}">
                             </div>
                         </div>
                     </div>
@@ -79,9 +79,9 @@ tr.shown td.details-control:before{
                                 <label>Type <span  style="color:red" id="type_err"> </span></label>
                                 <select name="type" class="form-control js-example-basic-single" id="type">
                                     <option value="">Pick a Type</option>
-                                    <option value="Academic">Academic</option>
-                                    <option value="Novel">Novel</option>
-                                    <option value="Magazine">Magazine</option>
+                                    <option value="Academic" @if($book->type == "Academic") Selected @endif>Academic</option>
+                                    <option value="Novel" @if($book->type == "Novel") Selected @endif>Novel</option>
+                                    <option value="Magazine" @if($book->type == "Magazine") Selected @endif>Magazine</option>
                                 </select>
                             </div>
                         </div>
@@ -91,7 +91,7 @@ tr.shown td.details-control:before{
                                 <select name="class_id" class="form-control js-example-basic-single" id="class_id">
                                     <option value="">Pick a Class</option>
                                     @foreach($classes as $c)
-                                    <option value="{{ $c->id }}">{{ $c->class_name }}</option>
+                                    <option value="{{ $c->id }}" @if($book->class_id == $c->id) Selected @endif>{{ $c->class_name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -99,18 +99,19 @@ tr.shown td.details-control:before{
                         <div class="col-md-3">
                             <div class="form-group form-default">
                                 <label>Quantity <span  style="color:red" id="quantity_err"> </span></label>
-                                <input type="number" class="form-control" name="quantity" id="quantity">
+                                <input type="number" class="form-control" name="quantity" id="quantity" value="{{ $book->quantity }}">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group form-default">
                                 <label>Rack No. <span  style="color:red" id="rack_err"> </span></label>
-                                <input type="text" class="form-control" name="rack_no" id="rack_no">
+                                <input type="text" class="form-control" name="rack_no" id="rack_no" value="{{ $book->rack_no }}">
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group form-default">
-                                <button type="button" id="getList" class="btn btn-primary btn-sm mt-2">Add New</button>
+                                <input type="hidden" name="id" id="id" value="{{ $book->id }}">
+                                <button type="button" id="getList" class="btn btn-primary btn-sm mt-2">Update</button>
                             </div>
                         </div>
                     </div>
@@ -151,6 +152,7 @@ $('body').on('click', '#getList', function () {
     var class_id = $("#class_id").val();
     var quantity = $("#quantity").val();
     var rack_no = $("#rack_no").val();
+    var id = $("#id").val();
     if (code=="") {
         $("#code_err").fadeIn().html("Required");
         setTimeout(function(){ $("#code_err").fadeOut(); }, 3000);
@@ -195,22 +197,17 @@ $('body').on('click', '#getList', function () {
     }
     else
     { 
-        var datastring="code="+code+"&book_name="+book_name+"&author_name="+author_name+"&type="+type+"&class_id="+class_id+"&quantity="+quantity+"&rack_no="+rack_no;
+        var datastring="code="+code+"&book_name="+book_name+"&author_name="+author_name+"&type="+type+"&class_id="+class_id+"&quantity="+quantity+"&rack_no="+rack_no+"&id="+id;
         // alert(datastring);
         $.ajax({
-            type:"POST",
-            url:"{{ route('admin.books.store') }}",
+            type:"PUT",
+            url:"{{ route('admin.books.update', $book->id) }}",
             data:datastring,
             cache:false,        
             success:function(returndata)
             {
-                if(returndata.success){
                 document.getElementById("submitForm").reset();
                 toastr.success(returndata.success);
-                }
-                else{
-                    toastr.error(returndata.error);
-                }
             
             // location.reload();
             // $("#pay").val("");

@@ -1,7 +1,7 @@
 @extends('admin.admin_layout.main')
-@section('title', 'Library Book')
-@section('page_title', 'Add Library Book')
-@section('breadcrumb', 'Add Library Book')
+@section('title', 'Issue Book')
+@section('page_title', 'Add Issue Book')
+@section('breadcrumb', 'Add Issue Book')
 @section('customcss')
 
 <!-- Data Table Css -->
@@ -49,63 +49,41 @@ tr.shown td.details-control:before{
         <!-- Zero config.table start -->
         <div class="card">
             <div class="card-header">
-                <h5>Add Library Book</h5>
+                <h5>Add Issue Book</h5>
             </div>
             <div class="card-block">
                 <form method="POST" id="submitForm">
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
+                            <div class="form-group form-default">
+                                <label>Student Regi. No. <span  style="color:red" id="regi_err"> </span></label>
+                                <input type="text" name="regi_no" id="regi_no" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
                             <div class="form-group form-default">
                                 <label>Code/ISBN No. <span  style="color:red" id="code_err"> </span></label>
                                 <input type="text" name="code" id="code" class="form-control">
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group form-default">
-                                <label>Book Name <span  style="color:red" id="book_err"> </span></label>
-                                <input type="text" name="book_name" id="book_name" class="form-control">
+                                <label>Issue Date <span  style="color:red" id="issue_err"> </span></label>
+                                <input type="date" name="issue_date" id="issue_date" class="form-control">
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group form-default">
-                                <label>Author <span  style="color:red" id="author_err"> </span></label>
-                                <input type="text" name="author_name" id="author_name" class="form-control">
+                                <label>Return Date <span  style="color:red" id="return_err"> </span></label>
+                                <input type="date" name="return_date" id="return_date" class="form-control">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group form-default">
-                                <label>Type <span  style="color:red" id="type_err"> </span></label>
-                                <select name="type" class="form-control js-example-basic-single" id="type">
-                                    <option value="">Pick a Type</option>
-                                    <option value="Academic">Academic</option>
-                                    <option value="Novel">Novel</option>
-                                    <option value="Magazine">Magazine</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group form-default">
-                                <label>Class <span  style="color:red" id="class_err"> </span></label>
-                                <select name="class_id" class="form-control js-example-basic-single" id="class_id">
-                                    <option value="">Pick a Class</option>
-                                    @foreach($classes as $c)
-                                    <option value="{{ $c->id }}">{{ $c->class_name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group form-default">
                                 <label>Quantity <span  style="color:red" id="quantity_err"> </span></label>
                                 <input type="number" class="form-control" name="quantity" id="quantity">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group form-default">
-                                <label>Rack No. <span  style="color:red" id="rack_err"> </span></label>
-                                <input type="text" class="form-control" name="rack_no" id="rack_no">
                             </div>
                         </div>
                         <div class="col-md-12">
@@ -145,40 +123,32 @@ tr.shown td.details-control:before{
 <script>
 $('body').on('click', '#getList', function () {
     var code = $("#code").val();
-    var book_name = $("#book_name").val();
-    var author_name = $("#author_name").val();
-    var type = $("#type").val();
-    var class_id = $("#class_id").val();
+    var regi_no = $("#regi_no").val();
+    var issue_date = $("#issue_date").val();
+    var return_date = $("#return_date").val();
     var quantity = $("#quantity").val();
-    var rack_no = $("#rack_no").val();
+    if (regi_no=="") {
+        $("#regi_err").fadeIn().html("Required");
+        setTimeout(function(){ $("#regi_err").fadeOut(); }, 3000);
+        $("#regi_no").focus();
+        return false;
+    }
     if (code=="") {
         $("#code_err").fadeIn().html("Required");
         setTimeout(function(){ $("#code_err").fadeOut(); }, 3000);
         $("#code").focus();
         return false;
     }
-    if (book_name=="") {
-        $("#book_err").fadeIn().html("Required");
-        setTimeout(function(){ $("#book_err").fadeOut(); }, 3000);
-        $("#book_name").focus();
+    if (issue_date=="") {
+        $("#issue_err").fadeIn().html("Required");
+        setTimeout(function(){ $("#issue_err").fadeOut(); }, 3000);
+        $("#issue_date").focus();
         return false;
     }
-    if (author_name=="") {
-        $("#author_err").fadeIn().html("Required");
-        setTimeout(function(){ $("#author_err").fadeOut(); }, 3000);
-        $("#author_name").focus();
-        return false;
-    }
-    if (type=="") {
-        $("#type_err").fadeIn().html("Required");
-        setTimeout(function(){ $("#type_err").fadeOut(); }, 3000);
-        $("#type").focus();
-        return false;
-    }
-    if (class_id=="") {
-        $("#class_err").fadeIn().html("Required");
-        setTimeout(function(){ $("#class_err").fadeOut(); }, 3000);
-        $("#class_id").focus();
+    if (return_date=="") {
+        $("#return_err").fadeIn().html("Required");
+        setTimeout(function(){ $("#return_err").fadeOut(); }, 3000);
+        $("#return_date").focus();
         return false;
     }
     if (quantity=="") {
@@ -187,19 +157,13 @@ $('body').on('click', '#getList', function () {
         $("#quantity").focus();
         return false;
     }
-    if (rack_no=="") {
-        $("#rack_err").fadeIn().html("Required");
-        setTimeout(function(){ $("#rack_err").fadeOut(); }, 3000);
-        $("#rack_no").focus();
-        return false;
-    }
     else
     { 
-        var datastring="code="+code+"&book_name="+book_name+"&author_name="+author_name+"&type="+type+"&class_id="+class_id+"&quantity="+quantity+"&rack_no="+rack_no;
+        var datastring="code="+code+"&regi_no="+regi_no+"&issue_date="+issue_date+"&return_date="+return_date+"&quantity="+quantity;
         // alert(datastring);
         $.ajax({
             type:"POST",
-            url:"{{ route('admin.books.store') }}",
+            url:"{{ route('admin.book-issue.store') }}",
             data:datastring,
             cache:false,        
             success:function(returndata)

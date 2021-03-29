@@ -28,6 +28,10 @@ use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\BookController;
 use App\Http\Controllers\Admin\IssueBookController;
 use App\Http\Controllers\Admin\LibraryFineController;
+use App\Http\Controllers\Admin\EmployeeController;
+use App\Http\Controllers\Admin\EmployeeLeaveController;
+use App\Http\Controllers\Admin\LeavePolicyController;
+
 
 // Parent Controller
 use App\Http\Controllers\Auth\ParentLoginController;
@@ -181,7 +185,8 @@ Route::prefix('admin')->name('admin.')->group(function() {
     Route::post('/primary-admission/store', [AdmissionController::class, 'storePrimaryAdmission']);
     Route::put('/junior-admission/update/{id}', [AdmissionController::class, 'updateJuniorAdmission'])->name('junior-admission.update');
     Route::put('/primary-admission/update/{id}', [AdmissionController::class, 'updatePrimaryAdmission'])->name('primary-admission.update');
-    Route::get('/admission/status/{id}', [AdmissionController::class, 'status']);
+    Route::get('/admission/confirm/{id}', [AdmissionController::class, 'confirmed']);
+    Route::get('/admission/reject/{id}', [AdmissionController::class, 'rejected']);
 
     // Parents Route
     Route::resource('/parents', App\Http\Controllers\Admin\ParentController::class);
@@ -201,6 +206,18 @@ Route::prefix('admin')->name('admin.')->group(function() {
     // Library Fine Route
     Route::resource('/library-fine', LibraryFineController::class);
 
+    // Employee Route
+    Route::resource('/employee', EmployeeController::class);
+    Route::get('/employee/status/{id}', [EmployeeController::class, 'status']);
+
+    // Employee Leave Route
+    Route::resource('/employee-leave', EmployeeLeaveController::class);
+    Route::get('/employee-leave/confirm/{id}', [EmployeeLeaveController::class, 'confirmed']);
+    Route::get('/employee-leave/reject/{id}', [EmployeeLeaveController::class, 'rejected']);
+
+    // Policy Route
+    Route::resource('/leave-policy', LeavePolicyController::class);
+    Route::post('/get-leave-policy', [LeavePolicyController::class, 'getLeavePolicy'])->name('get.leave-policy');
 });
 
 Route::prefix('parent')->name('parent.')->group(function() {

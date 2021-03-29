@@ -22,7 +22,7 @@ class SubjectTeacherController extends Controller
         $subTeacher = SubjectTeacher::orderBy('id', 'DESC')->get();
         $sections = Section::where('status', 1)->orderBy('id', 'DESC')->get();
         $subjects = Subject::where('status', 1)->orderBy('id', 'DESC')->get();
-        $teachers = Teacher::where('status', 1)->orderBy('id', 'DESC')->get();
+        $teachers = Teacher::where('status', 1)->where('role_type', '=', 'Teacher')->orderBy('id', 'DESC')->get();
         if(request()->ajax()) {
             return datatables()->of($subTeacher)
             ->addColumn('section_id', function($row){
@@ -113,7 +113,7 @@ class SubjectTeacherController extends Controller
         $section = Section::where('id', $subTeacher->section_id)->first();
         $sections = Section::where('status', 1)->orderBy('id', 'DESC')->get();
         $subjects = Subject::where('class_id', $section->class_id)->where('status', 1)->get();
-        $teachers = Teacher::where('status', 1)->orderBy('id', 'DESC')->get();
+        $teachers = Teacher::where('status', 1)->where('role_type', '=', 'Teacher')->orderBy('id', 'DESC')->get();
         return view('admin.subject-teacher.edit', compact('subTeacher', 'sections', 'subjects', 'teachers'));
     }
 

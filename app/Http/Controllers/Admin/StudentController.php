@@ -37,12 +37,12 @@ class StudentController extends Controller
                 $admission = Admission::where('id', $row->admission_id)->first();
                 if(!empty($admission->student_photo)){
                 $imageUrl = asset('studentPhoto/' . $admission->student_photo);
-                return '<img src="'.$imageUrl.'" width="100px">';
+                return '<img src="'.$imageUrl.'" width="50px">';
                 }
                 else
                 {
                 $imageUrl = asset('avatar.png');
-                return '<img src="'.$imageUrl.'" width="100px">';
+                return '<img src="'.$imageUrl.'" width="50px">';
                 }
             })
             ->addColumn('mobile_no', function($row){
@@ -87,7 +87,7 @@ class StudentController extends Controller
      */
     public function create(Request $request)
     {
-        $admission = Admission::where('adm_sought', $request->classes)->where('academic_id', $request->academic_id)->where('is_register', 1)->where('is_allot', 0)->get();
+        $admission = Admission::where('adm_sought', $request->classes)->where('academic_id', $request->academic_id)->where('status', '=', 'Approved')->where('is_allot', 0)->get();
         if(request()->ajax()) {
             return datatables()->of($admission)
             ->addColumn('student_name', function($row){
@@ -144,12 +144,13 @@ class StudentController extends Controller
                 $student->section_id = $request->section;
                 $student->academic_id = $request->academic_id;
                 $student->admission_id = $obj[$i]["ID"];
-                if($adm->admission_for = "Primary School Admission"){
+                if($adm->admission_for == "Primary School Admission"){
                     $student->student_name = $adm->full_name_pupil;
                 }
-                else{
+                if($adm->admission_for == "Junior College Admission"){
                     $student->student_name = $adm->student_name;
                 }
+                // return $student->student_name;
                 $student->roll_no = $obj[$i]["Roll"];
                 $student->regi_no = $id;
                 $student->status = 1;
@@ -157,10 +158,11 @@ class StudentController extends Controller
                 $student->created_by = Auth::guard('admin')->user()->id;
                 $student->save();
                 $admission = Admission::where('id', $obj[$i]["ID"])->update(['is_allot' => 1]);
+                // return $admission;
             }
         }
-        return $obj;
-        // return $obj;
+        return response()->json(['success' => 'Students are allocated to class']);
+        
     }
 
     /**

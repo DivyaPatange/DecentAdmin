@@ -80,12 +80,14 @@
                                 </td>
                                 <td>{{ $a->mobile_no }}</td>
                                 <td class="text-center">
-                                @if($a->is_register == 0) Reject @else Confirm @endif
+                                @if($a->status == "Rejected")<span class="pcoded-badge label label-danger">Rejected</span>@endif
+                                @if($a->status == "Pending")<span class="pcoded-badge label label-warning">Pending</span>@endif
+                                @if($a->status == "Approved")<span class="pcoded-badge label label-success">Approved</span>@endif
                                 </td>
                                 <td><a href="{{ route('admin.admission.show', $a->id) }}"><button class="btn btn-mat waves-effect waves-light btn-primary btn-sm"><i class="icofont icofont-eye-alt mr-0"></i></button></a>
                                 <a href="{{ route('admin.admission.edit', $a->id) }}"><button class="btn btn-mat waves-effect waves-light btn-warning btn-sm"><i class="icofont icofont-ui-edit mr-0"></i></button></a>
                                 <a href="javascript:void(0)" onclick="$(this).parent().find('form').submit()"><button class="btn btn-mat waves-effect waves-light btn-danger btn-sm"><i class="icofont icofont-ui-delete mr-0"></i></button></a>
-                                @if($a->is_register == 0)<button id="confirm" data-id="{{ $a->id }}" class="btn btn-mat waves-effect waves-light btn-success btn-sm"><i class="fa fa-check mr-0"></i></button> @else <button id="reject" data-id="{{ $a->id }}" class="btn btn-mat waves-effect waves-light btn-danger btn-sm"><i class="fa fa-times mr-0"></i></button> @endif
+                               <button id="confirm" data-id="{{ $a->id }}" class="btn btn-mat waves-effect waves-light btn-success btn-sm"><i class="fa fa-check mr-0"></i></button> <button id="reject" data-id="{{ $a->id }}" class="btn btn-mat waves-effect waves-light btn-danger btn-sm"><i class="fa fa-times mr-0"></i></button> 
                                 <form action="{{ route('admin.admission.destroy', $a->id) }}" method="post">
                                     @method('DELETE')
                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -114,71 +116,6 @@
 </div>
 
 
-<!-- Modal -->
-<div class="md-modal md-effect-8" id="modal-8">
-    <div class="md-content">
-        <h3>Edit Class</h3>
-        <div>
-            <form method="POST" id="editForm">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group form-default">
-                            <input type="text" name="class_name" class="form-control" id="class_name">
-                            <span class="form-bar"></span>
-                            <label class="float-label">Class Name<span style="color:red;">*</span><span  style="color:red" id="name_err"> </span></label>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group form-default">
-                            <input type="number" name="numeric_value" class="form-control" id="numeric_value">
-                            <span class="form-bar"></span>
-                            <label class="float-label">Numeric Value
-                                <span style="color:red;">*</span><span  style="color:red" id="numeric_err"> </span>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group form-default">
-                            <div class="form-check-inline">
-                                <label class="form-check-label">
-                                    Is Open For Admission?
-                                    <input type="checkbox" name="adm" id="adm" class="form-check-input" value="1">
-                                </label>
-                            </div>
-                            
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group form-default">
-                            <textarea name="note" id="note" class="form-control"></textarea>
-                            <span class="form-bar"></span>
-                            <label class="float-label">Note</label>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group form-default">
-                            <select name="status" class="form-control" id="status">
-                                <option value="">-Select Status-</option>
-                                <option value="1">Active</option>
-                                <option value="0">Inactive</option>
-                            </select>
-                            <span class="form-bar"></span>
-                            <label class="float-label">Status<span style="color:red;">*</span><span  style="color:red" id="status_err"> </span></label>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <input type="hidden" name="id" id="id" value="">
-                        <button class="btn btn-sm waves-effect waves-light hor-grd btn-grd-primary" type="button" id="editButton" onclick="return checkSubmit()">Update</button>
-                        <button type="button" class="btn btn-sm waves-effect waves-light hor-grd btn-grd-danger md-close">Close</button>
-                    </div>
-                </div>
-            </form>
-            
-            
-        </div>
-    </div>
-</div>
-<div class="md-overlay"></div>
 @endsection
 @section('customjs')
 <script src="http://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
@@ -200,14 +137,14 @@ $('body').on('click', '#confirm', function () {
     var id = $(this).data("id");
 
     if(confirm("Confirm Admission ?")){
-        window.location.href = '/admin/admission/status/'+id;
+        window.location.href = '/admin/admission/confirm/'+id;
     }
 });
 $('body').on('click', '#reject', function () {
     var id = $(this).data("id");
 
     if(confirm("Reject Admission ?")){
-        window.location.href = '/admin/admission/status/'+id;
+        window.location.href = '/admin/admission/reject/'+id;
     }
 });
 </script>

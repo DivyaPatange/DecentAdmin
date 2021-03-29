@@ -22,7 +22,7 @@ class SectionController extends Controller
     public function index()
     {
         $sections = Section::orderBy('id', 'DESC')->get();
-        $teachers = Teacher::orderBy('id', 'DESC')->where('status', 1)->get();
+        $teachers = Teacher::orderBy('id', 'DESC')->where('status', 1)->where('role_type', '=', 'Teacher')->get();
         $classes = Classes::where('status', 1)->orderBy('id', 'DESC')->get();
         if(request()->ajax()) {
             return datatables()->of($sections)
@@ -60,7 +60,7 @@ class SectionController extends Controller
      */
     public function create()
     {
-        $teachers = Teacher::orderBy('id', 'DESC')->get();
+        $teachers = Teacher::orderBy('id', 'DESC')->where('role_type', '=', 'Teacher')->where('status', 1)->get();
         $classes = Classes::where('status', 1)->orderBy('id', 'DESC')->get();
         return view('admin.section.create', compact('teachers', 'classes'));
     }

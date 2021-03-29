@@ -323,4 +323,21 @@ class AdmissionController extends Controller
         $admission->update($request->all());
         return redirect('/admin/admission')->with('success', 'Admission Status Changed Successfully!');
     }
+
+    public function confirmed($id)
+    {
+        $admission = Admission::findorfail($id);
+       
+        $admission->status = "Approved";
+        $admission->save();
+        return redirect('/admin/admission')->with('success', 'Admission is Confirmed!');
+    }
+    public function rejected($id)
+    {
+        $admission = Admission::findorfail($id);
+       
+        $admission->status = "Rejected";
+        $admission->save();
+        return redirect('/admin/admission')->with('success', 'Admission is Rejected!');
+    }
 }

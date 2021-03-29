@@ -17,6 +17,19 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('files/assets/css/component.css') }}">
 <!-- Date-Dropper css -->
 <link rel="stylesheet" type="text/css" href="{{ asset('files/bower_components/datedropper/css/datedropper.min.css') }}" />
+<!-- Select 2 css -->
+<link rel="stylesheet" href="{{ asset('files/bower_components/select2/css/select2.min.css') }}" />
+<style>
+.select2-container .select2-selection--single{
+    height:39px;
+}
+.card .card-header span{
+    margin-top:0px;
+}
+.select2-container--default .select2-selection--single .select2-selection__rendered{
+    padding: 4px 30px 4px 20px;
+}
+</style>
 @endsection
 @section('content')
 <div class="row">
@@ -39,7 +52,7 @@
                     </div>
                     <div class="col-sm-4 col-xs-4">
                         <div class="form-group form-default">
-                            <select name="designation" class="form-control" id="designation">
+                            <select name="designation" class="form-control js-example-basic-single" id="designation">
                                 <option value="">-Pick a Designation-</option>
                                 <option value="Principal">Principal</option>
                                 <option value="Vice Principal">Vice Principal</option>
@@ -47,9 +60,6 @@
                                 <option value="Asst. Professor">Asst. Professor</option>
                                 <option value="Associate Professor">Associate Professor</option>
                                 <option value="Lecturer">Lecturer</option>
-                                <option value="Accountant">Accountant</option>
-                                <option value="Cashier">Cashier</option>
-                                <option value="Peon">Peon</option>
                                 <option value="Other">Other</option>
                             </select>
                             <span class="form-bar"></span>
@@ -73,7 +83,7 @@
                     <div class="col-sm-4">
                         <div class="form-group form-default">
                         
-                            <select id="gender" name="gender" class="form-control @error('gender') is-invalid @enderror">
+                            <select id="gender" name="gender" class="form-control @error('gender') is-invalid @enderror js-example-basic-single">
                                 <option value="Male">Male</option>
                                 <option value="Female">Female</option>
                             </select>
@@ -187,6 +197,10 @@
 <script src="{{ asset('files/assets/pages/form-masking/inputmask.js') }}"></script>
 <script src="{{ asset('files/assets/pages/form-masking/jquery.inputmask.js') }}"></script>
 <script src="{{ asset('files/assets/pages/form-masking/form-mask.js') }}"></script>
+<!-- Select 2 js -->
+<script type="text/javascript" src="{{ asset('files/bower_components/select2/js/select2.full.min.js') }}"></script>
+<!-- Custom js -->
+<script type="text/javascript" src="{{ asset('files/assets/pages/advance-elements/select2-custom.js') }}"></script>
 <script>
 
 $('body').on('click', '#submitForm', function () {

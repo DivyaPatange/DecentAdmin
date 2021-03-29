@@ -243,11 +243,11 @@ $('body').on('click', '#allotSubmitForm', function () {
         $.ajax({
             type:"POST",
             url:"{{ route('admin.students.store') }}",
-            data:datastring,
+            data:{classes:classes, academic_id:academic_id, Data:Data, section:section},
             cache:false,        
             success:function(returndata)
             {
-                console.log(returndata);
+                alert(returndata);
                 document.getElementById("allot-form-submit").reset();
                 document.getElementById("form-submit").reset();
                 $('#simpletable').DataTable().clear();

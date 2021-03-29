@@ -10,7 +10,7 @@ class Teacher extends Model
     use HasFactory;
     protected $table = "teachers";
 
-    protected $fillable = ['name', 'designation', 'qualification', 'dob', 'gender', 'religion', 'email', 'username', 'password'];
+    protected $fillable = ['name', 'designation', 'qualification', 'dob', 'gender', 'religion', 'email', 'username', 'password', 'role_type', 'leave_date'];
 
     public function sections(){
         return $this->hasMany('App\Models\Admin\Section','teacher_id', 'id');

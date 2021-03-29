@@ -74,6 +74,7 @@ class CreateAdmissionsTable extends Migration
             $table->string('other_board')->nullable();
             $table->boolean('is_register');
             $table->boolean('is_allot');
+            $table->enum('status', ['Pending', 'Approved', 'Rejected']);
             $table->timestamps();
         });
     }

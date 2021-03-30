@@ -106,16 +106,16 @@
                 </a>
                 <ul class="pcoded-submenu">
                     <li class=" ">
-                        <a href="bs-basic-table.html" class="waves-effect waves-dark">
+                        <a href="{{ route('admin.student-attendance.index') }}" class="waves-effect waves-dark">
                             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
                             <span class="pcoded-mtext">Student Attendance</span>
                             <span class="pcoded-mcaret"></span>
                         </a>
                     </li>
                     <li class=" ">
-                        <a href="bs-table-sizing.html" class="waves-effect waves-dark">
+                        <a href="{{ route('admin.employee-attendance.index') }}" class="waves-effect waves-dark">
                             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                            <span class="pcoded-mtext">Em[loyee Attendance</span>
+                            <span class="pcoded-mtext">Employee Attendance</span>
                             <span class="pcoded-mcaret"></span>
                         </a>
                     </li>

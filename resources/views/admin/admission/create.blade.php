@@ -14,6 +14,15 @@
 .hidden{
     display:none;
 }
+.select2-container .select2-selection--single{
+    height:39px;
+}
+.card .card-header span{
+    margin-top:0px;
+}
+.select2-container--default .select2-selection--single .select2-selection__rendered{
+    padding: 4px 30px 4px 20px;
+}
 </style>
 @endsection
 @section('content')

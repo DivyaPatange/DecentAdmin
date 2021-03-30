@@ -31,6 +31,8 @@ use App\Http\Controllers\Admin\LibraryFineController;
 use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\EmployeeLeaveController;
 use App\Http\Controllers\Admin\LeavePolicyController;
+use App\Http\Controllers\Admin\StudentAttendanceController;
+use App\Http\Controllers\Admin\EmployeeAttendanceController;
 
 
 // Parent Controller
@@ -218,6 +220,16 @@ Route::prefix('admin')->name('admin.')->group(function() {
     // Policy Route
     Route::resource('/leave-policy', LeavePolicyController::class);
     Route::post('/get-leave-policy', [LeavePolicyController::class, 'getLeavePolicy'])->name('get.leave-policy');
+
+    // Student Attendance Route
+    Route::resource('student-attendance', StudentAttendanceController::class);
+    Route::post('/student-attendance/student-list', [StudentAttendanceController::class, 'addStudent'])->name('student-attendance.studentList');
+    Route::get('/student-attendance/status/{id}', [StudentAttendanceController::class, 'status']);
+
+    // Employee Attendance Route
+    Route::resource('employee-attendance', EmployeeAttendanceController::class);
+    Route::post('/employee-attendance/employee-list', [EmployeeAttendanceController::class, 'addEmployee'])->name('employee-attendance.employeeList');
+    Route::get('/employee-attendance/status/{id}', [EmployeeAttendanceController::class, 'status']);
 });
 
 Route::prefix('parent')->name('parent.')->group(function() {

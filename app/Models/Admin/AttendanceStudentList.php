@@ -11,5 +11,5 @@ class AttendanceStudentList extends Model
 
     protected $table = "attendance_student_lists";
 
-    protected $fillable = ['stud_attendance_id', 'student_id'];
+    protected $fillable = ['stud_attendance_id', 'student_id', 'status'];
 }

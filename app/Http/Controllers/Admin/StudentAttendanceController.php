@@ -88,13 +88,14 @@ class StudentAttendanceController extends Controller
      */
     public function store(Request $request)
     {
-        $studAttendance = StudentAttendance::where('class_id', $request->class_name)->where('section_id', $request->section_name)->where('attendance_date', $request->date)->first();
+        $studAttendance = StudentAttendance::where('class_id', $request->class_name)->where('section_id', $request->section_name)->where('attendance_date', date("Y-m-d", strtotime($request->date)))->first();
         if(empty($studAttendance))
         {
             $studAttend = new StudentAttendance();
             $studAttend->class_id = $request->class_name;
             $studAttend->section_id = $request->section_name;
-            $studAttend->attendance_date = $request->date;
+            $studAttend->attendance_date = date("Y-m-d", strtotime($request->date));
+            // return $studAttend->attendance_date;
             $studAttend->created_by = "Admin";
             $studAttend->created_by_id = Auth::guard('admin')->user()->id;
             $studAttend->save();
@@ -168,6 +169,7 @@ class StudentAttendanceController extends Controller
                 'classes' => $className, 'section' => $sectionName, 'output' => $output]);
             }
         }
+        // return empty($studAttendance);
     }
 
     /**

@@ -188,10 +188,11 @@ $('body').on('click', '#getList', function () {
         $.ajax({
             type:"POST",
             url:"{{ route('admin.student-attendance.store') }}",
-            data:datastring,
+            data:{class_name:class_name, section_name:section_name, date:date},
             cache:false,        
             success:function(returndata)
             {
+                // alert(returndata);
                 if(returndata.success){
                     $("#formDiv").addClass('hidden');
                     $("#studentList").removeClass('hidden');

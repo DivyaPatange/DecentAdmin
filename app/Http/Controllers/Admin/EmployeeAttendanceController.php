@@ -78,53 +78,53 @@ class EmployeeAttendanceController extends Controller
      */
     public function store(Request $request)
     {
-        $empAttendance = EmployeeAttendance::where('attendance_date', $request->date)->first();
-        // if(empty($empAttendance))
-        // {
-        //     $empAttend = new EmployeeAttendance();
-        //     $empAttend->attendance_date = $request->date;
-        //     $empAttend->created_by = "Admin";
-        //     $empAttend->created_by_id = Auth::guard('admin')->user()->id;
-        //     $empAttend->save();
+        $empAttendance = EmployeeAttendance::where('attendance_date', date("Y-m-d", strtotime($request->date)))->first();
+        if(empty($empAttendance))
+        {
+            $empAttend = new EmployeeAttendance();
+            $empAttend->attendance_date = $request->date;
+            $empAttend->created_by = "Admin";
+            $empAttend->created_by_id = Auth::guard('admin')->user()->id;
+            $empAttend->save();
             
-        //     $employee = Teacher::where('status', 1)->get();
-        //     $output = '';
-        //     foreach($employee as $key => $s)
-        //     {
-        //         $output .= '<tr>'.
-        //             '<td>'.++$key.'</td>'.
-        //             '<td>'.$s->name.'</td>'.
-        //             '<td>'.$s->employee_id.'</td>'.
-        //             '<td><div class="form-check"><input type="checkbox"  class="form-check-input" name="check_val" value="'.$s->id.'" /></div></td>'.
-        //         '</tr>';
-        //     }
+            $employee = Teacher::where('status', 1)->get();
+            $output = '';
+            foreach($employee as $key => $s)
+            {
+                $output .= '<tr>'.
+                    '<td>'.++$key.'</td>'.
+                    '<td>'.$s->name.'</td>'.
+                    '<td>'.$s->employee_id.'</td>'.
+                    '<td><input type="hidden" name="teacher_id" value="'.$s->id.'"><div class="form-check"><input type="checkbox"  class="form-check-input" name="check_val" value="Absent" /></div></td>'.
+                '</tr>';
+            }
 
-        //     return response()->json(['success' => 'Attendance Created Successfully!', 'id' => $empAttend->id, 'date' => $empAttend->attendance_date, 'output' => $output]);
-        // }
-        // else{
-        //     $employeeList = AttendanceEmployeeList::where('emp_attendance_id', $empAttendance->id)->get();
-        //     if(count($employeeList) > 0)
-        //     {
-        //         return response()->json(['error' => 'Attendance is already created.']);
-        //     }
-        //     else{
+            return response()->json(['success' => 'Attendance Created Successfully!', 'id' => $empAttend->id, 'date' => $empAttend->attendance_date, 'output' => $output]);
+        }
+        else{
+            $employeeList = AttendanceEmployeeList::where('emp_attendance_id', $empAttendance->id)->get();
+            if(count($employeeList) > 0)
+            {
+                return response()->json(['error' => 'Attendance is already created.']);
+            }
+            else{
 
-        //         $employee = Teacher::where('status', 1)->get();
-        //         $output = '';
-        //         foreach($employee as $key => $s)
-        //         {
-        //             $output .= '<tr>'.
-        //                 '<td>'.++$key.'</td>'.
-        //                 '<td>'.$s->name.'</td>'.
-        //                 '<td>'.$s->employee.'</td>'.
-        //                 '<td><div class="form-check"><input type="checkbox"  class="form-check-input" name="check_val" value="'.$s->id.'" /></div></td>'.
-        //             '</tr>';
-        //         }
-        //         return response()->json(['success' => 'Attendance Created Successfully!', 'id' => $empAttendance->id, 'date' => $empAttendance->attendance_date,
-        //         'output' => $output]);
-        //     }
-        // }
-        return empty($empAttendance);
+                $employee = Teacher::where('status', 1)->get();
+                $output = '';
+                foreach($employee as $key => $s)
+                {
+                    $output .= '<tr>'.
+                        '<td>'.++$key.'</td>'.
+                        '<td>'.$s->name.'</td>'.
+                        '<td>'.$s->employee.'</td>'.
+                        '<td><input type="hidden" name="teacher_id" value="'.$s->id.'"><div class="form-check"><input type="checkbox"  class="form-check-input" name="check_val" value="Absent" /></div></td>'.
+                    '</tr>';
+                }
+                return response()->json(['success' => 'Attendance Created Successfully!', 'id' => $empAttendance->id, 'date' => $empAttendance->attendance_date,
+                'output' => $output]);
+            }
+        }
+        // return empty($empAttendance);
     }
 
     /**
@@ -170,5 +170,38 @@ class EmployeeAttendanceController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function addEmployee(Request $request)
+    {
+        $obj = json_decode($request->Data, true);
+            // $someObject = json_decode($someJSON);
+        for($i=0; $i < count($obj); $i++)
+        {
+            $employee = AttendanceEmployeeList::where('emp_attendance_id', $request->id)->where('teacher_id', $obj[$i]["ID"])->first();
+            if(empty($employee))
+            {
+                $employeeList = new AttendanceEmployeeList();
+                $employeeList->emp_attendance_id = $request->id;
+                $employeeList->teacher_id = $obj[$i]["ID"];
+                $employeeList->status = $obj[$i]["Status"];
+                $employeeList->save();
+            }
+        }
+        return response()->json(['success' => 'Employee attendance marked']);
+    }
+
+    public function status($id, Request $request)
+    {
+        $employee = AttendanceEmployeeList::findorfail($id);
+        if($employee->status == "Present")
+        {
+            $employee->status = "Absent";
+        }
+        else{
+            $employee->status = "Present";
+        }
+        $employee->update($request->all());
+        return response()->json(['success' => 'Status Changed Successfully']);
     }
 }

@@ -273,7 +273,8 @@ $('body').on('click', '#addAttendance', function () {
         {
             // alert(returndata);
             toastr.success(returndata.success);
-            
+            $("#formDiv").removeClass('hidden');
+            $("#studentList").addClass('hidden');
         // $("#pay").val("");
         }
     });

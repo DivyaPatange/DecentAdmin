@@ -66,6 +66,7 @@ tr.shown td.details-control:before{
                         
                         <div class="col-md-8">
                             <div class="form-group form-default">
+                                <br>
                                 <button type="button" id="getList" class="btn btn-primary btn-sm mt-2">Entry Attendance</button>
                             </div>
                         </div>
@@ -157,7 +158,7 @@ $('body').on('click', '#getList', function () {
             cache:false,        
             success:function(returndata)
             {
-                alert(returndata);
+                // alert(returndata);
                 if(returndata.success){
                     $("#formDiv").addClass('hidden');
                     $("#studentList").removeClass('hidden');
@@ -212,7 +213,8 @@ $('body').on('click', '#addAttendance', function () {
         {
             // alert(returndata);
             toastr.success(returndata.success);
-            
+            $("#formDiv").removeClass('hidden');
+            $("#studentList").addClass('hidden');
         // $("#pay").val("");
         }
     });

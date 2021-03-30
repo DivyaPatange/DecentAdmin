@@ -123,7 +123,7 @@ class StudentAttendanceController extends Controller
                     '<td>'.++$key.'</td>'.
                     '<td>'.$s->student_name.'</td>'.
                     '<td>'.$s->roll_no.'</td>'.
-                    '<td><div class="form-check"><input type="checkbox"  class="form-check-input" name="check_val" value="'.$s->id.'" /></div></td>'.
+                    '<td><input type="hidden" name="student_id" value="'.$s->id.'"><div class="form-check"><input type="checkbox"  class="form-check-input" name="check_val" value="Absent" /></div></td>'.
                 '</tr>';
             }
 

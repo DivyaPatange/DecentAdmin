@@ -169,7 +169,26 @@
                         <h6 class="sub-title">Attendance </h6>
                         <div class="row">
                             <div class="col-md-12">
-                                
+                                <div class="dt-responsive table-responsive">
+                                    <table id="simpletable" class="table table-striped table-bordered nowrap" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Sr. No.</th>
+                                                <th>Date</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th>Sr. No.</th>
+                                                <th>Date</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -209,6 +228,22 @@
 <script src="{{ asset('files/assets/pages/form-masking/inputmask.js') }}"></script>
 <script src="{{ asset('files/assets/pages/form-masking/jquery.inputmask.js') }}"></script>
 <script src="{{ asset('files/assets/pages/form-masking/form-mask.js') }}"></script>
-
+<script>
+var SITEURL = "{{ route('admin.employee.show', $employee->id)}}";
+$('#simpletable').DataTable({
+    processing: true,
+    serverSide: true,
+    ajax: {
+    url: SITEURL,
+    type: 'GET',
+    },
+    columns: [
+            {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false,searchable: false},
+            { data: 'date', name: 'date' },
+            { data: 'status', name: 'status' },
+        ],
+    order: [[0, 'desc']]
+});
+</script>
 
 @endsection

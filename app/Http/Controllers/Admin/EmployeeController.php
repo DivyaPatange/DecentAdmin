@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Admin\Teacher;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Admin\AttendanceEmployeeList;
+use App\Models\Admin\EmployeeAttendance;
 
 class EmployeeController extends Controller
 {
@@ -93,8 +95,30 @@ class EmployeeController extends Controller
      */
     public function show($id)
     {
+        $empAttendance = AttendanceEmployeeList::where('teacher_id', $id)->get();
+        if(request()->ajax()) {
+            return datatables()->of($empAttendance)
+            ->addColumn('date', function($row){
+                $date = EmployeeAttendance::where('id', $row->emp_attendance_id)->first();
+                if(!empty($date))
+                {
+                return $date->attendance_date;
+                }
+            })
+            ->addColumn('status', function($row){
+                if($row->status == "Present"){
+                    return '<span class="pcoded-badge label label-success ">'.$row->status.'</span>';
+                }
+                else{
+                    return '<span class="pcoded-badge label label-danger ">'.$row->status.'</span>';
+                }
+            })
+            ->rawColumns(['date', 'status'])
+            ->addIndexColumn()
+            ->make(true);
+        }
         $employee = Teacher::findorfail($id);
-        return view('admin.employee.show', compact('employee'));
+        return view('admin.employee.show', compact('employee', 'empAttendance'));
     }
 
     /**

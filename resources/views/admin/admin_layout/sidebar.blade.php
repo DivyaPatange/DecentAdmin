@@ -586,6 +586,71 @@
                     </li>
                 </ul>
             </li>
+            <li class="pcoded-hasmenu ">
+                <a href="javascript:void(0)" class="waves-effect waves-dark">
+                    <span class="pcoded-micon"><i class="ti-direction-alt"></i><b>M</b></span>
+                    <span class="pcoded-mtext">Reports</span>
+                    <span class="pcoded-mcaret"></span>
+                </a>
+                <ul class="pcoded-submenu">
+                    <li class="pcoded-hasmenu ">
+                        <a href="javascript:void(0)" class="waves-effect waves-dark">
+                            <span class="pcoded-micon"><i class="ti-direction-alt"></i></span>
+                            <span class="pcoded-mtext">Student</span>
+                            <span class="pcoded-mcaret"></span>
+                        </a>
+                        <ul class="pcoded-submenu">
+                            <li class="">
+                                <a href="{{ route('admin.student-daily-attendance.index') }}" class="waves-effect waves-dark">
+                                    <span class="pcoded-micon"><i class="ti-direction-alt"></i></span>
+                                    <span class="pcoded-mtext">Daily Attendance</span>
+                                    <span class="pcoded-mcaret"></span>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                    <span class="pcoded-micon"><i class="ti-direction-alt"></i></span>
+                                    <span class="pcoded-mtext">Attendance (Date Range)</span>
+                                    <span class="pcoded-mcaret"></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="pcoded-hasmenu ">
+                        <a href="javascript:void(0)" class="waves-effect waves-dark">
+                            <span class="pcoded-micon"><i class="ti-direction-alt"></i></span>
+                            <span class="pcoded-mtext">Menu Level 2.2</span>
+                            <span class="pcoded-mcaret"></span>
+                        </a>
+                        <ul class="pcoded-submenu">
+                            <li class="">
+                                <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                    <span class="pcoded-micon"><i class="ti-direction-alt"></i></span>
+                                    <span class="pcoded-mtext">Menu Level 3.1</span>
+                                    <span class="pcoded-mcaret"></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="pcoded-hasmenu ">
+                        <a href="javascript:void(0)" class="waves-effect waves-dark">
+                            <span class="pcoded-micon"><i class="ti-direction-alt"></i></span>
+                            <span class="pcoded-mtext">Menu Level 2.2</span>
+                            <span class="pcoded-mcaret"></span>
+                        </a>
+                        <ul class="pcoded-submenu">
+                            <li class="">
+                                <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                    <span class="pcoded-micon"><i class="ti-direction-alt"></i></span>
+                                    <span class="pcoded-mtext">Menu Level 3.1</span>
+                                    <span class="pcoded-mcaret"></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </li>
             <!--<li class=" ">
                 <a href="animation.html" class="waves-effect waves-dark">
                     <span class="pcoded-micon"><i class="ti-reload rotate-refresh"></i><b>A</b></span>

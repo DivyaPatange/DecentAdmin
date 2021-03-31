@@ -10,9 +10,15 @@ use App\Models\Admin\Admission;
 use App\Models\Admin\Student;
 use App\Models\Admin\AcademicYear;
 use Auth;
+use App\Models\Admin\AttendanceStudentList;
+use App\Models\Admin\StudentAttendance;
 
 class StudentController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:admin');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -173,7 +179,30 @@ class StudentController extends Controller
      */
     public function show($id)
     {
-        //
+        $studAttendance = AttendanceStudentList::where('student_id', $id)->get();
+        if(request()->ajax()) {
+            return datatables()->of($studAttendance)
+            ->addColumn('date', function($row){
+                $date = StudentAttendance::where('id', $row->stud_attendance_id)->first();
+                if(!empty($date))
+                {
+                return $date->attendance_date;
+                }
+            })
+            ->addColumn('status', function($row){
+                if($row->status == "Present"){
+                    return '<span class="pcoded-badge label label-success ">'.$row->status.'</span>';
+                }
+                else{
+                    return '<span class="pcoded-badge label label-danger ">'.$row->status.'</span>';
+                }
+            })
+            ->rawColumns(['date', 'status'])
+            ->addIndexColumn()
+            ->make(true);
+        }
+        $student = Student::findorfail($id);
+        return view('admin.students.show', compact('student'));
     }
 
     /**

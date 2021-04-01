@@ -621,6 +621,13 @@
                                     <span class="pcoded-mcaret"></span>
                                 </a>
                             </li>
+                            <li class="">
+                                <a href="{{ route('admin.student-monthly-absent.index') }}" class="waves-effect waves-dark">
+                                    <span class="pcoded-micon"><i class="ti-direction-alt"></i></span>
+                                    <span class="pcoded-mtext">Monthly Absent List</span>
+                                    <span class="pcoded-mcaret"></span>
+                                </a>
+                            </li>
                         </ul>
                     </li>
                     <li class="pcoded-hasmenu ">

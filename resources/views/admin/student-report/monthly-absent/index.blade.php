@@ -1,7 +1,7 @@
 @extends('admin.admin_layout.main')
-@section('title', 'Student Daily Attendance')
-@section('page_title', 'Daily Attendance')
-@section('breadcrumb', 'Daily Attendance')
+@section('title', 'Student Monthly Attendance')
+@section('page_title', 'Monthly Attendance')
+@section('breadcrumb', 'Monthly Attendance')
 @section('customcss')
 
 <!-- Data Table Css -->
@@ -55,7 +55,7 @@ tr.shown td.details-control:before{
         <!-- Zero config.table start -->
         <div class="card">
             <div class="card-header">
-                <h5>Daily Attendance</h5>
+                <h5>Monthly Attendance</h5>
             </div>
             <div class="card-block">
                 <div class="row">
@@ -91,7 +91,7 @@ tr.shown td.details-control:before{
                     <div class="col-md-3">
                         <div class="form-group form-default">
                             <label>Date <span  style="color:red" id="date_err"> </span></label>
-                            <input type="date" name="date" id="date" class="form-control">
+                            <input type="month" name="date" id="date" class="form-control">
                         </div>
                     </div>
                 </div>
@@ -110,7 +110,7 @@ tr.shown td.details-control:before{
 <div id="DivIdToPrint" class="hidden">
     <div class="row">
         <div class="col-md-12">
-            <h2 style="text-align:center">Daily Attendance</h2>
+            <h2 style="text-align:center">Monthly Absent List</h2>
             <p style="text-align:center" id="tableDate"></p>
             <p style="text-align:center"><b>Filters : </b>
             Academic Year: <span id="academic_year1"></span>&nbsp;
@@ -123,8 +123,7 @@ tr.shown td.details-control:before{
                         <th style="border: 1px solid black; border-collapse: collapse;">Student Name</th>
                         <th style="border: 1px solid black; border-collapse: collapse;">Regi No</th>
                         <th style="border: 1px solid black; border-collapse: collapse;">Roll No.</th>
-                        <th style="border: 1px solid black; border-collapse: collapse;">Status</th>
-                        <th style="border: 1px solid black; border-collapse: collapse;">Remark</th>
+                        <th style="border: 1px solid black; border-collapse: collapse;">Date / Status</th>
                     </tr>
                 </thead>
                 <tbody id="tableData"></tbody>
@@ -214,11 +213,12 @@ $('#getList').click(function(){
     else{
         $.ajax({
             type:"GET",
-            url:"{{ url('admin/get-student-daily-attendance') }}",
+            url:"{{ url('admin/get-student-monthly-absent') }}",
             data:{academic_id:academic_id, class_id:class_id, section_id:section_id, date:date},
             cache:false,        
             success:function(returndata)
             {
+                // alert(returndata);
                 if(returndata.success){
                     $("#tableData").html(returndata.output);
                     $("#tableDate").html(returndata.date);

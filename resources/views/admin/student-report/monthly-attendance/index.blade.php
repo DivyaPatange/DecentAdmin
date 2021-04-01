@@ -112,6 +112,11 @@ tr.shown td.details-control:before{
         <div class="col-md-12">
             <h2 style="text-align:center">Monthly Attendance</h2>
             <p style="text-align:center" id="tableDate"></p>
+            <p style="text-align:center"><b>Filters : </b>
+            Academic Year: <span id="academic_year1"></span>&nbsp;
+            Class: <span id="class_name1"></span>&nbsp;
+            Section: <span id="section"></span>
+            </p>
             <table  width="100%" style="text-align:center;border: 1px solid black; border-collapse: collapse;" id="tableData">
                 
             </table>
@@ -209,6 +214,9 @@ $('#getList').click(function(){
                 if(returndata.success){
                     $("#tableData").html(returndata.output);
                     $("#tableDate").html(returndata.date);
+                    $("#academic_year1").html(returndata.academic_year);
+                    $("#class_name1").html(returndata.class_name);
+                    $("#section").html(returndata.section);
                     var frame = document.getElementById('DivIdToPrint');
                     var data = frame.innerHTML;
                     var win = window.open('', '', 'height=500,width=900');

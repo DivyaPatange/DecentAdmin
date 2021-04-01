@@ -119,13 +119,18 @@ tr.shown td.details-control:before{
         <div class="col-md-12">
             <h2 style="text-align:center">Attendance (Date Range)</h2>
             <p style="text-align:center" id="tableDate"></p>
+            <p style="text-align:center"><b>Filters : </b>
+            Academic Year: <span id="academic_year1"></span>&nbsp;
+            Class: <span id="class_name1"></span>&nbsp;
+            Section: <span id="section"></span>
+            </p>
             <table  width="100%" style="text-align:center;border: 1px solid black; border-collapse: collapse;">
                 <thead>
                     <tr>
                         <th style="border: 1px solid black; border-collapse: collapse;">Student Name</th>
                         <th style="border: 1px solid black; border-collapse: collapse;">Regi No</th>
                         <th style="border: 1px solid black; border-collapse: collapse;">Roll No.</th>
-                        <th style="border: 1px solid black; border-collapse: collapse;">Status</th>
+                        <th style="border: 1px solid black; border-collapse: collapse;">Date / Status</th>
                     </tr>
                 </thead>
                 <tbody id="tableData"></tbody>
@@ -231,6 +236,9 @@ $('#getList').click(function(){
                 if(returndata.success){
                     $("#tableData").html(returndata.output);
                     $("#tableDate").html(returndata.date);
+                    $("#academic_year1").html(returndata.academic_year);
+                    $("#class_name1").html(returndata.class_name);
+                    $("#section").html(returndata.section);
                     var divToPrint=document.getElementById('DivIdToPrint');
 
                     var newWin=window.open('','Print-Window');

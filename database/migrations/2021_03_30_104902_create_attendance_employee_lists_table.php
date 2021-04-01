@@ -20,6 +20,7 @@ class CreateAttendanceEmployeeListsTable extends Migration
             $table->unsignedInteger('teacher_id');
             $table->foreign('teacher_id')->references('id')->on('teachers');
             $table->enum('status', ['Present', 'Absent']);
+            $table->date('attendance_date');
             $table->timestamps();
         });
     }

@@ -1,7 +1,7 @@
 @extends('admin.admin_layout.main')
-@section('title', 'Student Daily Attendance')
-@section('page_title', 'Daily Attendance')
-@section('breadcrumb', 'Daily Attendance')
+@section('title', 'Student Attendance')
+@section('page_title', 'Attendance (Date Range)')
+@section('breadcrumb', 'Attendance (Date Range)')
 @section('customcss')
 
 <!-- Data Table Css -->
@@ -88,16 +88,23 @@ tr.shown td.details-control:before{
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <div class="form-group form-default">
-                            <label>Date <span  style="color:red" id="date_err"> </span></label>
-                            <input type="date" name="date" id="date" class="form-control">
-                        </div>
-                    </div>
                 </div>
                 <div class="row">
                     <div class="col-md-3">
                         <div class="form-group form-default">
+                            <label>Date From<span  style="color:red" id="from_err"> </span></label>
+                            <input type="date" name="date_from" id="date_from" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group form-default">
+                            <label>Date To<span  style="color:red" id="date_err"> </span></label>
+                            <input type="date" name="date_to" id="date_to" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group form-default">
+                            <br>
                             <button type="button" id="getList" class="btn btn-primary btn-sm mt-2">Print</button>
                         </div>
                     </div>
@@ -110,7 +117,7 @@ tr.shown td.details-control:before{
 <div id="DivIdToPrint" class="hidden">
     <div class="row">
         <div class="col-md-12">
-            <h2 style="text-align:center">Daily Attendance</h2>
+            <h2 style="text-align:center">Attendance (Date Range)</h2>
             <p style="text-align:center" id="tableDate"></p>
             <table  width="100%" style="text-align:center;border: 1px solid black; border-collapse: collapse;">
                 <thead>
@@ -119,7 +126,6 @@ tr.shown td.details-control:before{
                         <th style="border: 1px solid black; border-collapse: collapse;">Regi No</th>
                         <th style="border: 1px solid black; border-collapse: collapse;">Roll No.</th>
                         <th style="border: 1px solid black; border-collapse: collapse;">Status</th>
-                        <th style="border: 1px solid black; border-collapse: collapse;">Remark</th>
                     </tr>
                 </thead>
                 <tbody id="tableData"></tbody>
@@ -177,7 +183,8 @@ $('#getList').click(function(){
     var academic_id = $("#academic_year").val();
     var class_id = $("#class_name").val();
     var section_id = $("#section_name").val();
-    var date = $("#date").val();
+    var date_from = $("#date_from").val();
+    var date_to = $("#date_to").val();
     if(academic_id == '')
     {
         $("#year_err").fadeIn().html("Required");
@@ -199,18 +206,25 @@ $('#getList').click(function(){
         $("#section_name").focus();
         return false;
     }
-    if(date == '')
+    if(date_from == '')
     {
-        $("#date_err").fadeIn().html("Required");
-        setTimeout(function(){ $("#date_err").fadeOut(); }, 3000);
-        $("#date").focus();
+        $("#from_err").fadeIn().html("Required");
+        setTimeout(function(){ $("#from_err").fadeOut(); }, 3000);
+        $("#date_from").focus();
+        return false;
+    }
+    if(date_to == '')
+    {
+        $("#to_err").fadeIn().html("Required");
+        setTimeout(function(){ $("#to_err").fadeOut(); }, 3000);
+        $("#date_to").focus();
         return false;
     }
     else{
         $.ajax({
             type:"GET",
-            url:"{{ url('admin/get-student-daily-attendance') }}",
-            data:{academic_id:academic_id, class_id:class_id, section_id:section_id, date:date},
+            url:"{{ url('admin/get-student-date-range-attendance') }}",
+            data:{academic_id:academic_id, class_id:class_id, section_id:section_id, date_from:date_from, date_to:date_to},
             cache:false,        
             success:function(returndata)
             {

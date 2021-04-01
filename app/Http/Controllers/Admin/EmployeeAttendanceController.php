@@ -183,13 +183,17 @@ class EmployeeAttendanceController extends Controller
         for($i=0; $i < count($obj); $i++)
         {
             $employee = AttendanceEmployeeList::where('emp_attendance_id', $request->id)->where('teacher_id', $obj[$i]["ID"])->first();
-            if(empty($employee))
-            {
-                $employeeList = new AttendanceEmployeeList();
-                $employeeList->emp_attendance_id = $request->id;
-                $employeeList->teacher_id = $obj[$i]["ID"];
-                $employeeList->status = $obj[$i]["Status"];
-                $employeeList->save();
+            $attendance = EmployeeAttendance::where('id', $request->id)->first();
+            if(!empty($attendance)){
+                if(empty($employee))
+                {
+                    $employeeList = new AttendanceEmployeeList();
+                    $employeeList->emp_attendance_id = $request->id;
+                    $employeeList->teacher_id = $obj[$i]["ID"];
+                    $employeeList->status = $obj[$i]["Status"];
+                    $employeeList->attendance_date = $attendance->attendance_date;
+                    $employeeList->save();
+                }
             }
         }
         return response()->json(['success' => 'Employee attendance marked']);

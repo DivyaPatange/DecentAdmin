@@ -608,9 +608,16 @@
                                 </a>
                             </li>
                             <li class="">
-                                <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                <a href="{{ route('admin.student-dange-range-attendance.index') }}" class="waves-effect waves-dark">
                                     <span class="pcoded-micon"><i class="ti-direction-alt"></i></span>
                                     <span class="pcoded-mtext">Attendance (Date Range)</span>
+                                    <span class="pcoded-mcaret"></span>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="{{ route('admin.student-monthly-attendance.index') }}" class="waves-effect waves-dark">
+                                    <span class="pcoded-micon"><i class="ti-direction-alt"></i></span>
+                                    <span class="pcoded-mtext">Monthly Attendance</span>
                                     <span class="pcoded-mcaret"></span>
                                 </a>
                             </li>

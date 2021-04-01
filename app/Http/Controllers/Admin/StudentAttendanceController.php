@@ -228,13 +228,17 @@ class StudentAttendanceController extends Controller
         for($i=0; $i < count($obj); $i++)
         {
             $student = AttendanceStudentList::where('stud_attendance_id', $request->id)->where('student_id', $obj[$i]["ID"])->first();
-            if(empty($student))
-            {
-                $studentList = new AttendanceStudentList();
-                $studentList->stud_attendance_id = $request->id;
-                $studentList->student_id = $obj[$i]["ID"];
-                $studentList->status = $obj[$i]["Status"];
-                $studentList->save();
+            $attendance = StudentAttendance::where('id', $request->id)->first();
+            if(!empty($attendance)){
+                if(empty($student))
+                {
+                    $studentList = new AttendanceStudentList();
+                    $studentList->stud_attendance_id = $request->id;
+                    $studentList->student_id = $obj[$i]["ID"];
+                    $studentList->status = $obj[$i]["Status"];
+                    $studentList->attendance_date = $attendance->attendance_date;
+                    $studentList->save();
+                }
             }
         }
         return response()->json(['success' => 'Students attendance marked']);

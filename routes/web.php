@@ -235,6 +235,10 @@ Route::prefix('admin')->name('admin.')->group(function() {
     // Student Report Route
     Route::get('student/daily-report', [StudentReportController::class, 'dailyAttendanceIndex'])->name('student-daily-attendance.index');
     Route::get('/get-student-daily-attendance', [StudentReportController::class, 'getStudentDailyAttendance']);
+    Route::get('student/date-range-report', [StudentReportController::class, 'dateRangeAttendanceIndex'])->name('student-dange-range-attendance.index');
+    Route::get('/get-student-date-range-attendance', [StudentReportController::class, 'getStudentDateRangeAttendance']);
+    Route::get('student/monthly-report', [StudentReportController::class, 'monthlyAttendanceIndex'])->name('student-monthly-attendance.index');
+    Route::get('/get-student-monthly-attendance', [StudentReportController::class, 'getStudentMonthlyAttendance']);
 });
 
 Route::prefix('parent')->name('parent.')->group(function() {

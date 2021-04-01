@@ -20,7 +20,7 @@
         <th>Student Name</th>
         <th>Regi No</th>
         <th>Roll No.</th>
-        <th>Remark</th>
+        <th>Status</th>
       </tr>
     </thead>
     <tbody>

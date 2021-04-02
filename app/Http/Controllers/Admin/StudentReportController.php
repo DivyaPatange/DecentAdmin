@@ -11,6 +11,7 @@ use App\Models\Admin\Student;
 use DB;
 use App\Models\Admin\StudentAttendance;
 use App\Models\Admin\AttendanceStudentList;
+use App\Models\Admin\Admission;
 
 class StudentReportController extends Controller
 {
@@ -48,7 +49,8 @@ class StudentReportController extends Controller
         }
         $output = '';
         foreach($student as $s)
-        {   $studAttend = DB::table('attendance_student_lists')->where('student_id', $s->id)->join('student_attendances', 'attendance_student_lists.stud_attendance_id', '=', 'student_attendances.id')
+        {   
+            $studAttend = DB::table('attendance_student_lists')->where('student_id', $s->id)->join('student_attendances', 'attendance_student_lists.stud_attendance_id', '=', 'student_attendances.id')
             ->select('student_attendances.attendance_date', 'attendance_student_lists.status')
             ->where('student_attendances.attendance_date', $date)
             ->first();
@@ -202,6 +204,7 @@ class StudentReportController extends Controller
                 }
                 $output .= '</td>';
             }
+            $output .= '</tr>';
         }
         return response()->json(['success' => 'Data Found', 'date' => $date, 'output' => $output, 'academic_year' => $academic_year, 'class_name' => $class_name, 'section' => $section_name]);
     }
@@ -265,5 +268,69 @@ class StudentReportController extends Controller
             $output .= '</table></td>';
         }
         return response()->json(['success' => 'Data Found', 'date' => $date, 'output' => $output, 'academic_year' => $academic_year, 'class_name' => $class_name, 'section' => $section_name]);
+    }
+
+    public function studentListIndex()
+    {
+        $academicYear = AcademicYear::where('status', 1)->get();
+        $classes = Classes::where('status', 1)->get();
+        return view('admin.student-report.student-list.index', compact('academicYear', 'classes'));
+    }
+
+    public function getStudentList(Request $request)
+    {
+        $student = Student::where('academic_id', $request->academic_id)->where('class_id', $request->class_id)->where('section_id', $request->section_id)->get();
+        $date = $request->date;
+        $academicYear = AcademicYear::where('id', $request->academic_id)->first();
+        if(!empty($academicYear)){
+            $academic_year = '('.$academicYear->from_academic_year.') - ('.$academicYear->to_academic_year.')';
+        }
+        else{
+            $academic_year = '';
+        }
+        $classes = Classes::where('id', $request->class_id)->first();
+        if(!empty($classes)){
+            $class_name = $classes->class_name;
+        }
+        else{
+            $class_name = '';
+        }
+        $section = Section::where('id', $request->section_id)->first();
+        if(!empty($section)){
+            $section_name = $section->section_name;
+        }
+        else{
+            $section_name = '';
+        }
+        $output = '';
+        foreach($student as $key => $s)
+        {
+            $admission = Admission::where('id', $s->admission_id)->first();
+            $output .= '<tr>'. 
+                '<td style="border: 1px solid black; border-collapse: collapse;">'.++$key.'</td>'. 
+                '<td style="border: 1px solid black; border-collapse: collapse;">'.$s->student_name.'</td>'. 
+                '<td style="border: 1px solid black; border-collapse: collapse;">'.$s->regi_no.'</td>'. 
+                '<td style="border: 1px solid black; border-collapse: collapse;">'.$s->roll_no.'</td>'. 
+                '<td style="border: 1px solid black; border-collapse: collapse;">';
+                if(!empty($admission)){
+                    $output .= $admission->father_name;
+                }
+                $output .='</td><td style="border: 1px solid black; border-collapse: collapse;">';
+                if(!empty($admission)){
+                    $output .= $admission->mother_name;
+                }
+                $output .='</td><td style="border: 1px solid black; border-collapse: collapse;">';
+                if(!empty($admission)){
+                    if($admission->admission_for == "Junior College Admission")
+                    {
+                        $output .= $admission->address;
+                    }
+                    else{
+                        $output .= $admission->postal_address;
+                    }
+                }
+            $output .='</td></tr>';
+        }
+        return response()->json(['success' => 'Data Found', 'output' => $output, 'academic_year' => $academic_year, 'class_name' => $class_name, 'section' => $section_name]);
     }
 }

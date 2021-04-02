@@ -1,7 +1,7 @@
 @extends('admin.admin_layout.main')
-@section('title', 'Student Attendance')
-@section('page_title', 'Attendance (Date Range)')
-@section('breadcrumb', 'Attendance (Date Range)')
+@section('title', 'Employee Daily Attendance')
+@section('page_title', 'Daily Attendance')
+@section('breadcrumb', 'Daily Attendance')
 @section('customcss')
 
 <!-- Data Table Css -->
@@ -55,51 +55,26 @@ tr.shown td.details-control:before{
         <!-- Zero config.table start -->
         <div class="card">
             <div class="card-header">
-                <h5>Attendance (Date Range)</h5>
+                <h5>Daily Attendance</h5>
             </div>
             <div class="card-block">
                 <div class="row">
                     <div class="col-md-3">
                         <div class="form-group form-default">
-                            <label>Academic Year <span  style="color:red" id="year_err"> </span></label>
-                            <select name="academic_year" class="form-control js-example-basic-single" id="academic_year">
-                                <option value="">-Select Class-</option>
-                                @foreach($academicYear as $a)
-                                <option value="{{ $a->id }}">({{ $a->from_academic_year }}) - ({{ $a->to_academic_year }})</option>
-                                @endforeach
+                            <label>Employee Type <span  style="color:red" id="type_err"> </span></label>
+                            <select name="employee_type" class="form-control js-example-basic-single" id="employee_type">
+                                <option value="">-Pick a Type-</option>
+                                <option value="Teacher">Teacher</option>
+                                <option value="Accountant">Accountant</option>
+                                <option value="Librarian">Librarian</option>
+                                <option value="Receptionist">Receptionist</option>
                             </select>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group form-default">
-                            <label>Class <span  style="color:red" id="class_err"> </span></label>
-                            <select name="class_name" class="form-control js-example-basic-single" id="class_name">
-                                <option value="">-Select Class-</option>
-                                @foreach($classes as $c)
-                                <option value="{{ $c->id }}">{{ $c->class_name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group form-default">
-                            <label>Section <span  style="color:red" id="section_err"> </span></label>
-                            <select name="section_name" class="form-control js-example-basic-single" id="section_name">
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="form-group form-default">
-                            <label>Date From<span  style="color:red" id="from_err"> </span></label>
-                            <input type="date" name="date_from" id="date_from" class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group form-default">
-                            <label>Date To<span  style="color:red" id="date_err"> </span></label>
-                            <input type="date" name="date_to" id="date_to" class="form-control">
+                            <label>Date <span  style="color:red" id="date_err"> </span></label>
+                            <input type="date" name="date" id="date" class="form-control">
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -117,20 +92,19 @@ tr.shown td.details-control:before{
 <div id="DivIdToPrint" class="hidden">
     <div class="row">
         <div class="col-md-12">
-            <h2 style="text-align:center">Attendance (Date Range)</h2>
+            <h2 style="text-align:center">Daily Attendance</h2>
             <p style="text-align:center" id="tableDate"></p>
             <p style="text-align:center"><b>Filters : </b>
-            Academic Year: <span id="academic_year1"></span>&nbsp;
-            Class: <span id="class_name1"></span>&nbsp;
-            Section: <span id="section"></span>
+            Employee Type: <span id="type"></span>&nbsp;
             </p>
             <table  width="100%" style="text-align:center;border: 1px solid black; border-collapse: collapse;">
                 <thead>
                     <tr>
-                        <th style="border: 1px solid black; border-collapse: collapse;">Student Name</th>
-                        <th style="border: 1px solid black; border-collapse: collapse;">Regi No</th>
-                        <th style="border: 1px solid black; border-collapse: collapse;">Roll No.</th>
-                        <th style="border: 1px solid black; border-collapse: collapse;">Date / Status</th>
+                        <th style="border: 1px solid black; border-collapse: collapse;">Sr. No.</th>
+                        <th style="border: 1px solid black; border-collapse: collapse;">Employee Name</th>
+                        <th style="border: 1px solid black; border-collapse: collapse;">Employee ID</th>
+                        <th style="border: 1px solid black; border-collapse: collapse;">Designation</th>
+                        <th style="border: 1px solid black; border-collapse: collapse;">Status</th>
                     </tr>
                 </thead>
                 <tbody id="tableData"></tbody>
@@ -160,85 +134,35 @@ tr.shown td.details-control:before{
 <script type="text/javascript" src="{{ asset('files/assets/pages/advance-elements/select2-custom.js') }}"></script>
 
 <script>
-$('#class_name').change(function(){
-  var classID = $(this).val();  
-//   alert(brandID);
-  if(classID){
-    $.ajax({
-      type:"GET",
-      url:"{{url('admin/get-section-list')}}?class_id="+classID,
-      success:function(res){        
-      if(res){
-        $("#section_name").empty();
-        $("#section_name").append('<option>Select Section</option>');
-        $.each(res,function(key,value){
-          $("#section_name").append('<option value="'+key+'">'+value+'</option>');
-        });
-      
-      }else{
-        $("#section_name").empty();
-      }
-      }
-    });
-  }else{
-    $("#section_name").empty();
-  }   
-});
 $('#getList').click(function(){
-    var academic_id = $("#academic_year").val();
-    var class_id = $("#class_name").val();
-    var section_id = $("#section_name").val();
-    var date_from = $("#date_from").val();
-    var date_to = $("#date_to").val();
-    if(academic_id == '')
+    var employee_type = $("#employee_type").val();
+    var date = $("#date").val();
+    if(employee_type == '')
     {
-        $("#year_err").fadeIn().html("Required");
-        setTimeout(function(){ $("#year_err").fadeOut(); }, 3000);
-        $("#academic_year").focus();
+        $("#type_err").fadeIn().html("Required");
+        setTimeout(function(){ $("#type_err").fadeOut(); }, 3000);
+        $("#employee_type").focus();
         return false;
     }
-    if(class_id == '')
+    if(date == '')
     {
-        $("#class_err").fadeIn().html("Required");
-        setTimeout(function(){ $("#class_err").fadeOut(); }, 3000);
-        $("#class_name").focus();
-        return false;
-    }
-    if(section_id == '')
-    {
-        $("#section_err").fadeIn().html("Required");
-        setTimeout(function(){ $("#section_err").fadeOut(); }, 3000);
-        $("#section_name").focus();
-        return false;
-    }
-    if(date_from == '')
-    {
-        $("#from_err").fadeIn().html("Required");
-        setTimeout(function(){ $("#from_err").fadeOut(); }, 3000);
-        $("#date_from").focus();
-        return false;
-    }
-    if(date_to == '')
-    {
-        $("#to_err").fadeIn().html("Required");
-        setTimeout(function(){ $("#to_err").fadeOut(); }, 3000);
-        $("#date_to").focus();
+        $("#date_err").fadeIn().html("Required");
+        setTimeout(function(){ $("#date_err").fadeOut(); }, 3000);
+        $("#date").focus();
         return false;
     }
     else{
         $.ajax({
             type:"GET",
-            url:"{{ url('admin/get-student-date-range-attendance') }}",
-            data:{academic_id:academic_id, class_id:class_id, section_id:section_id, date_from:date_from, date_to:date_to},
+            url:"{{ url('admin/get-employee-daily-attendance') }}",
+            data:{employee_type:employee_type, date:date},
             cache:false,        
             success:function(returndata)
             {
                 if(returndata.success){
                     $("#tableData").html(returndata.output);
                     $("#tableDate").html(returndata.date);
-                    $("#academic_year1").html(returndata.academic_year);
-                    $("#class_name1").html(returndata.class_name);
-                    $("#section").html(returndata.section);
+                    $("#type").html(returndata.emp_type);
                     var divToPrint=document.getElementById('DivIdToPrint');
 
                     var newWin=window.open('','Print-Window');

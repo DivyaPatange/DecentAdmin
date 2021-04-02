@@ -628,19 +628,54 @@
                                     <span class="pcoded-mcaret"></span>
                                 </a>
                             </li>
+                            <li class="">
+                                <a href="{{ route('admin.student-list.index') }}" class="waves-effect waves-dark">
+                                    <span class="pcoded-micon"><i class="ti-direction-alt"></i></span>
+                                    <span class="pcoded-mtext">Monthly Absent List</span>
+                                    <span class="pcoded-mcaret"></span>
+                                </a>
+                            </li>
                         </ul>
                     </li>
                     <li class="pcoded-hasmenu ">
                         <a href="javascript:void(0)" class="waves-effect waves-dark">
                             <span class="pcoded-micon"><i class="ti-direction-alt"></i></span>
-                            <span class="pcoded-mtext">Menu Level 2.2</span>
+                            <span class="pcoded-mtext">HRM</span>
                             <span class="pcoded-mcaret"></span>
                         </a>
                         <ul class="pcoded-submenu">
                             <li class="">
-                                <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                <a href="{{ route('admin.employee-daily-attendance.index') }}" class="waves-effect waves-dark">
                                     <span class="pcoded-micon"><i class="ti-direction-alt"></i></span>
-                                    <span class="pcoded-mtext">Menu Level 3.1</span>
+                                    <span class="pcoded-mtext">Daily Attendance</span>
+                                    <span class="pcoded-mcaret"></span>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="{{ route('admin.employee-dange-range-attendance.index') }}" class="waves-effect waves-dark">
+                                    <span class="pcoded-micon"><i class="ti-direction-alt"></i></span>
+                                    <span class="pcoded-mtext">Attendance (Date Range)</span>
+                                    <span class="pcoded-mcaret"></span>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="{{ route('admin.employee-monthly-attendance.index') }}" class="waves-effect waves-dark">
+                                    <span class="pcoded-micon"><i class="ti-direction-alt"></i></span>
+                                    <span class="pcoded-mtext">Monthly Attendance</span>
+                                    <span class="pcoded-mcaret"></span>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="{{ route('admin.employee-monthly-absent.index') }}" class="waves-effect waves-dark">
+                                    <span class="pcoded-micon"><i class="ti-direction-alt"></i></span>
+                                    <span class="pcoded-mtext">Absenteeism Attendance</span>
+                                    <span class="pcoded-mcaret"></span>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="{{ route('admin.employee-list.index') }}" class="waves-effect waves-dark">
+                                    <span class="pcoded-micon"><i class="ti-direction-alt"></i></span>
+                                    <span class="pcoded-mtext">Employee List</span>
                                     <span class="pcoded-mcaret"></span>
                                 </a>
                             </li>

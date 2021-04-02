@@ -34,6 +34,7 @@ use App\Http\Controllers\Admin\LeavePolicyController;
 use App\Http\Controllers\Admin\StudentAttendanceController;
 use App\Http\Controllers\Admin\EmployeeAttendanceController;
 use App\Http\Controllers\Admin\StudentReportController;
+use App\Http\Controllers\Admin\HRMReportController;
 
 
 // Parent Controller
@@ -241,6 +242,20 @@ Route::prefix('admin')->name('admin.')->group(function() {
     Route::get('/get-student-monthly-attendance', [StudentReportController::class, 'getStudentMonthlyAttendance']);
     Route::get('student/monthly-absent-list', [StudentReportController::class, 'monthlyAbsentIndex'])->name('student-monthly-absent.index');
     Route::get('/get-student-monthly-absent', [StudentReportController::class, 'getStudentMonthlyAbsentList']);
+    Route::get('student/student-list', [StudentReportController::class, 'studentListIndex'])->name('student-list.index');
+    Route::get('/get-student-list', [StudentReportController::class, 'getStudentList']);
+
+    // HRM Report Route
+    Route::get('/employees/daily-report', [HRMReportController::class, 'employeeDailyAttendanceIndex'])->name('employee-daily-attendance.index');
+    Route::get('/get-employee-daily-attendance', [HRMReportController::class, 'getEmployeeDailyAttendance']);
+    Route::get('/employees/date-range-report', [HRMReportController::class, 'employeeDateRangeAttendanceIndex'])->name('employee-dange-range-attendance.index');
+    Route::get('/get-employees-date-range-attendance', [HRMReportController::class, 'getEmployeeDateRangeAttendance']);
+    Route::get('/employees/monthly-report', [HRMReportController::class, 'monthlyAttendanceIndex'])->name('employee-monthly-attendance.index');
+    Route::get('/get-employees-monthly-attendance', [HRMReportController::class, 'getEmployeeMonthlyAttendance']);
+    Route::get('employees/monthly-absent-list', [HRMReportController::class, 'monthlyAbsentIndex'])->name('employee-monthly-absent.index');
+    Route::get('/get-employees-monthly-absent', [HRMReportController::class, 'getEmployeeMonthlyAbsentList']);
+    Route::get('hrm/employee-list', [HRMReportController::class, 'employeeListIndex'])->name('employee-list.index');
+    Route::get('/get-employee-list', [HRMReportController::class, 'getEmployeeList']);
 });
 
 Route::prefix('parent')->name('parent.')->group(function() {

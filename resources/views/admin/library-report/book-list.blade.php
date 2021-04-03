@@ -1,7 +1,7 @@
 @extends('admin.admin_layout.main')
-@section('title', 'Student Daily Attendance')
-@section('page_title', 'Daily Attendance')
-@section('breadcrumb', 'Daily Attendance')
+@section('title', 'Library Book List')
+@section('page_title', 'Library Book List')
+@section('breadcrumb', 'Library Book List')
 @section('customcss')
 
 <!-- Data Table Css -->
@@ -55,18 +55,29 @@ tr.shown td.details-control:before{
         <!-- Zero config.table start -->
         <div class="card">
             <div class="card-header">
-                <h5>Daily Attendance</h5>
+                <h5>Library Book List</h5>
             </div>
             <div class="card-block">
                 <div class="row">
                     <div class="col-md-3">
                         <div class="form-group form-default">
-                            <label>Academic Year <span  style="color:red" id="year_err"> </span></label>
-                            <select name="academic_year" class="form-control js-example-basic-single" id="academic_year">
-                                <option value="">-Select Class-</option>
-                                @foreach($academicYear as $a)
-                                <option value="{{ $a->id }}">({{ $a->from_academic_year }}) - ({{ $a->to_academic_year }})</option>
+                            <label>Author <span  style="color:red" id="author_err"> </span></label>
+                            <select name="author_name" class="form-control js-example-basic-single" id="author_name">
+                                @foreach($books as $b)
+                                <option value="{{ $b->author }}">{{ $b->author }}</option>
                                 @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group form-default">
+                            <label>Type <span  style="color:red" id="type_err"> </span></label>
+                            <select name="type" class="form-control js-example-basic-single" id="type">
+                                <option value="All">All</option>
+                                <option value="Academic">Academic</option>
+                                <option value="Novel">Novel</option>
+                                <option value="Magazine">Magazine</option>
+                                <option value="Other">Other</option>
                             </select>
                         </div>
                     </div>
@@ -74,7 +85,7 @@ tr.shown td.details-control:before{
                         <div class="form-group form-default">
                             <label>Class <span  style="color:red" id="class_err"> </span></label>
                             <select name="class_name" class="form-control js-example-basic-single" id="class_name">
-                                <option value="">-Select Class-</option>
+                                <option value="All">All</option>
                                 @foreach($classes as $c)
                                 <option value="{{ $c->id }}">{{ $c->class_name }}</option>
                                 @endforeach
@@ -83,21 +94,7 @@ tr.shown td.details-control:before{
                     </div>
                     <div class="col-md-3">
                         <div class="form-group form-default">
-                            <label>Section <span  style="color:red" id="section_err"> </span></label>
-                            <select name="section_name" class="form-control js-example-basic-single" id="section_name">
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group form-default">
-                            <label>Date <span  style="color:red" id="date_err"> </span></label>
-                            <input type="date" name="date" id="date" class="form-control">
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="form-group form-default">
+                            <br>
                             <button type="button" id="getList" class="btn btn-primary btn-sm mt-2">Print</button>
                         </div>
                     </div>
@@ -110,21 +107,22 @@ tr.shown td.details-control:before{
 <div id="DivIdToPrint" class="hidden">
     <div class="row">
         <div class="col-md-12">
-            <h2 style="text-align:center">Daily Attendance</h2>
-            <p style="text-align:center" id="tableDate"></p>
+            <h2 style="text-align:center">Library Book List</h2>
             <p style="text-align:center"><b>Filters : </b>
-            Academic Year: <span id="academic_year1"></span>&nbsp;
-            Class: <span id="class_name1"></span>&nbsp;
-            Section: <span id="section"></span>
+            Author: <span id="author"></span>&nbsp;
+            Type: <span id="type1"></span>&nbsp;
+            Class: <span id="class_name1"></span>
             </p>
             <table  width="100%" style="text-align:center;border: 1px solid black; border-collapse: collapse;">
                 <thead>
                     <tr>
-                        <th style="border: 1px solid black; border-collapse: collapse;">Student Name</th>
-                        <th style="border: 1px solid black; border-collapse: collapse;">Regi No</th>
-                        <th style="border: 1px solid black; border-collapse: collapse;">Roll No.</th>
-                        <th style="border: 1px solid black; border-collapse: collapse;">Status</th>
-                        <th style="border: 1px solid black; border-collapse: collapse;">Remark</th>
+                        <th style="border: 1px solid black; border-collapse: collapse;">#</th>
+                        <th style="border: 1px solid black; border-collapse: collapse;">ISBN No.</th>
+                        <th style="border: 1px solid black; border-collapse: collapse;">Book Name</th>
+                        <th style="border: 1px solid black; border-collapse: collapse;">Type</th>
+                        <th style="border: 1px solid black; border-collapse: collapse;">Class</th>
+                        <th style="border: 1px solid black; border-collapse: collapse;">Total Quantity</th>
+                        <th style="border: 1px solid black; border-collapse: collapse;">Stock Quantity</th>
                     </tr>
                 </thead>
                 <tbody id="tableData"></tbody>
@@ -154,40 +152,22 @@ tr.shown td.details-control:before{
 <script type="text/javascript" src="{{ asset('files/assets/pages/advance-elements/select2-custom.js') }}"></script>
 
 <script>
-$('#class_name').change(function(){
-  var classID = $(this).val();  
-    //   alert(brandID);
-  if(classID){
-    $.ajax({
-      type:"GET",
-      url:"{{url('admin/get-section-list')}}?class_id="+classID,
-      success:function(res){        
-      if(res){
-        $("#section_name").empty();
-        $("#section_name").append('<option>Select Section</option>');
-        $.each(res,function(key,value){
-          $("#section_name").append('<option value="'+key+'">'+value+'</option>');
-        });
-      
-      }else{
-        $("#section_name").empty();
-      }
-      }
-    });
-  }else{
-    $("#section_name").empty();
-  }   
-});
 $('#getList').click(function(){
-    var academic_id = $("#academic_year").val();
+    var author_name = $("#author_name").val();
     var class_id = $("#class_name").val();
-    var section_id = $("#section_name").val();
-    var date = $("#date").val();
-    if(academic_id == '')
+    var type = $("#type").val();
+    if(author_name == '')
     {
-        $("#year_err").fadeIn().html("Required");
-        setTimeout(function(){ $("#year_err").fadeOut(); }, 3000);
-        $("#academic_year").focus();
+        $("#author_err").fadeIn().html("Required");
+        setTimeout(function(){ $("#author_err").fadeOut(); }, 3000);
+        $("#author_name").focus();
+        return false;
+    }
+    if(type == '')
+    {
+        $("#type_err").fadeIn().html("Required");
+        setTimeout(function(){ $("#type_err").fadeOut(); }, 3000);
+        $("#type").focus();
         return false;
     }
     if(class_id == '')
@@ -197,34 +177,19 @@ $('#getList').click(function(){
         $("#class_name").focus();
         return false;
     }
-    if(section_id == '')
-    {
-        $("#section_err").fadeIn().html("Required");
-        setTimeout(function(){ $("#section_err").fadeOut(); }, 3000);
-        $("#section_name").focus();
-        return false;
-    }
-    if(date == '')
-    {
-        $("#date_err").fadeIn().html("Required");
-        setTimeout(function(){ $("#date_err").fadeOut(); }, 3000);
-        $("#date").focus();
-        return false;
-    }
     else{
         $.ajax({
             type:"GET",
-            url:"{{ url('admin/get-student-daily-attendance') }}",
-            data:{academic_id:academic_id, class_id:class_id, section_id:section_id, date:date},
+            url:"{{ url('admin/get-library-book-list') }}",
+            data:{author_name:author_name, class_id:class_id, type:type},
             cache:false,        
             success:function(returndata)
             {
                 if(returndata.success){
                     $("#tableData").html(returndata.output);
-                    $("#tableDate").html(returndata.date);
-                    $("#academic_year1").html(returndata.academic_year);
+                    $("#author").html(returndata.author);
+                    $("#type1").html(returndata.type);
                     $("#class_name1").html(returndata.class_name);
-                    $("#section").html(returndata.section);
                     var divToPrint=document.getElementById('DivIdToPrint');
 
                     var newWin=window.open('','Print-Window');

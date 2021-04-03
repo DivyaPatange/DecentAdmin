@@ -1,7 +1,7 @@
 @extends('admin.admin_layout.main')
-@section('title', 'Student Daily Attendance')
-@section('page_title', 'Daily Attendance')
-@section('breadcrumb', 'Daily Attendance')
+@section('title', 'Total Fee Collection List')
+@section('page_title', 'Total Fee Collection List')
+@section('breadcrumb', 'Total Fee Collection List')
 @section('customcss')
 
 <!-- Data Table Css -->
@@ -55,7 +55,7 @@ tr.shown td.details-control:before{
         <!-- Zero config.table start -->
         <div class="card">
             <div class="card-header">
-                <h5>Daily Attendance</h5>
+                <h5>Total Fee Collection List</h5>
             </div>
             <div class="card-block">
                 <div class="row">
@@ -90,14 +90,7 @@ tr.shown td.details-control:before{
                     </div>
                     <div class="col-md-3">
                         <div class="form-group form-default">
-                            <label>Date <span  style="color:red" id="date_err"> </span></label>
-                            <input type="date" name="date" id="date" class="form-control">
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="form-group form-default">
+                            <br>
                             <button type="button" id="getList" class="btn btn-primary btn-sm mt-2">Print</button>
                         </div>
                     </div>
@@ -110,8 +103,7 @@ tr.shown td.details-control:before{
 <div id="DivIdToPrint" class="hidden">
     <div class="row">
         <div class="col-md-12">
-            <h2 style="text-align:center">Daily Attendance</h2>
-            <p style="text-align:center" id="tableDate"></p>
+            <h2 style="text-align:center">Total Fee Collection List</h2>
             <p style="text-align:center"><b>Filters : </b>
             Academic Year: <span id="academic_year1"></span>&nbsp;
             Class: <span id="class_name1"></span>&nbsp;
@@ -120,11 +112,16 @@ tr.shown td.details-control:before{
             <table  width="100%" style="text-align:center;border: 1px solid black; border-collapse: collapse;">
                 <thead>
                     <tr>
+                        <th style="border: 1px solid black; border-collapse: collapse;">#</th>
                         <th style="border: 1px solid black; border-collapse: collapse;">Student Name</th>
-                        <th style="border: 1px solid black; border-collapse: collapse;">Regi No</th>
                         <th style="border: 1px solid black; border-collapse: collapse;">Roll No.</th>
-                        <th style="border: 1px solid black; border-collapse: collapse;">Status</th>
-                        <th style="border: 1px solid black; border-collapse: collapse;">Remark</th>
+                        <th style="border: 1px solid black; border-collapse: collapse;">Fee Head</th>
+                        <th style="border: 1px solid black; border-collapse: collapse;">Receipt No.</th>
+                        <th style="border: 1px solid black; border-collapse: collapse;">Payment Method</th>
+                        <th style="border: 1px solid black; border-collapse: collapse;">Payment Amount</th>
+                        <th style="border: 1px solid black; border-collapse: collapse;">Payment Date</th>
+                        <th style="border: 1px solid black; border-collapse: collapse;">Due Amount</th>
+                        <th style="border: 1px solid black; border-collapse: collapse;">Due Date</th>
                     </tr>
                 </thead>
                 <tbody id="tableData"></tbody>
@@ -182,7 +179,6 @@ $('#getList').click(function(){
     var academic_id = $("#academic_year").val();
     var class_id = $("#class_name").val();
     var section_id = $("#section_name").val();
-    var date = $("#date").val();
     if(academic_id == '')
     {
         $("#year_err").fadeIn().html("Required");
@@ -204,38 +200,29 @@ $('#getList').click(function(){
         $("#section_name").focus();
         return false;
     }
-    if(date == '')
-    {
-        $("#date_err").fadeIn().html("Required");
-        setTimeout(function(){ $("#date_err").fadeOut(); }, 3000);
-        $("#date").focus();
-        return false;
-    }
     else{
         $.ajax({
             type:"GET",
-            url:"{{ url('admin/get-student-daily-attendance') }}",
-            data:{academic_id:academic_id, class_id:class_id, section_id:section_id, date:date},
+            url:"{{ url('admin/get-total-fee-collection') }}",
+            data:{academic_id:academic_id, class_id:class_id, section_id:section_id},
             cache:false,        
             success:function(returndata)
             {
                 if(returndata.success){
                     $("#tableData").html(returndata.output);
-                    $("#tableDate").html(returndata.date);
                     $("#academic_year1").html(returndata.academic_year);
                     $("#class_name1").html(returndata.class_name);
                     $("#section").html(returndata.section);
-                    var divToPrint=document.getElementById('DivIdToPrint');
-
-                    var newWin=window.open('','Print-Window');
-
-                    newWin.document.open();
-
-                    newWin.document.write('<html><body onload="window.print()">'+divToPrint.innerHTML+'</body></html>');
-
-                    newWin.document.close();
-
-                    setTimeout(function(){newWin.close();},10);
+                    var frame = document.getElementById('DivIdToPrint');
+                    var data = frame.innerHTML;
+                    var win = window.open('', '', 'height=500,width=900');
+                    win.document.write('<style>@page{size:landscape;}</style><html><head><title></title>');
+                    win.document.write('</head><body >');
+                    win.document.write(data);
+                    win.document.write('</body></html>');
+                    win.print();
+                    win.close();
+                    return true;
                 }
             
             }

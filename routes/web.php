@@ -35,6 +35,8 @@ use App\Http\Controllers\Admin\StudentAttendanceController;
 use App\Http\Controllers\Admin\EmployeeAttendanceController;
 use App\Http\Controllers\Admin\StudentReportController;
 use App\Http\Controllers\Admin\HRMReportController;
+use App\Http\Controllers\Admin\LibraryReportController;
+use App\Http\Controllers\Admin\FeeReportController;
 
 
 // Parent Controller
@@ -54,7 +56,31 @@ use App\Http\Controllers\Auth\ParentRegisterController;
 */
 
 Route::get('/', function () {
-    return view('admin.login');
+    return view('frontend.index');
+});
+Route::get('/secretary-desk', function () {
+    return view('frontend.secretaryDesk');
+});
+Route::get('/principal-desk', function () {
+    return view('frontend.principalDesk');
+});
+Route::get('/vision', function () {
+    return view('frontend.vision');
+});
+Route::get('/mission', function () {
+    return view('frontend.mission');
+});
+Route::get('/school-information', function () {
+    return view('frontend.school-information');
+});
+Route::get('/smc', function () {
+    return view('frontend.smc');
+});
+Route::get('/admission', function () {
+    return view('frontend.admission');
+});
+Route::get('/contact', function () {
+    return view('frontend.contact');
 });
 
 Route::get('/clear-cache', function () {
@@ -256,6 +282,17 @@ Route::prefix('admin')->name('admin.')->group(function() {
     Route::get('/get-employees-monthly-absent', [HRMReportController::class, 'getEmployeeMonthlyAbsentList']);
     Route::get('hrm/employee-list', [HRMReportController::class, 'employeeListIndex'])->name('employee-list.index');
     Route::get('/get-employee-list', [HRMReportController::class, 'getEmployeeList']);
+
+    // Library Report Route
+    Route::get('/report/library-book', [LibraryReportController::class, 'bookSummaryIndex'])->name('book-report.index');
+    Route::get('/get-library-book-list', [LibraryReportController::class, 'getLibraryBookList']);
+    Route::get('/report/book-return-list', [LibraryReportController::class, 'bookReturnIndex'])->name('book-return-list.index');
+    Route::get('/get-return-book-list', [LibraryReportController::class, 'getReturnBookList']);
+    Route::get('/report/fine-collection-list', [LibraryReportController::class, 'fineCollectionIndex'])->name('fine-collection.index');
+    Route::get('/get-fine-collection-list', [LibraryReportController::class, 'getFineCollectionList']);
+
+    // Fee Report Route
+    Route::get('/report/total-fee-collection', [FeeReportController::class, 'totalFeeCollectionIndex'])->name('total-fee-collection.index');
 });
 
 Route::prefix('parent')->name('parent.')->group(function() {

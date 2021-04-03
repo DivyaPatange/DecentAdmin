@@ -684,20 +684,63 @@
                     <li class="pcoded-hasmenu ">
                         <a href="javascript:void(0)" class="waves-effect waves-dark">
                             <span class="pcoded-micon"><i class="ti-direction-alt"></i></span>
-                            <span class="pcoded-mtext">Menu Level 2.2</span>
+                            <span class="pcoded-mtext">Library</span>
                             <span class="pcoded-mcaret"></span>
                         </a>
                         <ul class="pcoded-submenu">
                             <li class="">
-                                <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                <a href="{{ route('admin.book-report.index') }}" class="waves-effect waves-dark">
                                     <span class="pcoded-micon"><i class="ti-direction-alt"></i></span>
-                                    <span class="pcoded-mtext">Menu Level 3.1</span>
+                                    <span class="pcoded-mtext">Books Summary</span>
+                                    <span class="pcoded-mcaret"></span>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="{{ route('admin.book-return-list.index') }}" class="waves-effect waves-dark">
+                                    <span class="pcoded-micon"><i class="ti-direction-alt"></i></span>
+                                    <span class="pcoded-mtext">Book Return List</span>
+                                    <span class="pcoded-mcaret"></span>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="{{ route('admin.fine-collection.index') }}" class="waves-effect waves-dark">
+                                    <span class="pcoded-micon"><i class="ti-direction-alt"></i></span>
+                                    <span class="pcoded-mtext">Fine Collection</span>
                                     <span class="pcoded-mcaret"></span>
                                 </a>
                             </li>
                         </ul>
                     </li>
-
+                    <li class="pcoded-hasmenu ">
+                        <a href="javascript:void(0)" class="waves-effect waves-dark">
+                            <span class="pcoded-micon"><i class="ti-direction-alt"></i></span>
+                            <span class="pcoded-mtext">Fee</span>
+                            <span class="pcoded-mcaret"></span>
+                        </a>
+                        <ul class="pcoded-submenu">
+                            <li class="">
+                                <a href="{{ route('admin.total-fee-collection.index') }}" class="waves-effect waves-dark">
+                                    <span class="pcoded-micon"><i class="ti-direction-alt"></i></span>
+                                    <span class="pcoded-mtext">Total Collection</span>
+                                    <span class="pcoded-mcaret"></span>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="#" class="waves-effect waves-dark">
+                                    <span class="pcoded-micon"><i class="ti-direction-alt"></i></span>
+                                    <span class="pcoded-mtext">Daily Collection</span>
+                                    <span class="pcoded-mcaret"></span>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="#" class="waves-effect waves-dark">
+                                    <span class="pcoded-micon"><i class="ti-direction-alt"></i></span>
+                                    <span class="pcoded-mtext">Date Range Collection</span>
+                                    <span class="pcoded-mcaret"></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
             </li>
             <!--<li class=" ">
